@@ -1,0 +1,165 @@
+﻿<Page x:Class="SoundChooserToUniversal.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:converter="using:SoundChooserToUniversal.Converters"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:SoundChooserToUniversal"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <converter:StringToVisibilityConverter x:Key="VisibilityConverter" />
+    </Page.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <MediaElement Name="AudioPlayer" Volume="1" />
+        <Button x:Name="chooseMusicbutton"
+                Width="297"
+                Margin="34,131,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+            <Grid Width="5" HorizontalAlignment="Left">
+                <TextBlock Height="19"
+                           Margin="-144.667,0,-57.333,0"
+                           Text="{x:Bind soundViewModel.DisplayDescription}" />
+                <TextBlock Width="24"
+                           Margin="0,-5,-127,-3"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           FontFamily="Segoe MDL2 Assets"
+                           Text="&#xE019;" />
+            </Grid>
+            <Button.Flyout>
+                <Flyout x:Name="musicFlyout">
+                    <StackPanel>
+                        <Grid Width="270"
+                              Height="34.6666679382324"
+                              Margin="0,0,0,10"
+                              Visibility="{x:Bind soundViewModel.IsVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Name="myMusictTxt"
+                                       Grid.Column="0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Text="My Music" />
+                        </Grid>
+                        <ListView Name="chosenSoundsList"
+                                  HorizontalAlignment="Stretch"
+                                  ItemsSource="{x:Bind soundViewModel.customMusicGroup}"
+                                  SelectionMode="None"
+                                  Unloaded="SoundsList_Unloaded">
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="local:SoundData">
+                                    <Grid Name="PlayGrid"
+                                          Width="270"
+                                          Height="40"
+                                          Margin="-20,0,0,0"
+                                          Background="Transparent">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Name="playCustomMusicButton"
+                                                Grid.Column="0"
+                                                Background="Transparent"
+                                                Click="playMusicButton_Click">
+                                            <Button.Content>
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="Segoe MDL2 Assets"
+                                                           FontSize="30"
+                                                           Text="" />
+                                            </Button.Content>
+                                        </Button>
+                                        <TextBlock Name="customSoundstxt"
+                                                   Grid.Column="1"
+                                                   VerticalAlignment="Stretch"
+                                                   Padding="0,10,0,0"
+                                                   Tapped="soundTitletxt_Tapped"
+                                                   Text="{x:Bind Title}"
+                                                   TextAlignment="Center"
+                                                   TextWrapping="Wrap" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Grid Margin="0,10,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button Name="chooseMusicButton"
+                                    Grid.Column="0"
+                                    Background="Transparent"
+                                    Click="chooseMusicButton_Click">
+                                <Button.Content>
+                                    <TextBlock Margin="-10,0,0,0"
+                                               VerticalAlignment="Top"
+                                               FontSize="17"
+                                               Text="Pick a File" />
+
+                                </Button.Content>
+                            </Button>
+                            <TextBlock Grid.Column="1"
+                                       Height="17"
+                                       Margin="0,11,0,7"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       FontFamily="Segoe MDL2 Assets"
+                                       Text="" />
+                        </Grid>
+                        <MenuFlyoutSeparator />
+                        <ListView Name="defaultSoundsList"
+                                  HorizontalAlignment="Stretch"
+                                  ItemsSource="{x:Bind soundGroup}"
+                                  SelectionMode="None"
+                                  Unloaded="SoundsList_Unloaded">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="local:SoundData">
+
+                                    <!--  look AT SOLARIZR PROJECT TO STRETCH GRID  -->
+
+                                    <Grid Name="PlayGrid"
+                                          Width="270"
+                                          Height="40"
+                                          Margin="-20,0,0,0"
+                                          HorizontalAlignment="Stretch"
+                                          Background="Transparent">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Name="playMusicButton"
+                                                Grid.Column="0"
+                                                Background="Transparent"
+                                                Click="playMusicButton_Click">
+                                            <Button.Content>
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="Segoe MDL2 Assets"
+                                                           FontSize="30"
+                                                           Text="" />
+                                            </Button.Content>
+                                        </Button>
+                                        <TextBlock Name="defaultSoundstxt"
+                                                   Grid.Column="1"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Padding="0,10,0,0"
+                                                   Tapped="soundTitletxt_Tapped"
+                                                   Text="{x:Bind Title}"
+                                                   TextAlignment="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+    </Grid>
+</Page>
