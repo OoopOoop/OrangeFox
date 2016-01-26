@@ -13,7 +13,7 @@
 
     <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <MediaElement Name="AudioPlayer" Volume="1" />
-        <Button x:Name="chooseMusicbutton"
+        <Button x:Name="ChooseMusicbutton"
                 Width="297"
                 Margin="34,131,0,0"
                 HorizontalAlignment="Left"
@@ -40,13 +40,13 @@
                                 <ColumnDefinition Width="90" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Name="myMusictTxt"
+                            <TextBlock Name="MyMusictTxt"
                                        Grid.Column="0"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
                                        Text="My Music" />
                         </Grid>
-                        <ListView Name="chosenSoundsList"
+                        <ListView Name="ChosenSoundsList"
                                   HorizontalAlignment="Stretch"
                                   ItemsSource="{x:Bind soundViewModel.customMusicGroup}"
                                   SelectionMode="None"

@@ -144,13 +144,13 @@ namespace SoundChooserToUniversal
 
         public async Task<CustomMusicGroup> GetCustomsounds()
         {
-            await ensureCustomSoundsLoaded();
+            await EnsureCustomSoundsLoaded();
             return customMusicGroup;
         }
 
 
 
-        private async Task ensureCustomSoundsLoaded()
+        private async Task EnsureCustomSoundsLoaded()
         {
            // if(customSound.Contains(typeof(SoundData)))
 
