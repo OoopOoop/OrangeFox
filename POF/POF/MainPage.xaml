@@ -10,9 +10,5 @@
         <Button HorizontalAlignment="Center"
                 Click="Button_Click"
                 Content="Go TO" />
-
-        <!--<local:ListViewControl CollectionName="{Binding ElementName=window, Path=DataContext.StandardSoundGroup}" Margin="3,4,-3,-4" />-->
-
-
     </Grid>
 </Page>

@@ -95,10 +95,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FlyoutHelper.cs" />
-    <Compile Include="ListViewControl.xaml.cs">
-      <DependentUpon>ListViewControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -140,10 +136,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ListViewControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -154,10 +146,19 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\POF.Shared\POF.Shared.csproj">
+      <Project>{880dae10-cbb4-433e-98c2-96a8d01fbd54}</Project>
+      <Name>POF.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\POF.ViewModels\POF.ViewModels.csproj">
       <Project>{913aace1-a1e3-47ce-87d2-ee2434978577}</Project>
       <Name>POF.ViewModels</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
+      <Name>Behaviors SDK %28XAML%29</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

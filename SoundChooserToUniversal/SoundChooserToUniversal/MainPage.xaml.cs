@@ -104,7 +104,7 @@ namespace SoundChooserToUniversal
                 if (item.Metadata == "customTest")
                 {
                     StorageFile actualFile = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(item.Token);
-
+//C:\Users\Nastia\OneDrive\Documents\GitHub\OrangeFox\SoundChooserToUniversal\SoundChooserToUniversal\MainPage.xaml
                     var stream = await actualFile.OpenAsync(FileAccessMode.Read);
                     AudioPlayer.SetSource(stream, actualFile.ContentType);
                 }
@@ -180,6 +180,22 @@ namespace SoundChooserToUniversal
             soundViewModel.DisplayDescription = data.Title;
             AudioPlayer.Stop();
             musicFlyout.Hide();
+        }
+
+        private void musicFlyout_Opening(object sender, object e)
+        {
+            if (child.ActualWidth == 0 && child.ActualHeight == 0)
+            {
+                return;
+            }
+
+            //double ActualHorizontalOffset = this.musicFlyout.h.HorizontalOffset;
+            //double ActualVerticalOffset = this.testPopUp.VerticalOffset;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            test.ShowAt(LayoutRoot);
         }
     }
 }
