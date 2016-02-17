@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Storage;
+using Windows.Storage.AccessCache;
+using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -141,15 +144,15 @@ namespace POF.ViewModels
         {
            SelectedSoundTitle = "Title";
            Player = new MediaElement();
-           PlaySoundCommand = new RelayCommand<object>(PlaySound);
-           OpenPopUpCommand = new RelayCommand(ShowPopUp);
-           PickCustomSoundCommand = new RelayCommand(pickUpSound);
-           SelectedSoundCommand = new RelayCommand<object>(SaveSelectedSound);
+           PlaySoundCommand = new RelayCommand<object>(playSound);
+           OpenPopUpCommand = new RelayCommand(showPopUp);
+           PickCustomSoundCommand = new RelayCommand(selectCustomSound);
+           SelectedSoundCommand = new RelayCommand<object>(saveSelectedSound);
         }
 
 
         //TODO: save sound in context, close poup, display sound name on control
-        private void SaveSelectedSound(object obj)
+        private void saveSelectedSound(object obj)
         {
             string selectedSound = (obj as SoundData).Title;
             SelectedSoundTitle = selectedSound;
@@ -158,21 +161,60 @@ namespace POF.ViewModels
         }
 
 
-        private void pickUpSound()
-        {
-            CustomSoundGroup.Add(StandardSoundGroup[0]);
-        }
 
-
-        private void ShowPopUp()
+        private void showPopUp()
         {
             IsPopUpOpen = true;
         }
 
 
-        private void PlaySound(object obj)
+        private void playSound(object obj)
         {
-           Player.Source = new Uri((obj as SoundData).FilePath, UriKind.RelativeOrAbsolute);
+            var sound = obj as SoundData;
+
+            if(sound ==null)
+            {
+                Player.Stop();
+                return;
+            }
+
+            // check if player playing same song when play clicked
+            if (Player.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Playing && Player.Source.AbsoluteUri == sound.FilePath)
+            {
+                Player.Stop();
+            }
+
+            else if (sound.FileType == FileTypeEnum.Uri)
+            {
+                playStandardsound(sound.FilePath);
+            }
+
+            else if (sound.FileType == FileTypeEnum.Custom)
+            {
+                playCustomSound();
+            }
+
+        }
+
+
+        private void playStandardsound(string path)
+        {
+            Player.Source = new Uri(path, UriKind.RelativeOrAbsolute);
+        }
+
+
+
+        private async void playCustomSound()
+        {
+            foreach (AccessListEntry item in StorageApplicationPermissions.FutureAccessList.Entries)
+            {
+                if (item.Metadata == "customSoundMeta")
+                {
+                    StorageFile actualFile = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(item.Token);
+                    var stream = await actualFile.OpenAsync(FileAccessMode.Read);
+                    Player.SetSource(stream, actualFile.ContentType);
+                }
+            }
         }
 
 
@@ -202,9 +244,50 @@ namespace POF.ViewModels
         }
 
 
-        protected override void Save()
+        private void addCustomSong(StorageFile file)
         {
-            base.Repository.SaveAlarm();
+            CustomSoundGroup.Add(new SoundData { Title = file.DisplayName, FilePath = file.Path, Exists = true, FileType = FileTypeEnum.Custom, Token = "custom" });
         }
+
+
+        async private void selectCustomSound()
+        {
+            var filePicker = new FileOpenPicker();
+            filePicker.SuggestedStartLocation = PickerLocationId.HomeGroup;
+            filePicker.ViewMode = PickerViewMode.List;
+
+            filePicker.FileTypeFilter.Clear();
+
+            filePicker.FileTypeFilter.Add(".mp3");
+            filePicker.FileTypeFilter.Add(".wav");
+            filePicker.FileTypeFilter.Add(".wma");
+            filePicker.FileTypeFilter.Add(".qcp");
+            filePicker.FileTypeFilter.Add(".aac");
+
+            StorageFile storageFile = await filePicker.PickSingleFileAsync();
+
+            if (storageFile != null)
+            {
+                var stream = await storageFile.OpenAsync(FileAccessMode.Read);
+
+                addCustomSong(storageFile);
+
+                //var Token = StorageApplicationPermissions.FutureAccessList.Add(storageFile, "customMeta");
+
+                StorageApplicationPermissions.FutureAccessList.Add(storageFile, "customSoundMeta");
+            }
+        }
+
+
+
+
+
+
+
+        //Moove to a NewAlarm viewModel, where it looks what sound, time and day was chosen and saves it.
+        //protected override void Save()
+        //{
+        //    base.Repository.SaveAlarm();
+        //}
     }
 }

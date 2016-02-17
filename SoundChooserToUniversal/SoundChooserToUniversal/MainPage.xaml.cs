@@ -104,7 +104,6 @@ namespace SoundChooserToUniversal
                 if (item.Metadata == "customTest")
                 {
                     StorageFile actualFile = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(item.Token);
-//C:\Users\Nastia\OneDrive\Documents\GitHub\OrangeFox\SoundChooserToUniversal\SoundChooserToUniversal\MainPage.xaml
                     var stream = await actualFile.OpenAsync(FileAccessMode.Read);
                     AudioPlayer.SetSource(stream, actualFile.ContentType);
                 }
@@ -147,8 +146,7 @@ namespace SoundChooserToUniversal
                 var listToken = StorageApplicationPermissions.FutureAccessList.Add(file, "customTest");
 
 
-                
-
+               
                 // make "pick a file" collection visible in pop-up menu
                 soundViewModel.IsVisible = true;
 

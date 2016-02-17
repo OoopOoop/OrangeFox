@@ -1,0 +1,64 @@
+﻿<Page x:Class="POF.NewAlarmPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:POF"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+
+
+    <Grid Margin="10" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" VerticalAlignment="Center">
+            <TextBlock FontWeight="Bold"
+                       Padding="0,0,0,10"
+                       Style="{StaticResource BodyTextBlockStyle}"
+                       Text="EDIT ALARM" />
+        </StackPanel>
+
+        <!--  bind to text  -->
+        <StackPanel Grid.Row="1" VerticalAlignment="Center">
+            <TextBox x:Name="AlarmNameTxt"
+                     BorderBrush="Gray"
+                     BorderThickness="2"
+                     GotFocus="AlarmNameTxt_GotFocus"
+                     Text="Good Morning"
+                     TextAlignment="Left"
+                     TextWrapping="Wrap">
+                <TextBox.Header>
+                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Alarm Name" />
+                </TextBox.Header>
+            </TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <TimePicker x:Name="timePicker"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        BorderBrush="Gray"
+                        BorderThickness="2">
+                <TimePicker.Header>
+                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Time" />
+                </TimePicker.Header>
+            </TimePicker>
+            <TextBlock HorizontalAlignment="Center"
+                       Foreground="Gray"
+                       Padding="5"
+                       Text="In 5 hours, 57 minutes" />
+        </StackPanel>
+
+        <local:SoundsPopUpControl Grid.Row="3" VerticalAlignment="Center" />
+
+    </Grid>
+</Page>

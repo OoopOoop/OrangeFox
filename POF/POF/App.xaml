@@ -2,13 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:POF"
+             xmlns:shared="using:POF.Shared"
              xmlns:vm="using:POF.ViewModels"
              RequestedTheme="Dark">
 
     <Application.Resources>
         <vm:ViewModelLocator x:Key="Locator" />
 
-
+        <!--  #region Styles for SoundsPopUpControl  -->
         <Style x:Key="SoundsListViewItemStyle" TargetType="ListViewItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -66,7 +67,7 @@
         <Style x:Key="TransparentButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Gray" />
-            <Setter Property="BorderThickness" Value="3" />
+            <Setter Property="BorderThickness" Value="2" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Content" Value="{RelativeSource self}" />
@@ -249,9 +250,31 @@
 
 
 
+        <DataTemplate x:Key="SoundListViewDataTemplate">
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Command="{Binding DataContext.PlaySoundCommand,
+                                          ElementName=SoundPopUpControl}"
+                        CommandParameter="{Binding}"
+                        Content="Play" />
+                <TextBlock Grid.Column="1"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource BodyTextBlockStyle}"
+                           Text="{Binding Title}" />
+            </Grid>
+        </DataTemplate>
 
-
-
+        <shared:PopUpHeightConverter x:Key="HeightConverter" />
+        <shared:PopUpWidthConverter x:Key="WidthConverter" />
+        <shared:BooleanToVisibilityConverter x:Key="VisibilityConverter" />
+        <shared:SelectionChangedConverter x:Key="SelectionChangedConverter" />
+        <!--  #endregion Styles for SoundsPopUpControl  -->
 
     </Application.Resources>
 

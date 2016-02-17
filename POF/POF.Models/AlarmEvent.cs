@@ -8,6 +8,8 @@ namespace POF.Models
 {
   public class AlarmEvent
     {
+        public string AlarmName { get; set;}
         public Uri SoundPath { get; set; }
+        public DateTime TimeSet { get; set;}
     }
 }
