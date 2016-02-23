@@ -8,16 +8,17 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:shared="using:POF.Shared"
       Name="soundPage"
+      DataContext="{Binding SoundSelectViewModel,
+                            Source={StaticResource Locator}}"
       mc:Ignorable="d">
+
     <!--
         DataContext="{Binding SoundSelectViewModel,
         Source={StaticResource Locator}}"
     -->
 
 
-
-
-    <!--<Page.Resources>
+    <Page.Resources>
         <DataTemplate x:Key="SoundListViewDataTemplate">
             <Grid HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
@@ -46,18 +47,25 @@
     </Page.Resources>
 
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ContentControl Content="{Binding Player}" />
+    <Grid Margin="20" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <Button x:Name="selectSoundControl"
-                Command="{Binding OpenPopUpCommand}"
-                Content="{Binding SelectedSoundTitle}"
-                Style="{StaticResource TransparentButtonStyle}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <!--<ContentControl Content="{Binding Player}" />-->
+
+        <!--  IsOpen="{Binding IsPopUpOpen}"  -->
 
         <Popup x:Name="SoundSelectionPopUp"
                Canvas.ZIndex="1"
                IsLightDismissEnabled="True"
-               IsOpen="{Binding IsPopUpOpen}"
                LayoutUpdated="SoundSelectionPopUp_LayoutUpdated">
             <Popup.ChildTransitions>
                 <TransitionCollection>
@@ -94,9 +102,9 @@
                                                                 Converter={StaticResource VisibilityConverter}}" />
                             </ListView.Header>
                         </ListView>
-    -->
-    <!--  TODO: buttons margin is hardcoded in style, stackpanel margin does apply to it  -->
-    <!--
+
+                        <!--  TODO: buttons margin is hardcoded in style, stackpanel margin does apply to it  -->
+
                         <Button x:Name="SelectMusicButton"
                                 Command="{Binding PickCustomSoundCommand}"
                                 Style="{StaticResource PickMusicButtonStyle}" />
@@ -118,6 +126,12 @@
                 </ScrollViewer>
             </Border>
         </Popup>
-    </Grid>-->
+
+        <Button x:Name="selectSoundControl"
+                Grid.Row="3"
+                Command="{Binding OpenPopUpCommand}"
+                Content="{Binding SelectedSoundTitle}"
+                Style="{StaticResource TransparentButtonStyle}" />
+    </Grid>
 </Page>
 

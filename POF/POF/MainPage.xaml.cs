@@ -29,9 +29,7 @@ namespace POF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(NewAlarmPage));
+            Frame.Navigate(typeof(AlarmPage));
         }
-
-      
     }
 }

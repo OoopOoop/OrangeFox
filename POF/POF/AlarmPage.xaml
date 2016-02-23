@@ -1,15 +1,23 @@
-﻿<Page x:Class="POF.NewAlarmPage"
+﻿<Page x:Class="POF.AlarmPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:POF"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:shared="using:POF.Shared"
+      x:Name="mainPage"
+      DataContext="{Binding AlarmPageViewModel,
+                            Source={StaticResource Locator}}"
+      IsTabStop="True"
       mc:Ignorable="d">
 
 
 
-    <Grid Margin="10" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Grid x:Name="mainGrid"
+          Margin="10"
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -19,6 +27,12 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+
+        <local:SoundsPopUpControl />
+
+
+
 
         <StackPanel Grid.Row="0" VerticalAlignment="Center">
             <TextBlock FontWeight="Bold"
@@ -30,9 +44,8 @@
         <!--  bind to text  -->
         <StackPanel Grid.Row="1" VerticalAlignment="Center">
             <TextBox x:Name="AlarmNameTxt"
-                     BorderBrush="Gray"
-                     BorderThickness="2"
-                     GotFocus="AlarmNameTxt_GotFocus"
+                     BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                     BorderThickness="{ThemeResource ComboBoxBorderThemeThickness}"
                      Text="Good Morning"
                      TextAlignment="Left"
                      TextWrapping="Wrap">
@@ -46,8 +59,9 @@
             <TimePicker x:Name="timePicker"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
-                        BorderBrush="Gray"
-                        BorderThickness="2">
+                        BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                        BorderThickness="{ThemeResource ComboBoxBorderThemeThickness}">
+
                 <TimePicker.Header>
                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Time" />
                 </TimePicker.Header>
@@ -58,7 +72,30 @@
                        Text="In 5 hours, 57 minutes" />
         </StackPanel>
 
-        <local:SoundsPopUpControl Grid.Row="3" VerticalAlignment="Center" />
+
+
+        <Button x:Name="creategridbtn"
+                Grid.Row="4"
+                HorizontalAlignment="Center"
+                Command="{Binding OpenSoundPopUp}"
+                Content="TestButton" />
+
+
+        <ComboBox x:Name="snoozeComboBox"
+                  Grid.Row="5"
+                  HorizontalAlignment="Stretch">
+            <ComboBox.Header>
+                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Snooze Time" />
+            </ComboBox.Header>
+            <ComboBoxItem>5 minutes</ComboBoxItem>
+            <ComboBoxItem>10 minutes</ComboBoxItem>
+            <ComboBoxItem>20 minutes</ComboBoxItem>
+            <ComboBoxItem>30 minutes</ComboBoxItem>
+            <ComboBoxItem>1 hour</ComboBoxItem>
+        </ComboBox>
+
 
     </Grid>
+
+
 </Page>

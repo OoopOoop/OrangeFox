@@ -108,6 +108,27 @@ namespace POF.ViewModels
         }
 
 
+
+        private double _popUpHorOffset;
+
+        public double PopUpHorOffset
+        {
+            get { return _popUpHorOffset; }
+            set { _popUpHorOffset = value; OnPropertyChanged();}
+        }
+
+
+
+        private double _popUpVerOffset;
+
+        public double PopUpVerOffset
+        {
+            get { return _popUpVerOffset; }
+            set { _popUpVerOffset = value;OnPropertyChanged(); }
+        }
+
+
+
         public ICommand OpenPopUpCommand { get; private set;}
         public ICommand PickCustomSoundCommand { get; private set;}
         public ICommand SelectedSoundCommand { get; private set;}
@@ -142,12 +163,16 @@ namespace POF.ViewModels
 
         public SoundSelectViewModel()
         {
+          
            SelectedSoundTitle = "Title";
            Player = new MediaElement();
            PlaySoundCommand = new RelayCommand<object>(playSound);
            OpenPopUpCommand = new RelayCommand(showPopUp);
            PickCustomSoundCommand = new RelayCommand(selectCustomSound);
            SelectedSoundCommand = new RelayCommand<object>(saveSelectedSound);
+
+
+            IsPopUpOpen = true;
         }
 
 
@@ -220,6 +245,7 @@ namespace POF.ViewModels
 
         protected override void OnDataLoaded()
         {
+            
             CustomSoundGroup = new ObservableCollection<SoundData>();
             StandardSoundGroup = new ObservableCollection<SoundData>();
             addSongs();

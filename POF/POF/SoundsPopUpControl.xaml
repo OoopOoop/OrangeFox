@@ -8,16 +8,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:shared="using:POF.Shared"
              x:Name="SoundPopUpControl"
-             DataContext="{Binding SoundSelectViewModel,
-                                   Source={StaticResource Locator}}"
              d:DesignHeight="300"
              d:DesignWidth="400"
              mc:Ignorable="d">
 
 
-    <Grid>
+    <!--
+        DataContext="{Binding SoundSelectViewModel,
+        Source={StaticResource Locator}}"
+    -->
+
+
+
+
+    <Grid x:Name="rootGR">
         <ContentControl Content="{Binding Player}" />
-        <StackPanel>
+        <!--<StackPanel>
             <TextBlock Padding="0,0,0,5"
                        Style="{StaticResource BodyTextBlockStyle}"
                        Text="Sound" />
@@ -25,14 +31,19 @@
                     Command="{Binding OpenPopUpCommand}"
                     Content="{Binding SelectedSoundTitle}"
                     Style="{StaticResource TransparentButtonStyle}" />
-        </StackPanel>
+        </StackPanel>-->
 
+        <!--
+            LayoutUpdated="SoundSelectionPopUp_LayoutUpdated"
+            IsOpen="{Binding IsPopUpOpen}"
+        -->
 
         <Popup x:Name="SoundSelectionPopUp"
                Canvas.ZIndex="1"
                IsLightDismissEnabled="True"
                IsOpen="{Binding IsPopUpOpen}"
                LayoutUpdated="SoundSelectionPopUp_LayoutUpdated">
+
             <Popup.ChildTransitions>
                 <TransitionCollection>
                     <PopupThemeTransition />
@@ -45,7 +56,8 @@
                     Height="{Binding PopUpHeight,
                                      Converter={StaticResource HeightConverter},
                                      ConverterParameter=0.75}"
-                    Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}">
+                    Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}"
+                    BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}">
                 <ScrollViewer x:Name="scroll" VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
                         <ListView x:Name="CustomPlayList"
@@ -91,5 +103,4 @@
             </Border>
         </Popup>
     </Grid>
-
 </UserControl>

@@ -98,8 +98,8 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NewAlarmPage.xaml.cs">
-      <DependentUpon>NewAlarmPage.xaml</DependentUpon>
+    <Compile Include="AlarmPage.xaml.cs">
+      <DependentUpon>AlarmPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SoundsPopUpControl.xaml.cs">
       <DependentUpon>SoundsPopUpControl.xaml</DependentUpon>
@@ -146,7 +146,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="NewAlarmPage.xaml">
+    <Page Include="AlarmPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
