@@ -1,0 +1,83 @@
+﻿<Page
+    x:Class="AlarmGame1.GamePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AlarmGame1"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid RenderTransformOrigin="0.514,0.453">
+
+        <TextBlock TextWrapping="Wrap"
+                 Text="TextBlock" 
+                 Width="380" 
+                 Loaded="TextBlock_Loaded"
+                 Name="RandomNumber" 
+                 FontSize="70" 
+                 FontWeight="ExtraBold"
+                 RenderTransformOrigin="0.503,2.589" 
+                 Margin="10,132,10,422" 
+                 HorizontalAlignment="Center" 
+                 FontStretch="UltraCondensed" 
+                 TextAlignment="Center" 
+                 FontFamily="Arial Black" 
+                 CharacterSpacing="250" />
+
+
+        <Button Content="new numbers"
+                HorizontalAlignment="Left"
+                Margin="133,415,0,0" 
+                VerticalAlignment="Center"
+                Name="ButtonDoAgain" 
+                Click="ButtonDoAgain_Click"/>
+
+        <Button Content="Finish"
+                HorizontalAlignment="Left"
+                Margin="133,42,0,0" 
+                VerticalAlignment="Top"
+                Name="ButtonFinish"
+                Click="ButtonFinish_Click" Width="136"/>
+
+        <Grid HorizontalAlignment="Left" 
+              Height="59" 
+              Margin="10,261,0,0" 
+              VerticalAlignment="Top" Width="380">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="94*"/>
+                <ColumnDefinition Width="81*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox HorizontalAlignment="Left" 
+                 Margin="10,11,0,0"  
+                 VerticalAlignment="Top" 
+                 Width="236" 
+                 InputScope="Number" 
+                 Name="TextBoxNumberInput"
+               
+                 FontWeight="Bold" 
+                 MaxLength="4" 
+                 TextAlignment="Center"  
+                 CharacterSpacing="700"
+                 FontSize="20" 
+                 Height="38"
+                 FontFamily="Arial Black" 
+                 Grid.ColumnSpan="3" 
+                 RenderTransformOrigin="0.505,0.518" />
+
+            <Button Content="OK" 
+                HorizontalAlignment="Left"
+                Margin="49.667,0,0,1" 
+                VerticalAlignment="Center"
+                Name="ButtonOk"
+                Click="ButtonOk_Click" 
+                Height="58" 
+                Width="112" 
+                RenderTransformOrigin="0.679,-2.177"
+                Grid.Column="2"/>
+
+        </Grid>
+    </Grid>
+</Page>
