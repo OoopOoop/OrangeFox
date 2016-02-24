@@ -1,0 +1,53 @@
+﻿<Page x:Class="DayChooser.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:DayChooser"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      d:DataContext="{d:DesignInstance local:AlarmRepeatSelectionSample,
+                                       IsDesignTimeCreatable=True}"
+      mc:Ignorable="d">
+
+    <Page.DataContext>
+        <local:DayModel />
+    </Page.DataContext>
+
+    <Grid Margin="0,21.333,0,-0.333">
+        <StackPanel Margin="0,10,0,0">
+            <TextBlock Margin="5,0,0,0"
+                       FontSize="18"
+                       Text="Repeats" />
+            <Button Width="390"
+                    HorizontalAlignment="Center"
+                    Command="{Binding ButtonPressedCommand}"
+                    CommandParameter="null">
+                <Button.Content>
+                    <TextBlock Width="82"
+                               Margin="-190,0,0,0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Text="{Binding DisplayDescription}" />
+                </Button.Content>
+            </Button>
+
+
+
+
+            <ListView x:Name="daysView"
+                      Background="Black"
+                      ItemsSource="{Binding chosenDays}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Height="59"
+                                       FontSize="24"
+                                       Foreground="White"
+                                       Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+    </Grid>
+</Page>

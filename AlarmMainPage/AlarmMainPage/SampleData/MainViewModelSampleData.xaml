@@ -1,0 +1,55 @@
+﻿<ViewModels:MainViewModel xmlns:Models="using:AlarmMainPage.Models"
+                          xmlns:ViewModels="using:AlarmMainPage.ViewModels">
+    <!--isDataLoaded="True">-->
+    <ViewModels:MainViewModel.Alarms>
+        <Models:AlarmModel AlarmName="Alarm1"
+                           GameName="Aptent lorem"
+                           Id="1"
+                           IsEnabled="True"
+                           Occurrence="weekdays"
+                           SnoozeMin="Nullam fusce maecenas"
+                           Sound="Adipiscing convallis nam"
+                           Time="10:15" />
+        <Models:AlarmModel AlarmName="Alarm2"
+                           GameName="Bibendum congue blandit eget"
+                           Id="2"
+                           IsEnabled="False"
+                           Occurrence="weekends"
+                           SnoozeMin="Facilisis nulla fermentum"
+                           Sound="Leo vestibulum accumsan elementum aliquet"
+                           Time="04:05" />
+        <Models:AlarmModel AlarmName="Alarm3"
+                           GameName="Lectus libero ligula per"
+                           Id="3"
+                           IsEnabled="True"
+                           Occurrence="Mon, Tue, Wed, Thur, Fri"
+                           SnoozeMin="Non dictum dapibus"
+                           Sound="Adipiscing augue hendrerit"
+                           Time="15:16" />
+        <Models:AlarmModel AlarmName="Alarm4"
+                           GameName="Justo feugiat nisi"
+                           Id="4"
+                           IsEnabled="False"
+                           Occurrence="Mon, Tue"
+                           SnoozeMin="Felis litora habitant ipsum nibh"
+                           Sound="Faucibus imperdiet"
+                           Time="00:00" />
+        <Models:AlarmModel AlarmName="Alarm5"
+                           GameName="Porttitor tincidunt odio vestibulum"
+                           Id="5"
+                           IsEnabled="True"
+                           Occurrence="Tue"
+                           SnoozeMin="Lobortis nascetur"
+                           Sound="Nisl inceptos interdum nunc gravida"
+                           Time="00:05" />
+        <Models:AlarmModel AlarmName="Alarm6"
+                           GameName="Ultricies montes pulvinar nostra"
+                           Id="6"
+                           IsEnabled="False"
+                           Occurrence="Mon, Tue, Wed, Thur, Fri, Sat"
+                           SnoozeMin="Quam placerat vestibulum vestibulum iaculis"
+                           Sound="Parturient massa"
+                           Time="11:12" />
+
+    </ViewModels:MainViewModel.Alarms>
+</ViewModels:MainViewModel>
