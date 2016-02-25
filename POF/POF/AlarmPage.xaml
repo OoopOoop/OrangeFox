@@ -14,8 +14,7 @@
       mc:Ignorable="d">
 
 
-
-    <Grid x:Name="mainGrid"
+    <Grid x:Name="RootGrid"
           Margin="10"
           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -28,18 +27,13 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-
-        <local:SoundsPopUpControl />
-
-
-
-
         <StackPanel Grid.Row="0" VerticalAlignment="Center">
             <TextBlock FontWeight="Bold"
                        Padding="0,0,0,10"
                        Style="{StaticResource BodyTextBlockStyle}"
                        Text="EDIT ALARM" />
         </StackPanel>
+
 
         <!--  bind to text  -->
         <StackPanel Grid.Row="1" VerticalAlignment="Center">
@@ -72,13 +66,7 @@
                        Text="In 5 hours, 57 minutes" />
         </StackPanel>
 
-
-
-        <Button x:Name="creategridbtn"
-                Grid.Row="4"
-                HorizontalAlignment="Center"
-                Command="{Binding OpenSoundPopUp}"
-                Content="TestButton" />
+        <local:SoundsPopUpControl Grid.Row="3" />
 
 
         <ComboBox x:Name="snoozeComboBox"

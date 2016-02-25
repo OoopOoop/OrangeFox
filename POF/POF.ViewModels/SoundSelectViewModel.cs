@@ -108,7 +108,6 @@ namespace POF.ViewModels
         }
 
 
-
         private double _popUpHorOffset;
 
         public double PopUpHorOffset
@@ -118,7 +117,6 @@ namespace POF.ViewModels
         }
 
 
-
         private double _popUpVerOffset;
 
         public double PopUpVerOffset
@@ -126,7 +124,6 @@ namespace POF.ViewModels
             get { return _popUpVerOffset; }
             set { _popUpVerOffset = value;OnPropertyChanged(); }
         }
-
 
 
         public ICommand OpenPopUpCommand { get; private set;}
@@ -163,20 +160,16 @@ namespace POF.ViewModels
 
         public SoundSelectViewModel()
         {
-          
-           SelectedSoundTitle = "Title";
+           SelectedSoundTitle = "SetUpStandard";
            Player = new MediaElement();
            PlaySoundCommand = new RelayCommand<object>(playSound);
            OpenPopUpCommand = new RelayCommand(showPopUp);
            PickCustomSoundCommand = new RelayCommand(selectCustomSound);
            SelectedSoundCommand = new RelayCommand<object>(saveSelectedSound);
-
-
-            IsPopUpOpen = true;
         }
 
 
-        //TODO: save sound in context, close poup, display sound name on control
+        //TODO: save sound in context, close poup, display sound name on control, send message to AlarmPageViewModel what sound was chosen
         private void saveSelectedSound(object obj)
         {
             string selectedSound = (obj as SoundData).Title;
@@ -244,8 +237,7 @@ namespace POF.ViewModels
 
 
         protected override void OnDataLoaded()
-        {
-            
+        { 
             CustomSoundGroup = new ObservableCollection<SoundData>();
             StandardSoundGroup = new ObservableCollection<SoundData>();
             addSongs();
@@ -260,8 +252,9 @@ namespace POF.ViewModels
                 });
             }
 
-            //ToDelete
 
+
+            //TODO: Remove from the collection, onLoaded check if custom song was set up as sound, put it;s name itno CustomSoundGroupCollection
             if(CustomSoundGroup.Count==0)
             {
                 CustomSoundGroup.Add(StandardSoundGroup[0]);
@@ -303,9 +296,6 @@ namespace POF.ViewModels
                 StorageApplicationPermissions.FutureAccessList.Add(storageFile, "customSoundMeta");
             }
         }
-
-
-
 
 
 

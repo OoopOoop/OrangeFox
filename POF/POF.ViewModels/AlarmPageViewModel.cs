@@ -10,27 +10,32 @@ namespace POF.ViewModels
 {
     public class AlarmPageViewModel : ViewModelBase
     {
-
         public ICommand OpenSoundPopUp { get; set; }
 
-       private SoundSelectViewModel soundPopUp;
+        private bool _isSoundPoUpOpen;
+
+        public bool IsSoundPopUpOpen
+        {
+            get { return _isSoundPoUpOpen; }
+            set { _isSoundPoUpOpen = value; OnPropertyChanged(); }
+        }
+
 
         protected override void OnDataLoaded()
         {
-            //new SoundSelectViewModel();
+           
         }
 
 
         public AlarmPageViewModel()
         {
-            soundPopUp = new SoundSelectViewModel();
             OpenSoundPopUp = new RelayCommand(openSoundPopUp);
         }
 
+
         private void openSoundPopUp()
         {
-            soundPopUp.IsPopUpOpen = true;
-           
+           IsSoundPopUpOpen = true;
         }
     }
 }

@@ -24,12 +24,9 @@ namespace POF
         public SoundsPopUpControl()
         {
             this.InitializeComponent();
-            var dataContext = new SoundSelectViewModel();
-            this.DataContext = dataContext;
+           
         }
 
-
-       
         // put in center
         private void SoundSelectionPopUp_LayoutUpdated(object sender, object e)
         {
@@ -42,9 +39,9 @@ namespace POF
             double ActualHorizontalOffset = this.SoundSelectionPopUp.HorizontalOffset;
             double ActualVerticalOffset = this.SoundSelectionPopUp.VerticalOffset;
 
-
+            //TODO: make sure it pop's up in middle of page
             double NewHorizontalOffset = (Window.Current.Bounds.Width - PopUpBorder.ActualWidth) / 2-10;
-            double NewVerticalOffset = (Window.Current.Bounds.Height - PopUpBorder.ActualHeight) / 2-10;
+            double NewVerticalOffset = (Window.Current.Bounds.Height - PopUpBorder.ActualHeight) / 2-220;
 
           
             if (ActualHorizontalOffset != NewHorizontalOffset || ActualVerticalOffset != NewVerticalOffset)
@@ -53,21 +50,5 @@ namespace POF
                 this.SoundSelectionPopUp.VerticalOffset = NewVerticalOffset;
             }
         }
-
-
-
-        //TODO: bind to IsOpen. Change page DataContext to Local, bind IsPopUpOpen to local property on AlarmPage, so can try open poup with buttons click
-
-        public bool IsPopUpOpen
-        {
-            get { return (bool)GetValue(IsPopUpOpenProperty); }
-            set { SetValue(IsPopUpOpenProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for IsPopUpOpen.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsPopUpOpenProperty =
-            DependencyProperty.Register("IsPopUpOpen", typeof(bool), typeof(SoundsPopUpControl), new PropertyMetadata(0));
-
-
     }
 }
