@@ -1,6 +1,4 @@
-﻿using POF.Shared;
-using POF.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,15 +17,15 @@ using Windows.UI.Xaml.Navigation;
 
 namespace POF
 {
-    public sealed partial class SoundsPopUpControl : UserControl
+    public sealed partial class DaysPopUpControl : UserControl
     {
-        public SoundsPopUpControl()
+        public DaysPopUpControl()
         {
             this.InitializeComponent();
-           
         }
 
-        //TODO: put popUp in center of page, change NewHorOffse and NewVerticalOffset calculations (for different devices)
+
+        //TODO: same repeating event for 2 popups -> make 1
         private void SelectionPopUp_LayoutUpdated(object sender, object e)
         {
             if (PopUpBorder.ActualWidth == 0 && PopUpBorder.ActualHeight == 0)
@@ -35,15 +33,14 @@ namespace POF
                 return;
             }
 
-
             double ActualHorizontalOffset = this.SelectionPopUp.HorizontalOffset;
             double ActualVerticalOffset = this.SelectionPopUp.VerticalOffset;
 
-            
-            double NewHorizontalOffset = (Window.Current.Bounds.Width - PopUpBorder.ActualWidth) / 2-10;
-            double NewVerticalOffset = (Window.Current.Bounds.Height - PopUpBorder.ActualHeight) / 2-220;
 
-          
+            double NewHorizontalOffset = (Window.Current.Bounds.Width - PopUpBorder.ActualWidth) / 2 - 10;
+            double NewVerticalOffset = (Window.Current.Bounds.Height - PopUpBorder.ActualHeight) / 2 - 300;
+
+
             if (ActualHorizontalOffset != NewHorizontalOffset || ActualVerticalOffset != NewVerticalOffset)
             {
                 this.SelectionPopUp.HorizontalOffset = NewHorizontalOffset;

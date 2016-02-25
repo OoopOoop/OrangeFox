@@ -55,7 +55,6 @@
                         VerticalAlignment="Center"
                         BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                         BorderThickness="{ThemeResource ComboBoxBorderThemeThickness}">
-
                 <TimePicker.Header>
                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Time" />
                 </TimePicker.Header>
@@ -67,7 +66,7 @@
         </StackPanel>
 
         <local:SoundsPopUpControl Grid.Row="3" />
-
+        <local:DaysPopUpControl Grid.Row="4" />
 
         <ComboBox x:Name="snoozeComboBox"
                   Grid.Row="5"

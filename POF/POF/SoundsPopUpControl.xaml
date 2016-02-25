@@ -26,11 +26,11 @@
                     Content="{Binding SelectedSoundTitle}"
                     Style="{StaticResource TransparentButtonStyle}" />
         </StackPanel>
-        <Popup x:Name="SoundSelectionPopUp"
+        <Popup x:Name="SelectionPopUp"
                Canvas.ZIndex="1"
                IsLightDismissEnabled="True"
                IsOpen="{Binding IsPopUpOpen}"
-               LayoutUpdated="SoundSelectionPopUp_LayoutUpdated">
+               LayoutUpdated="SelectionPopUp_LayoutUpdated">
 
             <Popup.ChildTransitions>
                 <TransitionCollection>

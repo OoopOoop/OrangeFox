@@ -24,7 +24,7 @@ namespace DayChooser
     {
         public DayModelSample()
         {
-            SelectedDaysFlags = (SelectableDay)3;
+            SelectedDaysFlags = (SelectableDay)4;
         }
     }
 
@@ -36,7 +36,6 @@ namespace DayChooser
 
         }
     }
-
 
 
 
