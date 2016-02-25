@@ -10,6 +10,7 @@ namespace POF.Models
     {
         public List<SoundFile> StandardSoundFiles { get; private set;}
 
+        //load
         public async Task InitializeContextAsync()
         {
             //await Task.Delay(2000);
@@ -23,6 +24,12 @@ namespace POF.Models
                  new SoundFile {Title="Girl", FilePath=basePath+"That girl from Copenhagen.mp3", FileType=Shared.FileTypeEnum.Uri },
                  new SoundFile {Title="Universe", FilePath=basePath+"Universe.mp3", FileType=Shared.FileTypeEnum.Uri }
             };
+        }
+
+
+        public void SaveAlarm()
+        {
+            
         }
     }
 }

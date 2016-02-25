@@ -9,9 +9,20 @@
 
     <Page.Resources>
         <converter:StringToVisibilityConverter x:Key="VisibilityConverter" />
+
     </Page.Resources>
 
+
+
+
+
     <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <FlyoutBase.AttachedFlyout>
+            <Flyout x:Name="test">
+                <TextBlock Text="Boo Boo" />
+            </Flyout>
+        </FlyoutBase.AttachedFlyout>
         <MediaElement Name="AudioPlayer" Volume="1" />
         <Button x:Name="ChooseMusicbutton"
                 Width="297"
@@ -30,8 +41,8 @@
                            Text="&#xE019;" />
             </Grid>
             <Button.Flyout>
-                <Flyout x:Name="musicFlyout">
-                    <StackPanel>
+                <Flyout x:Name="musicFlyout" Opening="musicFlyout_Opening">
+                    <StackPanel x:Name="child">
                         <Grid Width="270"
                               Height="34.6666679382324"
                               Margin="0,0,0,10"
@@ -161,5 +172,7 @@
                 </Flyout>
             </Button.Flyout>
         </Button>
+
+
     </Grid>
 </Page>

@@ -7,12 +7,12 @@
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button HorizontalAlignment="Center"
+
+        <Button Grid.Row="0"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
                 Click="Button_Click"
-                Content="Go TO" />
-
-        <!--<local:ListViewControl CollectionName="{Binding ElementName=window, Path=DataContext.StandardSoundGroup}" Margin="3,4,-3,-4" />-->
-
+                Content="New Alarm" />
 
     </Grid>
 </Page>
