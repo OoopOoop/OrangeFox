@@ -370,14 +370,14 @@
         <shared:SelectionChangedConverter x:Key="SelectionChangedConverter" />
         <!--  #endregion Styles for SoundsPopUpControl  -->
 
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
     </Application.Resources>
 
 </Application>

@@ -27,7 +27,7 @@ namespace POF
            
         }
 
-        // put in center
+        //TODO: put popUp in center of page, change NewHorOffse and NewVerticalOffset calculations (for different devices)
         private void SoundSelectionPopUp_LayoutUpdated(object sender, object e)
         {
             if (PopUpBorder.ActualWidth == 0 && PopUpBorder.ActualHeight == 0)
@@ -39,7 +39,7 @@ namespace POF
             double ActualHorizontalOffset = this.SoundSelectionPopUp.HorizontalOffset;
             double ActualVerticalOffset = this.SoundSelectionPopUp.VerticalOffset;
 
-            //TODO: make sure it pop's up in middle of page
+            
             double NewHorizontalOffset = (Window.Current.Bounds.Width - PopUpBorder.ActualWidth) / 2-10;
             double NewVerticalOffset = (Window.Current.Bounds.Height - PopUpBorder.ActualHeight) / 2-220;
 
