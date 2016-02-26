@@ -108,10 +108,10 @@ namespace POF.ViewModels
         }
 
 
-        public ICommand OpenPopUpCommand { get; private set;}
-        public ICommand PickCustomSoundCommand { get; private set;}
-        public ICommand SelectedSoundCommand { get; private set;}
-        public ICommand PlaySoundCommand { get; private set;}
+        public ICommand OpenPopUpCommand { get; }
+        public ICommand PickCustomSoundCommand { get; }
+        public ICommand SelectedSoundCommand { get;}
+        public ICommand PlaySoundCommand { get;}
 
 
         private ObservableCollection<SoundData> _standardSoundGroup;
@@ -226,7 +226,7 @@ namespace POF.ViewModels
         }
 
 
-        private void addSongs()
+        private  void addSongs()
         {
             foreach (var item in Repository.StandardSoundFiles)
             {

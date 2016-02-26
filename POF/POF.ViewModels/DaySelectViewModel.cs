@@ -19,14 +19,11 @@ namespace POF.ViewModels
             return dayTime.ToString(format);
         }
 
-
+        // to return "Mon", "Tue"
         public static string SelectableDayToShortString(SelectableDay day) => SelectableDayToFormatString(day, "ddd");
 
-        /// <summary>
-        /// Converts DayModel.SelectableDay Enum to full string description
-        /// </summary>
-        /// <param name="day"></param>
-        /// <returns>The full string description in current culture language. so AlarmRepeat.SelectableDay.Wednesday returns "Wednesday"</returns>
+       
+        //The full string description in current culture language. so AlarmRepeat.SelectableDay.Wednesday returns "Wednesday"
         public static string SelectableDayToFullString(SelectableDay day) => SelectableDayToFormatString(day, "dddd");
 
 
@@ -111,6 +108,7 @@ namespace POF.ViewModels
         }
     }
 
+
     public class Day
     {
         public DayModel.SelectableDay EnumValue { get; set; }
@@ -120,42 +118,43 @@ namespace POF.ViewModels
 
 
 
-    //public class AlarmRepeatSelection : ObservableCollection<Day>
-    //{
+    public class AlarmRepeatSelection : ObservableCollection<Day>
+    {
 
-    //    public AlarmRepeatSelection(int selectableDayFlags) : this((DayModel.SelectableDay)selectableDayFlags)
-    //    {
-    //    }
+        public AlarmRepeatSelection(int selectableDayFlags) : this((DayModel.SelectableDay)selectableDayFlags)
+        {
+        }
 
-    //    public AlarmRepeatSelection(DayModel.SelectableDay selectableDayFlags) : this()
-    //    {
-    //        this.initFromSelectableDayFlags(selectableDayFlags);
-    //    }
+        public AlarmRepeatSelection(DayModel.SelectableDay selectableDayFlags) : this()
+        {
+            this.initFromSelectableDayFlags(selectableDayFlags);
+        }
 
-    //    public AlarmRepeatSelection() : base()
-    //    {
-    //    }
+        public AlarmRepeatSelection() : base()
+        {
+        }
 
-    //    private void initFromSelectableDayFlags(DayModel.SelectableDay selectableDayFlags)
-    //    {
-    //        foreach (DayModel.SelectableDay day in Enum.GetValues(typeof(DayModel.SelectableDay)))
-    //        {
-    //            Add(new Day() { EnumValue = day, IsSelected = selectableDayFlags.HasFlag(day) });
-    //        }
-    //    }
 
-    //    public DayModel.SelectableDay selectableDayFlags()
-    //    {
-    //        DayModel.SelectableDay selectableDayFlags = 0;
-    //        foreach (var selectable in this.Where(x => x.IsSelected))
-    //        {
-    //            selectableDayFlags |= selectable.EnumValue;
-    //        }
+        private void initFromSelectableDayFlags(DayModel.SelectableDay selectableDayFlags)
+        {
+            foreach (DayModel.SelectableDay day in Enum.GetValues(typeof(DayModel.SelectableDay)))
+            {
+                Add(new Day() { EnumValue = day, IsSelected = selectableDayFlags.HasFlag(day) });
+            }
+        }
 
-    //        return selectableDayFlags;
-    //    }
+        public DayModel.SelectableDay selectableDayFlags()
+        {
+            DayModel.SelectableDay selectableDayFlags = 0;
+            foreach (var selectable in this.Where(x => x.IsSelected))
+            {
+                selectableDayFlags |= selectable.EnumValue;
+            }
 
-    //}
+            return selectableDayFlags;
+        }
+
+    }
 
 
 
@@ -164,8 +163,7 @@ namespace POF.ViewModels
     public class DaySelectViewModel : ViewModelBase
     {
        
-
-        public ICommand OpenPopUpCommand { get; private set; }
+        public ICommand OpenPopUpCommand { get;}
 
         private string _selectedDayTitle;
         public string SelectedDayTitle
@@ -201,13 +199,13 @@ namespace POF.ViewModels
         }
 
 
-        //private ObservableCollection<Day> _alarmRepeatSelection;
+        private ObservableCollection<Day> _alarmRepeatSelection;
 
-        //public ObservableCollection<Day> AlarmRepeatSelection
-        //{
-        //    get { return _alarmRepeatSelection; }
-        //    set { _alarmRepeatSelection = value; OnPropertyChanged(); }
-        //}
+        public ObservableCollection<Day> AlarmRepeatSelection
+        {
+            get { return _alarmRepeatSelection; }
+            set { _alarmRepeatSelection = value; OnPropertyChanged(); }
+        }
 
 
 
@@ -217,13 +215,16 @@ namespace POF.ViewModels
         }
 
 
-        //TODO: display days in popup!
+        public AlarmRepeatSelection AlarmSelection;
+        private DayModel dayModel;
+
+      
         public DaySelectViewModel()
         {
             SelectedDayTitle = "SetUpStandardDay";
             OpenPopUpCommand = new RelayCommand(showPopUp);
-            //AlarmRepeatSelection = new ObservableCollection<Day>();
-            
+            dayModel = new DayModel();
+            AlarmRepeatSelection = new AlarmRepeatSelection(dayModel.SelectedDaysFlags);
         }
 
        

@@ -65,6 +65,7 @@
                        Text="In 5 hours, 57 minutes" />
         </StackPanel>
 
+
         <local:SoundsPopUpControl Grid.Row="3" />
         <local:DaysPopUpControl Grid.Row="4" />
 

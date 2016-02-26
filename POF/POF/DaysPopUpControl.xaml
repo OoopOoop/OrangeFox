@@ -46,7 +46,7 @@
                     <StackPanel Margin="10">
                         <ListView x:Name="DaysOfWeekList"
                                   ItemContainerStyle="{StaticResource SoundsListViewItemStyle}"
-                                  ItemsSource="{Binding AlarmSelection}"
+                                  ItemsSource="{Binding AlarmRepeatSelection}"
                                   SelectionMode="Multiple"
                                   Style="{StaticResource SoundListViewStyle}">
                             <interactivity:Interaction.Behaviors>
@@ -58,7 +58,10 @@
                             </interactivity:Interaction.Behaviors>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding DisplayName}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox IsChecked="{Binding}" />
+                                        <TextBlock Text="{Binding DisplayName}" />
+                                    </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
