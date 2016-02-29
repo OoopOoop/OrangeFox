@@ -39,14 +39,15 @@
                                     ConverterParameter=0.9}"
                     Height="{Binding PopUpHeight,
                                      Converter={StaticResource HeightConverter},
-                                     ConverterParameter=0.75}"
+                                     ConverterParameter=0.65}"
                     Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}"
                     BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}">
                 <ScrollViewer x:Name="scroll" VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
                         <ListView x:Name="DaysOfWeekList"
-                                  ItemContainerStyle="{StaticResource SoundsListViewItemStyle}"
-                                  ItemsSource="{Binding AlarmRepeatSelection}"
+                                  IsMultiSelectCheckBoxEnabled="True"
+                                  ItemContainerStyle="{StaticResource ListViewDaySelectStyle}"
+                                  ItemsSource="{Binding AlarmSelection}"
                                   SelectionMode="Multiple"
                                   Style="{StaticResource SoundListViewStyle}">
                             <interactivity:Interaction.Behaviors>
@@ -58,8 +59,7 @@
                             </interactivity:Interaction.Behaviors>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox IsChecked="{Binding}" />
+                                    <StackPanel>
                                         <TextBlock Text="{Binding DisplayName}" />
                                     </StackPanel>
                                 </DataTemplate>
@@ -71,3 +71,7 @@
         </Popup>
     </Grid>
 </UserControl>
+
+<!--<TextBlock Text="{Binding DisplayName}" 0.75/>-->
+
+<!--<CheckBox IsChecked="{Binding Path=ListViewItem.IsSelected, ElementName=DaysOfWeekList}" />-->

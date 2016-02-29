@@ -68,6 +68,7 @@ namespace DayChooser
             DayModel.SelectableDay selectableDayFlags = 0;
             foreach (var selectable in this.Where(x => x.IsSelected))
             {
+                // adding to flags
                 selectableDayFlags |= selectable.EnumValue;
             }
 

@@ -143,11 +143,15 @@ namespace POF.ViewModels
             }
         }
 
+
+
+
         public DayModel.SelectableDay selectableDayFlags()
         {
             DayModel.SelectableDay selectableDayFlags = 0;
             foreach (var selectable in this.Where(x => x.IsSelected))
             {
+                //adding to flags, by using OR operator
                 selectableDayFlags |= selectable.EnumValue;
             }
 
@@ -164,6 +168,8 @@ namespace POF.ViewModels
     {
        
         public ICommand OpenPopUpCommand { get;}
+        public ICommand SelectedDaysCommand { get; }
+
 
         private string _selectedDayTitle;
         public string SelectedDayTitle
@@ -199,15 +205,6 @@ namespace POF.ViewModels
         }
 
 
-        private ObservableCollection<Day> _alarmRepeatSelection;
-
-        public ObservableCollection<Day> AlarmRepeatSelection
-        {
-            get { return _alarmRepeatSelection; }
-            set { _alarmRepeatSelection = value; OnPropertyChanged(); }
-        }
-
-
 
         protected override void OnDataLoaded()
         {
@@ -215,25 +212,44 @@ namespace POF.ViewModels
         }
 
 
-        public AlarmRepeatSelection AlarmSelection;
+    
         private DayModel dayModel;
 
-      
+
+        private AlarmRepeatSelection _alarmSelection;
+
+        public AlarmRepeatSelection AlarmSelection
+        {
+            get { return _alarmSelection; }
+            set { _alarmSelection = value; OnPropertyChanged(); }
+        }
+
+
+
+
         public DaySelectViewModel()
         {
             SelectedDayTitle = "SetUpStandardDay";
             OpenPopUpCommand = new RelayCommand(showPopUp);
             dayModel = new DayModel();
-            AlarmRepeatSelection = new AlarmRepeatSelection(dayModel.SelectedDaysFlags);
+            AlarmSelection = new AlarmRepeatSelection(7);//dayModel. );
+            SelectedDaysCommand = new RelayCommand<object>(setSelectedDays);
         }
 
-       
+
+
+        private void setSelectedDays(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
 
         private void showPopUp()
         {
             IsPopUpOpen = true;
         }
-
 
 
 

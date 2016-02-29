@@ -12,7 +12,7 @@ namespace DayChooser
         private DayModel dayModel;
         private AlarmRepeatSelection alarmRepeatSelection;
 
-
+    
        
 
         public ListOfDays()
@@ -49,6 +49,9 @@ namespace DayChooser
         }
 
         private delegate void statusUpdate(IList<object> changedItems, bool newStatus);
+
+
+
 
         private void daysListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
