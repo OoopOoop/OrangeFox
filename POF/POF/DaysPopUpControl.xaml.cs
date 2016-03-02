@@ -1,4 +1,5 @@
-﻿using System;
+﻿using POF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace POF
         public DaysPopUpControl()
         {
             this.InitializeComponent();
+           
         }
 
 
@@ -46,6 +48,9 @@ namespace POF
                 this.SelectionPopUp.HorizontalOffset = NewHorizontalOffset;
                 this.SelectionPopUp.VerticalOffset = NewVerticalOffset;
             }
+
         }
+
+
     }
 }

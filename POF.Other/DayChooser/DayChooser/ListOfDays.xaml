@@ -48,8 +48,7 @@
     <Page.BottomAppBar>
         <CommandBar x:Name="commandBar">
             <AppBarButton x:Name="ChooseDayAppBarButton"
-                          Command="{Binding DayAcceptCommand,
-                                            Mode=OneWay}"
+                          Click="ChooseDayAppBarButton_Click"
                           Icon="Accept"
                           Label="accept" />
 

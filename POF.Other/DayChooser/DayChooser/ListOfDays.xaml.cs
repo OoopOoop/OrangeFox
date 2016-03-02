@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -74,6 +75,14 @@ namespace DayChooser
             setter(e.RemovedItems, false);
         }
 
-        
+
+
+
+        private void ChooseDayAppBarButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            dayModel.SelectedDaysFlags =( (DayModel.SelectableDay)8);
+            var frame = (Frame)Window.Current.Content;
+            frame.GoBack();
+        }
     }
 }

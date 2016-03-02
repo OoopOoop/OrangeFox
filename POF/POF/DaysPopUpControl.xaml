@@ -13,6 +13,25 @@
              d:DesignWidth="400"
              mc:Ignorable="d">
 
+
+
+    <!--
+        xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+        xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    -->
+
+
+    <!--<interactivity:Interaction.Behaviors>
+        <core:EventTriggerBehavior EventName="SelectionChanged">
+            <core:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
+                                                              InputConverter="{StaticResource SelectionChangedConverter}"
+                                                              InputConverterParameter="{Binding ElementName=DaysOfWeekList}" />
+        </core:EventTriggerBehavior>
+    </interactivity:Interaction.Behaviors>-->
+
+
+
+
     <Grid>
         <StackPanel>
             <TextBlock Padding="0,0,0,5"
@@ -20,7 +39,7 @@
                        Text="Repeats" />
             <Button x:Name="DayRepeatbtn"
                     Command="{Binding OpenPopUpCommand}"
-                    Content="{Binding SelectedDayTitle}"
+                    Content="{Binding DisplayDescription}"
                     Style="{StaticResource TransparentButtonStyle}" />
         </StackPanel>
         <Popup x:Name="SelectionPopUp"
@@ -45,22 +64,23 @@
                 <ScrollViewer x:Name="scroll" VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
                         <ListView x:Name="DaysOfWeekList"
-                                  IsMultiSelectCheckBoxEnabled="True"
+                                  IsMultiSelectCheckBoxEnabled="False"
                                   ItemContainerStyle="{StaticResource ListViewDaySelectStyle}"
                                   ItemsSource="{Binding AlarmSelection}"
                                   SelectionMode="Multiple"
                                   Style="{StaticResource SoundListViewStyle}">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="SelectionChanged">
-                                    <core:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
-                                                              InputConverter="{StaticResource SelectionChangedConverter}"
-                                                              InputConverterParameter="{Binding ElementName=DaysOfWeekList}" />
+                                    <core:InvokeCommandAction Command="{Binding SelectedDaysCommand}" />
                                 </core:EventTriggerBehavior>
                             </interactivity:Interaction.Behaviors>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding DisplayName}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox IsChecked="{Binding IsSelected}" IsEnabled="False" />
+                                        <TextBlock HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding DisplayName}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -71,6 +91,17 @@
         </Popup>
     </Grid>
 </UserControl>
+
+
+
+<!--  IsMultiSelectCheckBoxEnabled="True"  -->
+
+
+<!--<Style TargetType="ListViewItem">
+    <Setter Property="IsSelected" Value="{Binding Selected, Mode=TwoWay}"/>
+</Style>-->
+
+
 
 <!--<TextBlock Text="{Binding DisplayName}" 0.75/>-->
 
