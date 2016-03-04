@@ -108,28 +108,10 @@ namespace POF.ViewModels
         }
 
 
-        private double _popUpHorOffset;
-
-        public double PopUpHorOffset
-        {
-            get { return _popUpHorOffset; }
-            set { _popUpHorOffset = value; OnPropertyChanged();}
-        }
-
-
-        private double _popUpVerOffset;
-
-        public double PopUpVerOffset
-        {
-            get { return _popUpVerOffset; }
-            set { _popUpVerOffset = value;OnPropertyChanged(); }
-        }
-
-
-        public ICommand OpenPopUpCommand { get; private set;}
-        public ICommand PickCustomSoundCommand { get; private set;}
-        public ICommand SelectedSoundCommand { get; private set;}
-        public ICommand PlaySoundCommand { get; private set;}
+        public ICommand OpenPopUpCommand { get; }
+        public ICommand PickCustomSoundCommand { get; }
+        public ICommand SelectedSoundCommand { get;}
+        public ICommand PlaySoundCommand { get;}
 
 
         private ObservableCollection<SoundData> _standardSoundGroup;
@@ -160,7 +142,7 @@ namespace POF.ViewModels
 
         public SoundSelectViewModel()
         {
-           SelectedSoundTitle = "SetUpStandard";
+           SelectedSoundTitle = "SetUpStandardSound";
            Player = new MediaElement();
            PlaySoundCommand = new RelayCommand<object>(playSound);
            OpenPopUpCommand = new RelayCommand(showPopUp);
@@ -244,7 +226,7 @@ namespace POF.ViewModels
         }
 
 
-        private void addSongs()
+        private  void addSongs()
         {
             foreach (var item in Repository.StandardSoundFiles)
             {

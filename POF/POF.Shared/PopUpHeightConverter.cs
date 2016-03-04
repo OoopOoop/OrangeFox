@@ -20,9 +20,6 @@ namespace POF.Shared
         }
 
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return null;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, string language) => null;
     }
 }

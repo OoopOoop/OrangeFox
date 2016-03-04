@@ -13,8 +13,7 @@ namespace POF.Models
         //load
         public async Task InitializeContextAsync()
         {
-            //await Task.Delay(2000);
-
+           
             string basePath = "ms-appx:/Sounds/";
 
             StandardSoundFiles = new List<SoundFile>
@@ -24,6 +23,8 @@ namespace POF.Models
                  new SoundFile {Title="Girl", FilePath=basePath+"That girl from Copenhagen.mp3", FileType=Shared.FileTypeEnum.Uri },
                  new SoundFile {Title="Universe", FilePath=basePath+"Universe.mp3", FileType=Shared.FileTypeEnum.Uri }
             };
+
+            await Task.FromResult<List<SoundFile>>(StandardSoundFiles);
         }
 
 
