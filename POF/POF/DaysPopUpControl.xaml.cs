@@ -23,7 +23,7 @@ namespace POF
         public DaysPopUpControl()
         {
             this.InitializeComponent();
-           
+
         }
 
 
@@ -51,6 +51,18 @@ namespace POF
 
         }
 
+        private void DaysOfWeekList_Loaded(object sender, RoutedEventArgs e)
+        {
+            var alreadySelected = from i in DaysOfWeekList.Items.Cast<Day>()
+                                  where i.IsSelected
+                                  select i;
 
+            //Update the view so it displays selected 
+           
+            foreach (Day day in alreadySelected)
+            {
+                DaysOfWeekList.SelectedItems.Add(day);
+            }
+        }
     }
 }
