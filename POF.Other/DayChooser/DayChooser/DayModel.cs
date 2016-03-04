@@ -24,7 +24,7 @@ namespace DayChooser
     {
         public DayModelSample()
         {
-            SelectedDaysFlags = (SelectableDay)4;
+            SelectedDaysFlags = (SelectableDay)3;
         }
     }
 
@@ -36,6 +36,7 @@ namespace DayChooser
 
         }
     }
+
 
 
 
@@ -68,7 +69,6 @@ namespace DayChooser
             DayModel.SelectableDay selectableDayFlags = 0;
             foreach (var selectable in this.Where(x => x.IsSelected))
             {
-                // adding to flags
                 selectableDayFlags |= selectable.EnumValue;
             }
 
@@ -95,7 +95,7 @@ namespace DayChooser
         #region Commands
 
         private DelegateCommand<string> buttonPressedCommand;
-      
+        private DelegateCommand<int> dayAcceptCommand;
         private DelegateCommand<string> dayClearCommand;
 
 
@@ -112,8 +112,17 @@ namespace DayChooser
             }
         }
 
-        public ICommand DayAcceptCommand { get; set;}
-     
+        public ICommand DayAcceptCommand
+        {
+            get
+            {
+                if (dayAcceptCommand == null)
+                {
+                    dayAcceptCommand = new DelegateCommand<int>(AcceptDay, CanAcceptDay);
+                }
+                return dayAcceptCommand;
+            }
+        }
 
         public ICommand DayClearCommand
         {
@@ -264,13 +273,6 @@ namespace DayChooser
             var frame = (Frame)Window.Current.Content;
             frame.Navigate(typeof(ListOfDays),this);
         }
-
-
-        public DayModel()
-        {
-            DayAcceptCommand = new DelegateCommand<int>(AcceptDay);
-        }
-
 
 
         private void AcceptDay(int newSelectedFlags)
