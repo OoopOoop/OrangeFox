@@ -19,7 +19,7 @@ namespace POF.Tests
         public  void StandardSoundsCount()
         {
             var target = new SoundSelectViewModel();
-            Microsoft.VisualStudio.TestPlatform.UnitTestFramework.Assert.AreEqual(target.StandardSoundGroup.Count, 4);
+            //Microsoft.VisualStudio.TestPlatform.UnitTestFramework.Assert.AreEqual(target.StandardSoundGroup.Count, 4);
 
         }
     }

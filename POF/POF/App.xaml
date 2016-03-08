@@ -18,14 +18,16 @@
             <Setter Property="TabNavigation" Value="Local" />
             <Setter Property="IsHoldingEnabled" Value="True" />
             <Setter Property="Padding" Value="4" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
             <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
+           
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
-                        <ListViewItemPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        <ListViewItemPresenter 
+                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
                                                CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
@@ -357,6 +359,7 @@
                         CommandParameter="{Binding}"
                         Style="{StaticResource PlaySoundButtonStyle}" />
                 <TextBlock Grid.Column="1"
+                           Margin="20,0,0,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Style="{StaticResource BodyTextBlockStyle}"

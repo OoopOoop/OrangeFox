@@ -51,13 +51,16 @@
                         <ListView x:Name="CustomPlayList"
                                   ItemContainerStyle="{StaticResource SoundsListViewItemStyle}"
                                   ItemTemplate="{StaticResource SoundListViewDataTemplate}"
-                                  ItemsSource="{Binding CustomSoundGroup}"
+                                  ItemsSource="{Binding AlarmCustomSoundSelection}"
                                   Style="{StaticResource SoundListViewStyle}">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="SelectionChanged">
                                     <core:InvokeCommandAction Command="{Binding SelectedSoundCommand}"
                                                               InputConverter="{StaticResource SelectionChangedConverter}"
                                                               InputConverterParameter="{Binding ElementName=CustomPlayList}" />
+                                </core:EventTriggerBehavior>
+                                <core:EventTriggerBehavior EventName="Unloaded">
+                                    <core:InvokeCommandAction Command="{Binding ListViewUnloadedCommand}" />
                                 </core:EventTriggerBehavior>
                             </interactivity:Interaction.Behaviors>
                             <ListView.Header>
@@ -76,7 +79,7 @@
                         <ListView x:Name="StandardPlayList"
                                   ItemContainerStyle="{StaticResource SoundsListViewItemStyle}"
                                   ItemTemplate="{StaticResource SoundListViewDataTemplate}"
-                                  ItemsSource="{Binding StandardSoundGroup}"
+                                  ItemsSource="{Binding AlarmSoundSelection}"
                                   Style="{StaticResource SoundListViewStyle}">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="SelectionChanged">
