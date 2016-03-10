@@ -86,11 +86,11 @@ namespace SoundChooserToUniversal
     {
         public CustomMusicGroup() : base()
         {
-            string basePath = "ms-appx:/sounds/";
-            Add(new SoundData { Title = "Nevada", FilePath = basePath + "Nevada.mp3", fileType = SoundData.FileTypeEnum.Uri });
-            Add(new SoundData { Title = "Ring", FilePath = basePath + "Ring01.wma", fileType = SoundData.FileTypeEnum.Uri });
-            Add(new SoundData { Title = "Girl", FilePath = basePath + "That girl from Copenhagen.mp3", fileType = SoundData.FileTypeEnum.Uri });
-            Add(new SoundData { Title = "Universe", FilePath = basePath + "Universe.mp3", fileType = SoundData.FileTypeEnum.Uri });
+            //    string basePath = "ms-appx:/sounds/";
+            //    Add(new SoundData { Title = "Nevada", FilePath = basePath + "Nevada.mp3", fileType = SoundData.FileTypeEnum.Uri });
+            //    Add(new SoundData { Title = "Ring", FilePath = basePath + "Ring01.wma", fileType = SoundData.FileTypeEnum.Uri });
+            //    Add(new SoundData { Title = "Girl", FilePath = basePath + "That girl from Copenhagen.mp3", fileType = SoundData.FileTypeEnum.Uri });
+            //    Add(new SoundData { Title = "Universe", FilePath = basePath + "Universe.mp3", fileType = SoundData.FileTypeEnum.Uri });
         }
 
     }

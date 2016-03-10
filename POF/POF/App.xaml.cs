@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -26,11 +30,28 @@ namespace POF
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
+        /// 
+
+
         public App()
         {
+            CreateDummyFile().Wait();
+
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
+
+
+        //creates file in SavedPictures directory
+        public async Task CreateDummyFile ()
+        {
+            StorageFolder folder = KnownFolders.MusicLibrary;
+            StorageFile files = await folder.CreateFileAsync("TestFile.wav", Windows.Storage.CreationCollisionOption.ReplaceExisting);
+
+           
+        }
+
+
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

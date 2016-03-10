@@ -1,18 +1,15 @@
-﻿
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using POF.Models;
 using POF.Shared;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace POF.ViewModels
@@ -20,6 +17,7 @@ namespace POF.ViewModels
     public class SoundData
     {
         #region Properties
+
         private string _filePath;
 
         public string FilePath
@@ -34,14 +32,6 @@ namespace POF.ViewModels
         {
             get { return _title; }
             set { _title = value; }
-        }
-
-        private bool _exists;
-
-        public bool Exists
-        {
-            get { return _exists; }
-            set { _exists = value; }
         }
 
         private string _token;
@@ -67,112 +57,86 @@ namespace POF.ViewModels
             get { return _fileType; }
             set { _fileType = value; }
         }
-        #endregion
+
+        #endregion Properties
     }
 
-
-
-
-
-
-    public class AlarmSoundSelection:ObservableCollection<SoundData>
+    public class AlarmStandardSoundSelection : ObservableCollection<SoundData>
     {
-        public SoundData SelectedSound { get; set; }
-         
-        public AlarmSoundSelection(List<SoundFile> modelSoundCollection, string selectedSoundPath):this()
-        {
-           // this.addSounds(modelSoundCollection);
-            SelectedSoundByName(selectedSoundPath);
-        }
-    
+        public string SelectedSoundTitle { get; set; }
 
-        public AlarmSoundSelection(List<SoundFile> modelSoundCollection):base()
+        public AlarmStandardSoundSelection(List<SoundFile> modelSoundCollection, string selectedSoundPath) : this()
+        {
+            this.addSounds(modelSoundCollection);
+            SelectedSoundByPath(selectedSoundPath);
+        }
+
+        public AlarmStandardSoundSelection(List<SoundFile> modelSoundCollection) : base()
         {
             this.addSounds(modelSoundCollection);
         }
 
-
-        public AlarmSoundSelection():base()
+        public AlarmStandardSoundSelection() : base()
         {
-
         }
-
 
         private void addSounds(List<SoundFile> collection)
         {
             foreach (SoundFile item in collection)
             {
-                this.Add(new SoundData() { FilePath = item.FilePath, Title = item.Title, Exists = item.Exists, FileType = item.FileType, SongID = item.SongID, Token = item.Token });
+                this.Add(new SoundData() { FilePath = item.FilePath, Title = item.Title, FileType = item.FileType, SongID = item.SongID, Token = item.Token, });
             }
         }
 
-        public SoundData SelectedSoundByName(string path)
+        public string SelectedSoundByPath(string path)
         {
             var selectable = from i in this.Items.Cast<SoundData>()
-                             where  i.FilePath==path
+                             where i.FilePath == path
                              select i;
 
-            foreach (SoundData item in selectable)
+            foreach (var item in selectable)
             {
-                SelectedSound = item;
+                SelectedSoundTitle = item.Title;
             }
 
-            return SelectedSound;
+            return SelectedSoundTitle;
         }
     }
 
-
-
-
-
-
-    public class AlarmCustomSoundSelection :ObservableCollection<SoundData>
+    public class AlarmCustomSoundSelection : ObservableCollection<SoundData>
     {
-        public SoundData SelectedSound { get; set; }
+        public string SelectedSoundTitle { get; set; }
 
-        public  AlarmCustomSoundSelection(string  filePath):this()
+        public AlarmCustomSoundSelection(string filePath) : this()
         {
-           FindFile(filePath);
-        }
-
-
-        public  AlarmCustomSoundSelection():base()
-        {
-
-        }
-
-        //TODO: need to wait for this method to return result, or it contunies to main viewmodel and throws exeption
-        public async Task FindFile(string filePath)
-        {
-            Windows.Storage.StorageFolder Location = Windows.ApplicationModel.Package.Current.InstalledLocation;
-            var files = await Location.GetFilesAsync(Windows.Storage.Search.CommonFileQuery.OrderByName);
-            var foundFile = files.FirstOrDefault(x => x.Path == filePath);
-            if (foundFile != null)
+            try
             {
-                SelectedSound= new SoundData() { Title = foundFile.DisplayName, FilePath = foundFile.Path, Exists = true, FileType = FileTypeEnum.Custom, Token = "custom" };
-                this.Add(SelectedSound);
+                //Task.Run(() => FindSoundFile(filePath)).Wait();
+                StorageFile file = StorageFile.GetFileFromPathAsync(filePath).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+                this.Add(new SoundData() { Title = file.DisplayName, FilePath = file.Path, FileType = FileTypeEnum.Custom, Token = "custom" });
+                SelectedSoundTitle = file.DisplayName;
             }
-            else
+            catch (Exception)
             {
-                this.Items.Clear();
+                return;
             }
         }
 
-        //public async Task <bool> isFilePresent(string filePath)
-        //{
-        //    var item = await ApplicationData.Current.LocalFolder.TryGetItemAsync(filePath);
-        //    return item != null;
-        //}
+        public AlarmCustomSoundSelection() : base()
+        {
+        }
     }
 
-
-
-
+    public class SelectedSound
+    {
+        public string Path { get; set; }
+        public FileTypeEnum FileType { get; set; }
+    }
 
     public class SoundSelectViewModel : ViewModelBase
     {
         public List<object> test { get; set; }
-            
+
         private string _selectedSoundTitle;
 
         public string SelectedSoundTitle
@@ -180,7 +144,6 @@ namespace POF.ViewModels
             get { return _selectedSoundTitle; }
             set { _selectedSoundTitle = value; OnPropertyChanged(); }
         }
-
 
         private bool isPopUpOpen;
 
@@ -190,7 +153,6 @@ namespace POF.ViewModels
             set { isPopUpOpen = value; OnPropertyChanged(); }
         }
 
-
         private double _popUpHeight;
 
         public double PopUpHeight
@@ -198,7 +160,6 @@ namespace POF.ViewModels
             get { return _popUpHeight; }
             set { _popUpHeight = value; OnPropertyChanged(); }
         }
-
 
         private double _popUpWidth;
 
@@ -208,104 +169,98 @@ namespace POF.ViewModels
             set { _popUpWidth = value; OnPropertyChanged(); }
         }
 
-
         public ICommand OpenPopUpCommand { get; }
         public ICommand PickCustomSoundCommand { get; }
-        public ICommand SelectedSoundCommand { get;}
-        public ICommand PlaySoundCommand { get;}
-        public ICommand ListViewUnloadedCommand { get; }
-
-        //private ObservableCollection<SoundData> _standardSoundGroup;
-        //public ObservableCollection<SoundData> StandardSoundGroup
-        //{
-        //    get { return _standardSoundGroup; }
-        //    set { _standardSoundGroup = value; OnPropertyChanged(); }
-        //}
-
-
-        //private ObservableCollection <SoundData> _customSoundGroup;
-
-        //public ObservableCollection <SoundData> CustomSoundGroup
-        //{
-        //    get { return _customSoundGroup; }
-        //    set { _customSoundGroup = value; }
-        //}
-
+        public ICommand SelectedSoundCommand { get; }
+        public ICommand PlaySoundCommand { get; }
+        public ICommand PopUpUnloadedCommand { get; }
 
         private MediaElement _player;
+
         public MediaElement Player
         {
             get { return _player; }
-            set { _player = value; OnPropertyChanged();}
+            set { _player = value; OnPropertyChanged(); }
         }
 
+        private AlarmStandardSoundSelection alarmStandardSoundSelection;
 
-
-        private AlarmSoundSelection alarmSoundSelection;
-        public AlarmSoundSelection AlarmSoundSelection
+        public AlarmStandardSoundSelection AlarmStandardSoundSelection
         {
-            get { return alarmSoundSelection; }
-            set { alarmSoundSelection = value;OnPropertyChanged();}
+            get { return alarmStandardSoundSelection; }
+            set { alarmStandardSoundSelection = value; OnPropertyChanged(); }
         }
 
+        private AlarmCustomSoundSelection alarmCustomSoundSelection;
 
-
-        private AlarmCustomSoundSelection  alarmCustomSelection;
         public AlarmCustomSoundSelection AlarmCustomSoundSelection
         {
-            get { return alarmCustomSelection; }
-            set { alarmCustomSelection = value;OnPropertyChanged(); }
+            get { return alarmCustomSoundSelection; }
+            set { alarmCustomSoundSelection = value; OnPropertyChanged(); }
         }
 
+        public SelectedSound SelectedSound { get; set; }
 
-
-        public SoundData SelectedSound { get; set;}
-
-
+        private const string preSetSoundPath = "ms-appx:/Assets/Ringtones/Good Times.wma";
 
         public SoundSelectViewModel()
         {
-           string savedSelectedSoundPath1 ="C:\\Data\\Users\\Public\\Downloads\\0923.wav";
-           string savedSelectedSoundPath = "ms-appx:/Assets/Ringtones/Horizon.wma";
+            // SelectedSound = new SelectedSound() {Path="ms - appx:/Assets/Ringtones/Horizon.wma", FileType=FileTypeEnum.Uri};
+            SelectedSound = new SelectedSound() { Path = "C:\\Data\\Users\\Public\\ Music\\TestFile .wav", FileType = FileTypeEnum.Custom };
 
-
-
-            AlarmSoundSelection = new AlarmSoundSelection(base.Repository.StandardSoundFiles);
-
-            // AlarmSoundSelection = new AlarmSoundSelection(base.Repository.StandardSoundFiles, savedSelectedSoundPath);
-            // SelectedSoundTitle = AlarmSoundSelection.SelectedSound.Title;
-
-
-            AlarmCustomSoundSelection = new AlarmCustomSoundSelection(savedSelectedSoundPath1);
-           SelectedSoundTitle = AlarmCustomSoundSelection.SelectedSound.Title;
-
-
-
-           Player = new MediaElement();
-           PlaySoundCommand = new RelayCommand<object>(playSound);
-           OpenPopUpCommand = new RelayCommand(()=> IsPopUpOpen=true);
-           PickCustomSoundCommand = new RelayCommand(selectCustomSound);
-           SelectedSoundCommand = new RelayCommand<object>(saveSelectedSound);
-           ListViewUnloadedCommand = new RelayCommand(()=>Player.Stop());
-           //CustomSoundGroup = new ObservableCollection<SoundData>();
+            SelectedSound.Path = Regex.Replace(SelectedSound.Path, @"\s+", "");
+            loadSounds();
+            Player = new MediaElement();
+            PlaySoundCommand = new RelayCommand<object>(playSound);
+            OpenPopUpCommand = new RelayCommand(() => IsPopUpOpen = true);
+            PickCustomSoundCommand = new RelayCommand(selectCustomSound);
+            SelectedSoundCommand = new RelayCommand<object>(saveNewSelectedSound);
+            PopUpUnloadedCommand = new RelayCommand(() => Player.Stop());
         }
 
-
-        
-        private void saveSelectedSound(object obj)
+        protected override void OnDataLoaded()
         {
-            string selectedSound = (obj as SoundData).Title;
-            SelectedSoundTitle = selectedSound;
+        }
+
+        private void loadSounds()
+        {
+            if (SelectedSound.FileType == FileTypeEnum.Custom)
+            {
+                AlarmCustomSoundSelection = new AlarmCustomSoundSelection(SelectedSound.Path);
+                if (AlarmCustomSoundSelection.Count != 0)
+                {
+                    AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
+                    SelectedSoundTitle = AlarmCustomSoundSelection.SelectedSoundTitle;
+                }
+                else
+                {
+                    AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles, preSetSoundPath);
+                    SelectedSoundTitle = AlarmStandardSoundSelection.SelectedSoundTitle;
+                }
+            }
+            else
+            {
+                AlarmCustomSoundSelection = new AlarmCustomSoundSelection();
+                AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles, SelectedSound.Path);
+                SelectedSoundTitle = AlarmStandardSoundSelection.SelectedSoundTitle;
+            }
+        }
+
+        private void saveNewSelectedSound(object obj)
+        {
+            var sound = obj as SoundData;
+            SelectedSound.Path = sound.FilePath;
+            SelectedSound.FileType = sound.FileType;
+
+            SelectedSoundTitle = sound.Title;
             IsPopUpOpen = false;
         }
-
-
 
         private void playSound(object obj)
         {
             var sound = obj as SoundData;
 
-            if(sound ==null)
+            if (sound == null)
             {
                 Player.Stop();
                 return;
@@ -316,26 +271,20 @@ namespace POF.ViewModels
             {
                 Player.Stop();
             }
-
             else if (sound.FileType == FileTypeEnum.Uri)
             {
                 playStandardsound(sound.FilePath);
             }
-
             else if (sound.FileType == FileTypeEnum.Custom)
             {
                 playCustomSound();
             }
-
         }
-
 
         private void playStandardsound(string path)
         {
             Player.Source = new Uri(path, UriKind.RelativeOrAbsolute);
         }
-
-
 
         private async void playCustomSound()
         {
@@ -350,40 +299,10 @@ namespace POF.ViewModels
             }
         }
 
-
-        protected override void OnDataLoaded()
-        { 
-           
-           // StandardSoundGroup = new ObservableCollection<SoundData>();
-           // addSongs();
-        }
-
-   
-
-        //private  void addSongs()
-        //{
-        //    foreach (var item in  Repository.StandardSoundFiles)
-        //    {
-        //        StandardSoundGroup.Add(new SoundData() { FilePath = item.FilePath, Title=item.Title, Exists=item.Exists, FileType=item.FileType, SongID=item.SongID, Token=item.Token
-        //        });
-        //    }
-
-
-
-        //    //TODO: Remove from the collection, onLoaded check if custom song was set up as sound, put it;s name itno CustomSoundGroupCollection
-        //    if(CustomSoundGroup.Count==0)
-        //    {
-        //        CustomSoundGroup.Add(StandardSoundGroup[0]);
-        //        CustomSoundGroup.Add(StandardSoundGroup[1]);
-        //    }
-        //}
-
-
         private void addCustomSong(StorageFile file)
         {
-            AlarmCustomSoundSelection.Add(new SoundData { Title = file.DisplayName, FilePath = file.Path, Exists = true, FileType = FileTypeEnum.Custom, Token = "custom"});
+            AlarmCustomSoundSelection.Add(new SoundData { Title = file.DisplayName, FilePath = file.Path, FileType = FileTypeEnum.Custom, Token = "custom" });
         }
-
 
         async private void selectCustomSound()
         {
@@ -411,9 +330,6 @@ namespace POF.ViewModels
             }
         }
 
-
-
-     
         //Moove to a NewAlarm viewModel, where it looks what sound, time and day was chosen and saves it.
         //protected override void Save()
         //{

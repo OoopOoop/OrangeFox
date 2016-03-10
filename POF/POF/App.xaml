@@ -22,12 +22,11 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
             <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
-           
+
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
-                        <ListViewItemPresenter 
-                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        <ListViewItemPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
                                                CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
