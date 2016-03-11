@@ -50,7 +50,6 @@ namespace POF
                 this.SelectionPopUp.VerticalOffset = NewVerticalOffset;
             }
         }
-
-      
+        
     }
 }

@@ -34,14 +34,6 @@ namespace POF.ViewModels
             set { _title = value; }
         }
 
-        private string _token;
-
-        public string Token
-        {
-            get { return _token; }
-            set { _token = value; }
-        }
-
         private int _songID;
 
         public int SongID
@@ -84,7 +76,7 @@ namespace POF.ViewModels
         {
             foreach (SoundFile item in collection)
             {
-                this.Add(new SoundData() { FilePath = item.FilePath, Title = item.Title, FileType = item.FileType, SongID = item.SongID, Token = item.Token, });
+                this.Add(new SoundData() { FilePath = item.FilePath, Title = item.Title, FileType = item.FileType });
             }
         }
 
@@ -103,6 +95,9 @@ namespace POF.ViewModels
         }
     }
 
+    /// <summary>
+    /// takes given sound path and checks if it was not removed from the directory
+    /// </summary>
     public class AlarmCustomSoundSelection : ObservableCollection<SoundData>
     {
         public string SelectedSoundTitle { get; set; }
@@ -113,7 +108,7 @@ namespace POF.ViewModels
             {
                 //Task.Run(() => FindSoundFile(filePath)).Wait();
                 StorageFile file = StorageFile.GetFileFromPathAsync(filePath).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
-                this.Add(new SoundData() { Title = file.DisplayName, FilePath = file.Path, FileType = FileTypeEnum.Custom, Token = "custom" });
+                this.Add(new SoundData() { Title = file.DisplayName, FilePath = file.Path, FileType = FileTypeEnum.Custom });
                 SelectedSoundTitle = file.DisplayName;
             }
             catch (Exception)
@@ -127,6 +122,9 @@ namespace POF.ViewModels
         }
     }
 
+    /// <summary>
+    /// SelectedSound will be saved and serialized, if user have not chosen sound, it will be saved with preSetSoundPath.
+    /// </summary>
     public class SelectedSound
     {
         public string Path { get; set; }
@@ -135,7 +133,9 @@ namespace POF.ViewModels
 
     public class SoundSelectViewModel : ViewModelBase
     {
-        public List<object> test { get; set; }
+        private const string preSetSoundPath = "ms-appx:/Assets/Ringtones/Good Times.wma";
+        private string titlePlayingNow = "";
+        public SelectedSound SelectedSound { get; set; }
 
         private string _selectedSoundTitle;
 
@@ -169,12 +169,6 @@ namespace POF.ViewModels
             set { _popUpWidth = value; OnPropertyChanged(); }
         }
 
-        public ICommand OpenPopUpCommand { get; }
-        public ICommand PickCustomSoundCommand { get; }
-        public ICommand SelectedSoundCommand { get; }
-        public ICommand PlaySoundCommand { get; }
-        public ICommand PopUpUnloadedCommand { get; }
-
         private MediaElement _player;
 
         public MediaElement Player
@@ -199,14 +193,19 @@ namespace POF.ViewModels
             set { alarmCustomSoundSelection = value; OnPropertyChanged(); }
         }
 
-        public SelectedSound SelectedSound { get; set; }
+        public ICommand OpenPopUpCommand { get; }
+        public ICommand PickCustomSoundCommand { get; }
+        public ICommand SelectedSoundCommand { get; }
+        public ICommand PlaySoundCommand { get; }
+        public ICommand PopUpUnloadedCommand { get; }
 
-        private const string preSetSoundPath = "ms-appx:/Assets/Ringtones/Good Times.wma";
-
+        /// <summary>
+        /// loading with fake data with path for the sound that user chose. 0916.wav from bigsoundbank.com (barking dog)
+        /// </summary>
         public SoundSelectViewModel()
         {
-            // SelectedSound = new SelectedSound() {Path="ms - appx:/Assets/Ringtones/Horizon.wma", FileType=FileTypeEnum.Uri};
-            SelectedSound = new SelectedSound() { Path = "C:\\Data\\Users\\Public\\ Music\\TestFile .wav", FileType = FileTypeEnum.Custom };
+            SelectedSound = new SelectedSound() { Path = "ms - appx:/Assets/Ringtones/Horizon.wma", FileType = FileTypeEnum.Uri };
+            // SelectedSound = new SelectedSound() { Path = "C:\\Data\\Users\\ Public\\ Downloads\\0916.wav", FileType = FileTypeEnum.Custom };
 
             SelectedSound.Path = Regex.Replace(SelectedSound.Path, @"\s+", "");
             loadSounds();
@@ -256,6 +255,10 @@ namespace POF.ViewModels
             IsPopUpOpen = false;
         }
 
+        /// <summary>
+        /// check if same sound is playing when clicked Play button, if so - stop player.
+        /// </summary>
+        /// <param name="obj"></param>
         private void playSound(object obj)
         {
             var sound = obj as SoundData;
@@ -266,18 +269,19 @@ namespace POF.ViewModels
                 return;
             }
 
-            // check if player playing same song when play clicked
-            if (Player.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Playing && Player.Source.AbsoluteUri == sound.FilePath)
+            if (Player.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Playing && sound.Title == titlePlayingNow)
             {
                 Player.Stop();
             }
             else if (sound.FileType == FileTypeEnum.Uri)
             {
                 playStandardsound(sound.FilePath);
+                titlePlayingNow = sound.Title;
             }
             else if (sound.FileType == FileTypeEnum.Custom)
             {
-                playCustomSound();
+                playCustomSound(sound.Title);
+                titlePlayingNow = sound.Title;
             }
         }
 
@@ -286,11 +290,11 @@ namespace POF.ViewModels
             Player.Source = new Uri(path, UriKind.RelativeOrAbsolute);
         }
 
-        private async void playCustomSound()
+        private async void playCustomSound(string title)
         {
             foreach (AccessListEntry item in StorageApplicationPermissions.FutureAccessList.Entries)
             {
-                if (item.Metadata == "customSoundMeta")
+                if (item.Metadata == title)
                 {
                     StorageFile actualFile = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(item.Token);
                     var stream = await actualFile.OpenAsync(FileAccessMode.Read);
@@ -299,9 +303,20 @@ namespace POF.ViewModels
             }
         }
 
+        /// <summary>
+        /// same song can't be added twice
+        /// </summary>
+        /// <param name="file"></param>
         private void addCustomSong(StorageFile file)
         {
-            AlarmCustomSoundSelection.Add(new SoundData { Title = file.DisplayName, FilePath = file.Path, FileType = FileTypeEnum.Custom, Token = "custom" });
+            if (AlarmCustomSoundSelection.Any(x => x.FilePath == file.Path))
+            {
+                return;
+            }
+            else
+            {
+                AlarmCustomSoundSelection.Add(new SoundData { Title = file.DisplayName, FilePath = file.Path, FileType = FileTypeEnum.Custom });
+            }
         }
 
         async private void selectCustomSound()
@@ -315,8 +330,6 @@ namespace POF.ViewModels
             filePicker.FileTypeFilter.Add(".mp3");
             filePicker.FileTypeFilter.Add(".wav");
             filePicker.FileTypeFilter.Add(".wma");
-            filePicker.FileTypeFilter.Add(".qcp");
-            filePicker.FileTypeFilter.Add(".aac");
 
             StorageFile storageFile = await filePicker.PickSingleFileAsync();
 
@@ -326,14 +339,8 @@ namespace POF.ViewModels
 
                 addCustomSong(storageFile);
 
-                StorageApplicationPermissions.FutureAccessList.Add(storageFile, "customSoundMeta");
+                StorageApplicationPermissions.FutureAccessList.Add(storageFile, storageFile.DisplayName);
             }
         }
-
-        //Moove to a NewAlarm viewModel, where it looks what sound, time and day was chosen and saves it.
-        //protected override void Save()
-        //{
-        //    base.Repository.SaveAlarm();
-        //}
     }
 }

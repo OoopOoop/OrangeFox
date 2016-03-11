@@ -11,10 +11,10 @@ namespace POF.Models
     {
         public string FilePath { get; set; }
         public string Title { get; set; }
-        public string Token { get; set; }
-        public int SongID { get; set; }
         public FileTypeEnum FileType { get; set;}
 
-        public Windows.Storage.Streams.IRandomAccessStream Stream { get; set; }
+
+        //   public int SongID { get; set; }
+        //   public Windows.Storage.Streams.IRandomAccessStream Stream { get; set; }
     }
 }
