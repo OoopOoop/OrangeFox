@@ -34,7 +34,6 @@
                        Text="EDIT ALARM" />
         </StackPanel>
 
-
         <!--  bind to text  -->
         <StackPanel Grid.Row="1" VerticalAlignment="Center">
             <TextBox x:Name="AlarmNameTxt"
