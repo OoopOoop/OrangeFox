@@ -28,7 +28,12 @@ namespace POF
 
         private void ButtonPopToast_Click(object sender, RoutedEventArgs e)
         {
-            ToastHelper.PopCustomToast(TextBoxPayload.Text);
+           // ToastHelper.PopCustomToast(TextBoxPayload.Text);
+
+            ToastHelper.PopCustomToast(Payload);
+
+
+           // ToastHelper.PopToasts("alar","content");
         }
 
 

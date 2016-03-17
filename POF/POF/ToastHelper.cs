@@ -39,6 +39,45 @@ namespace POF
             return PopCustomToast(doc, tag, group);
         }
 
+
+   
+
+
+        public static ToastNotification PopCustomAlarmToast(string alarmName, string alarmTime, string musicPath, int snoozeTime)
+        {
+            string xml = $@"<toast activationType='foreground'>
+                                            <visual>
+                                                <binding template='ToastGeneric'>
+                                                <image placement='AppLogoOverride' src='Assets/Alarm_Icon.png'/> 
+                                                <text>Alarm</text>
+                                                <text>{alarmName}</text> 
+                                                <text>{alarmTime}</text>
+                                                </binding>
+                                            </visual>
+                    <actions>
+                       <input id='snoozeTime' type='selection' defaultInput='{snoozeTime}'>
+                            <selection id='5' content = '5 minutes'/>
+                            <selection id='10' content = '10 minutes'/>
+                            <selection id='20' content = '20 minutes'/>
+                            <selection id='30' content = '30 minutes'/>
+                            <selection id='60' content = '1 hour'/>
+                        </input>
+
+                    <action activationType='system' arguments='snooze' hint-inputId='snoozeTime' content='snooze' />
+                    <action activationType='system' arguments='dismiss' content='dismiss' />
+
+                    </actions>
+                <audio src='ms-winsoundevent:Notification.Looping.Call3' loop='true'/>
+                                        </toast>";
+
+
+            return null;
+        }
+
+
+
+
+
         public static ToastNotification PopCustomToast(string xml)
         {
             return PopCustomToast(xml, null, null);

@@ -16,6 +16,5 @@
                 HorizontalAlignment="Center"
                 Click="Button_Click"
                 Content="New Alarm" />
-
     </Grid>
 </Page>

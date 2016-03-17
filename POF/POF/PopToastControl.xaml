@@ -20,13 +20,5 @@
                 HorizontalAlignment="Stretch"
                 Click="ButtonPopToast_Click"
                 Content="Pop Toast" />
-
-        <TextBox x:Name="TextBoxPayload"
-                 Grid.Row="1"
-                 MinHeight="200"
-                 AcceptsReturn="True"
-                 Text="{Binding Payload,
-                                ElementName=popToastControl}"
-                 TextWrapping="Wrap" />
     </Grid>
 </UserControl>
