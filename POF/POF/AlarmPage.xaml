@@ -7,7 +7,7 @@
       xmlns:local="using:POF"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:shared="using:POF.Shared"
-      x:Name="mainPage"
+      x:Name="alarmPage"
       DataContext="{Binding AlarmPageViewModel,
                             Source={StaticResource Locator}}"
       IsTabStop="True"
@@ -20,6 +20,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
@@ -81,6 +82,11 @@
             <ComboBoxItem>1 hour</ComboBoxItem>
         </ComboBox>
 
+
+        <Button x:Name="goBackButton"
+                Grid.Row="6"
+                Click="goBackButton_Click"
+                Content="Go to MainPage" />
 
     </Grid>
 

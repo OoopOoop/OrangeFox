@@ -127,15 +127,26 @@ namespace POF.ViewModels
     /// </summary>
     public class SelectedSound
     {
+        public string Name { get; set;}
         public string Path { get; set; }
         public FileTypeEnum FileType { get; set; }
     }
 
     public class SoundSelectViewModel : ViewModelBase
     {
-        private const string preSetSoundPath = "ms-appx:/Assets/Ringtones/Good Times.wma";
+        //private const string preSetSoundPath = "ms-appx:/Assets/Ringtones/Good Times.wma";
+        // if user have not selected sound, standard sound is "ms-winsoundevent:Notification.Looping.Alarm2", SelectedSound.Name = "ms-winsoundevent:Notification.Looping.Alarm2"?
+
         private string titlePlayingNow = "";
+
         public SelectedSound SelectedSound { get; set; }
+
+
+
+      
+        public StorageFile StoreToLocalSound { get; set;}
+
+
 
         private string _selectedSoundTitle;
 
@@ -204,10 +215,11 @@ namespace POF.ViewModels
         /// </summary>
         public SoundSelectViewModel()
         {
-            SelectedSound = new SelectedSound() { Path = "ms - appx:/Assets/Ringtones/Horizon.wma", FileType = FileTypeEnum.Uri };
-            // SelectedSound = new SelectedSound() { Path = "C:\\Data\\Users\\ Public\\ Downloads\\0916.wav", FileType = FileTypeEnum.Custom };
+          //  SelectedSound = new SelectedSound() { Path = "ms - appx:/Assets/Ringtones/Horizon.wma", FileType = FileTypeEnum.Uri };
+          //  SelectedSound = new SelectedSound() { Path = "C:\\Data\\Users\\ Public\\ Downloads\\0897.wav", FileType = FileTypeEnum.Custom };
+          //  SelectedSound.Path = Regex.Replace(SelectedSound.Name, @"\s+", "");
 
-            SelectedSound.Path = Regex.Replace(SelectedSound.Path, @"\s+", "");
+
             loadSounds();
             Player = new MediaElement();
             PlaySoundCommand = new RelayCommand<object>(playSound);
@@ -245,11 +257,31 @@ namespace POF.ViewModels
             }
         }
 
-        private void saveNewSelectedSound(object obj)
+        /// <summary>
+        /// if chosen sound is of type Uri(Assets), replace it's path and save in LocalFolder, if sound is suctom just contunie with it saving to LocalFolder
+        /// save file to LocalFolder only when alarm entry was saved
+        /// </summary>
+        /// <param name="obj"></param>
+        private async void saveNewSelectedSound(object obj)
         {
             var sound = obj as SoundData;
-            SelectedSound.Path = sound.FilePath;
+            // SelectedSound.Path = sound.FilePath;
             SelectedSound.FileType = sound.FileType;
+
+
+            //TODO: Save to LocalFolder if alarm is saved
+            if(sound.FileType==FileTypeEnum.Uri)
+            {
+                string path=sound.FilePath.Replace("ms-appx:/", "ms-appx:///");
+                StoreToLocalSound = await StorageFile.GetFileFromApplicationUriAsync(new Uri(path));   
+            }
+
+            SelectedSound.Name = StoreToLocalSound.Name;
+            await  StoreToLocalSound.CopyAsync(ApplicationData.Current.LocalFolder, SelectedSound.Name, NameCollisionOption.ReplaceExisting);
+
+           
+
+
 
             SelectedSoundTitle = sound.Title;
             IsPopUpOpen = false;
@@ -319,6 +351,9 @@ namespace POF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Pick up custom sound from HomeGroup folders, add to popUp collection and futureAccess list
+        /// </summary>
         async private void selectCustomSound()
         {
             var filePicker = new FileOpenPicker();
@@ -335,7 +370,9 @@ namespace POF.ViewModels
 
             if (storageFile != null)
             {
-                var stream = await storageFile.OpenAsync(FileAccessMode.Read);
+                //var stream = await storageFile.OpenAsync(FileAccessMode.Read);
+             
+                StoreToLocalSound = storageFile;
 
                 addCustomSong(storageFile);
 

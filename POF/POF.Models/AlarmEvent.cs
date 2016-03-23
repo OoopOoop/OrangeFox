@@ -9,7 +9,13 @@ namespace POF.Models
   public class AlarmEvent
     {
         public string AlarmName { get; set;}
+
+        //replace with sound name ("sound.wav") that stored in local folder?
         public Uri SoundPath { get; set; }
+
         public DateTime TimeSet { get; set;}
+        public bool IsOn { get; set;}
+        public string SnoozeTime { get; set;}
+        public string Days { get; set;}
     }
 }

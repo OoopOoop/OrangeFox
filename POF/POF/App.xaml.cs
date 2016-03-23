@@ -35,7 +35,7 @@ namespace POF
 
         public App()
         {
-            //CreateDummyFile().Wait();
+            CreateDummyFile().Wait();
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
@@ -46,12 +46,11 @@ namespace POF
         /// Delete later. Creates a dummy file on startup in music library directory.
         /// </summary>
         /// <returns></returns>
-        //public async Task CreateDummyFile ()
-        //{
-        //    StorageFolder folder = KnownFolders.MusicLibrary;
-        //    StorageFile files = await folder.CreateFileAsync("TestFile.wav", Windows.Storage.CreationCollisionOption.ReplaceExisting);
-            
-        //}
+        public async Task CreateDummyFile()
+        {
+            StorageFolder folder = KnownFolders.MusicLibrary;
+            StorageFile files = await folder.CreateFileAsync("TestFile.wav", Windows.Storage.CreationCollisionOption.ReplaceExisting);
+        }
 
 
         /// <summary>

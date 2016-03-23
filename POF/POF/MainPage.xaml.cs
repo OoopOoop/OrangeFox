@@ -33,47 +33,5 @@ namespace POF
         {
             Frame.Navigate(typeof(AlarmPage));
         }
-
-
-        private void Initialize()
-        {
-            // Clear all existing notifications
-            ToastNotificationManager.History.Clear();
-
-            string time = "60";
-            string alarmName = "Good Morning";
-            string path = "ms-appx:///Assets/Ringtones/Good Times.wma";
-
-          
-            popToastControl.Payload =
-            $@"
-                <toast activationType='foreground' launch='args' scenario='reminder'>
-                    <visual>
-                        <binding template='ToastGeneric'>
-                            <image placement='AppLogoOverride' src='Assets/Alarm_Icon.png'/> 
-                            <text>Alarm</text>
-                            <text>{alarmName}</text> 
-                            <text>9:28 PM</text>
-                        </binding>
-                    </visual>
-                    <audio src='{path}'/>
-                    <actions>
-                       <input id='snoozeTime' type='selection' defaultInput='{time}'>
-                            <selection id='5' content = '5 minutes'/>
-                            <selection id='10' content = '10 minutes'/>
-                            <selection id='20' content = '20 minutes'/>
-                            <selection id='30' content = '30 minutes'/>
-                            <selection id='60' content = '1 hour'/>
-                        </input>
-                    <action activationType='system' arguments='snooze' hint-inputId='snoozeTime' content='' />
-                    <action activationType='system' arguments='dismiss' content='dismiss' />
-                    </actions>
-                       </toast>";
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            Initialize();
-        }
     }
 }
