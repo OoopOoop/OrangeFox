@@ -72,6 +72,8 @@ namespace POF.ViewModels
             doc.LoadXml(xml);
             var toast = new ToastNotification(doc);
             ToastNotificationManager.CreateToastNotifier().Show(toast);
+
+            AlarmIsOn = false;
         }
 
 

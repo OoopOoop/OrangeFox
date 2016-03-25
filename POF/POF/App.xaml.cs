@@ -42,14 +42,18 @@ namespace POF
         }
 
 
-        /// <summary>
-        /// Delete later. Creates a dummy file on startup in music library directory.
-        /// </summary>
-        /// <returns></returns>
+
+        //TODO: Remove
         public async Task CreateDummyFile()
         {
-            StorageFolder folder = KnownFolders.MusicLibrary;
-            StorageFile files = await folder.CreateFileAsync("TestFile.wav", Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            //StorageFolder folder = KnownFolders.MusicLibrary;
+            //StorageFile files = await folder.CreateFileAsync("TestFile.wav", Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            string path = "ms-appx:///Assets/Ringtones/Horizon.wma";
+            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+            var dataFolder = await local.CreateFolderAsync("AlarmSoundFolder",
+            CreationCollisionOption.OpenIfExists);
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(path));
+            await file.CopyAsync(dataFolder, file.Name, NameCollisionOption.ReplaceExisting);
         }
 
 

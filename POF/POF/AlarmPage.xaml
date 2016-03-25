@@ -25,7 +25,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" VerticalAlignment="Center">
@@ -71,7 +71,8 @@
 
         <ComboBox x:Name="snoozeComboBox"
                   Grid.Row="5"
-                  HorizontalAlignment="Stretch">
+                  HorizontalAlignment="Stretch"
+                  SelectedIndex="1">
             <ComboBox.Header>
                 <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Snooze Time" />
             </ComboBox.Header>

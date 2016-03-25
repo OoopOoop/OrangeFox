@@ -57,11 +57,33 @@ namespace POF.ViewModels
     {
         public string SelectedSoundTitle { get; set; }
 
-        public AlarmStandardSoundSelection(List<SoundFile> modelSoundCollection, string selectedSoundPath) : this()
+        public AlarmStandardSoundSelection(List<SoundFile> modelSoundCollection, string selectedSoundName) : this()
         {
             this.addSounds(modelSoundCollection);
-            SelectedSoundByPath(selectedSoundPath);
+
+            try
+            {
+                StorageFolder local = ApplicationData.Current.LocalFolder;
+                if (local != null)
+                {
+                    //get the folder in LocalFolder
+                    var dataFolder = local.GetFolderAsync("AlarmSoundFolder").AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+                    //get the file
+                    var file = dataFolder.TryGetItemAsync(selectedSoundName).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+                    this.Add(new SoundData() { Title = file.Name, FilePath = file.Path, FileType = FileTypeEnum.Custom });
+                    SelectedSoundTitle = file.Name;
+
+                    //SelectedSoundByName(selectedSoundName);
+                }
+            }
+            catch (Exception)
+            {
+                SelectedSoundTitle = "Bird Box";
+            }
+
         }
+
+
 
         public AlarmStandardSoundSelection(List<SoundFile> modelSoundCollection) : base()
         {
@@ -80,19 +102,19 @@ namespace POF.ViewModels
             }
         }
 
-        public string SelectedSoundByPath(string path)
-        {
-            var selectable = from i in this.Items.Cast<SoundData>()
-                             where i.FilePath == path
-                             select i;
+        //public string SelectedSoundByName(string name)
+        //{
+        //    var selectable = from i in this.Items.Cast<SoundData>()
+        //                     where i.Title == name
+        //                     select i;
 
-            foreach (var item in selectable)
-            {
-                SelectedSoundTitle = item.Title;
-            }
+        //    foreach (var item in selectable)
+        //    {
+        //        SelectedSoundTitle = item.Title;
+        //    }
 
-            return SelectedSoundTitle;
-        }
+        //    return SelectedSoundTitle;
+        //}
     }
 
     /// <summary>
@@ -102,14 +124,24 @@ namespace POF.ViewModels
     {
         public string SelectedSoundTitle { get; set; }
 
-        public AlarmCustomSoundSelection(string filePath) : this()
+        public AlarmCustomSoundSelection(string fileName) : this()
         {
             try
             {
                 //Task.Run(() => FindSoundFile(filePath)).Wait();
-                StorageFile file = StorageFile.GetFileFromPathAsync(filePath).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
-                this.Add(new SoundData() { Title = file.DisplayName, FilePath = file.Path, FileType = FileTypeEnum.Custom });
-                SelectedSoundTitle = file.DisplayName;
+                //  StorageFile file = StorageFile.GetFileFromPathAsync(fileName).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+
+                StorageFolder local = ApplicationData.Current.LocalFolder;
+                if(local!=null)
+                {
+                    //get the folder in LocalFolder
+                    var dataFolder = local.GetFolderAsync("AlarmSoundFolder").AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+                    //get the file
+                    var file = dataFolder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+                    this.Add(new SoundData() { Title = file.Name, FilePath = file.Path, FileType = FileTypeEnum.Custom });
+                    SelectedSoundTitle = file.Name;
+                }
+
             }
             catch (Exception)
             {
@@ -128,24 +160,20 @@ namespace POF.ViewModels
     public class SelectedSound
     {
         public string Name { get; set;}
-        public string Path { get; set; }
+      //  public string Path { get; set; }
         public FileTypeEnum FileType { get; set; }
     }
 
     public class SoundSelectViewModel : ViewModelBase
     {
-        //private const string preSetSoundPath = "ms-appx:/Assets/Ringtones/Good Times.wma";
+        // private const string defaultSoundPath = "ms-appx:///Assets/Ringtones/Bird Box.wma";
         // if user have not selected sound, standard sound is "ms-winsoundevent:Notification.Looping.Alarm2", SelectedSound.Name = "ms-winsoundevent:Notification.Looping.Alarm2"?
 
         private string titlePlayingNow = "";
 
         public SelectedSound SelectedSound { get; set; }
-
-
-
-      
+        
         public StorageFile StoreToLocalSound { get; set;}
-
 
 
         private string _selectedSoundTitle;
@@ -215,10 +243,13 @@ namespace POF.ViewModels
         /// </summary>
         public SoundSelectViewModel()
         {
-          //  SelectedSound = new SelectedSound() { Path = "ms - appx:/Assets/Ringtones/Horizon.wma", FileType = FileTypeEnum.Uri };
-          //  SelectedSound = new SelectedSound() { Path = "C:\\Data\\Users\\ Public\\ Downloads\\0897.wav", FileType = FileTypeEnum.Custom };
-          //  SelectedSound.Path = Regex.Replace(SelectedSound.Name, @"\s+", "");
+            //  SelectedSound = new SelectedSound() { Path = "ms - appx:/Assets/Ringtones/Horizon.wma", FileType = FileTypeEnum.Uri };
+            //  SelectedSound = new SelectedSound() { Path = "C:\\Data\\Users\\ Public\\ Downloads\\0897.wav", FileType = FileTypeEnum.Custom };
+            //  SelectedSound.Path = Regex.Replace(SelectedSound.Name, @"\s+", "");
 
+
+            //SelectedSound = new SelectedSound() { Name = "0897.wav", FileType = FileTypeEnum.Custom };
+              SelectedSound = new SelectedSound() { Name = "Horizon.wma", FileType = FileTypeEnum.Uri };
 
             loadSounds();
             Player = new MediaElement();
@@ -237,22 +268,22 @@ namespace POF.ViewModels
         {
             if (SelectedSound.FileType == FileTypeEnum.Custom)
             {
-                AlarmCustomSoundSelection = new AlarmCustomSoundSelection(SelectedSound.Path);
+                AlarmCustomSoundSelection = new AlarmCustomSoundSelection(SelectedSound.Name);
                 if (AlarmCustomSoundSelection.Count != 0)
                 {
                     AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
                     SelectedSoundTitle = AlarmCustomSoundSelection.SelectedSoundTitle;
                 }
-                else
-                {
-                    AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles, preSetSoundPath);
-                    SelectedSoundTitle = AlarmStandardSoundSelection.SelectedSoundTitle;
-                }
+                //else
+                //{
+                //    AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles, preSetSoundPath);
+                //    SelectedSoundTitle = AlarmStandardSoundSelection.SelectedSoundTitle;
+                //}
             }
             else
             {
                 AlarmCustomSoundSelection = new AlarmCustomSoundSelection();
-                AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles, SelectedSound.Path);
+                AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles, SelectedSound.Name);
                 SelectedSoundTitle = AlarmStandardSoundSelection.SelectedSoundTitle;
             }
         }
@@ -277,11 +308,11 @@ namespace POF.ViewModels
             }
 
             SelectedSound.Name = StoreToLocalSound.Name;
-            await  StoreToLocalSound.CopyAsync(ApplicationData.Current.LocalFolder, SelectedSound.Name, NameCollisionOption.ReplaceExisting);
 
-           
-
-
+            StorageFolder local = ApplicationData.Current.LocalFolder;
+            var dataFolder = await local.CreateFolderAsync("AlarmSoundFolder",
+            CreationCollisionOption.OpenIfExists);
+            await  StoreToLocalSound.CopyAsync(dataFolder, SelectedSound.Name, NameCollisionOption.ReplaceExisting);
 
             SelectedSoundTitle = sound.Title;
             IsPopUpOpen = false;
