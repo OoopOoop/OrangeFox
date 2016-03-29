@@ -33,7 +33,7 @@
                 Name="ButtonDoAgain" 
                 Click="ButtonDoAgain_Click"/>
 
-        <Button Content="Finish"
+        <Button Content="Snooze"
                 HorizontalAlignment="Left"
                 Margin="133,42,0,0" 
                 VerticalAlignment="Top"

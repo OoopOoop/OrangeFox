@@ -60,7 +60,7 @@ namespace AlarmGame1
             ButtonFinish.IsEnabled = false;
             ButtonOk.Visibility = Visibility.Collapsed;
 
-            timer.Interval = new TimeSpan(0, 0, 3);
+            timer.Interval = new TimeSpan(0, 0, 10);
             timer.Tick += timer_Tick;
             timer.Start();
         }

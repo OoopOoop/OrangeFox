@@ -22,10 +22,11 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" VerticalAlignment="Center">
@@ -49,7 +50,7 @@
             </TextBox>
         </StackPanel>
 
-        <StackPanel Grid.Row="2">
+        <StackPanel Grid.Row="2" VerticalAlignment="Center">
             <TimePicker x:Name="timePicker"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
@@ -59,19 +60,21 @@
                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Time" />
                 </TimePicker.Header>
             </TimePicker>
-            <TextBlock HorizontalAlignment="Center"
-                       Foreground="Gray"
-                       Padding="5"
-                       Text="In 5 hours, 57 minutes" />
         </StackPanel>
 
 
-        <local:SoundsPopUpControl Grid.Row="3" />
-        <local:DaysPopUpControl Grid.Row="4" />
+        <TextBlock Grid.Row="3"
+                   HorizontalAlignment="Center"
+                   Foreground="Gray"
+                   Text="In 5 hours, 57 minutes" />
+
+        <local:SoundsPopUpControl Grid.Row="4" />
+        <local:DaysPopUpControl Grid.Row="5" />
 
         <ComboBox x:Name="snoozeComboBox"
-                  Grid.Row="5"
+                  Grid.Row="6"
                   HorizontalAlignment="Stretch"
+                  VerticalAlignment="Center"
                   SelectedIndex="1">
             <ComboBox.Header>
                 <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Snooze Time" />
@@ -84,12 +87,29 @@
         </ComboBox>
 
 
-        <Button x:Name="goBackButton"
+        <!--<Button x:Name="goBackButton"
                 Grid.Row="6"
                 Click="goBackButton_Click"
-                Content="Go to MainPage" />
+                Content="Go to MainPage" />-->
 
+        <ComboBox x:Name="challangeComboBox"
+                  Grid.Row="7"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Center"
+                  SelectedIndex="0">
+            <ComboBox.Header>
+                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Snooze Challenge" />
+            </ComboBox.Header>
+            <ComboBoxItem>Memory Challenge</ComboBoxItem>
+        </ComboBox>
     </Grid>
-
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Save"
+                          IsEnabled="False"
+                          Label="Save" />
+            <AppBarButton Icon="Delete" Label="Delete" />
+        </CommandBar>
+    </Page.BottomAppBar>
 
 </Page>
