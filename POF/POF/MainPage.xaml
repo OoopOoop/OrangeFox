@@ -4,15 +4,32 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:POF"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      x:Name="mainPage"
+      DataContext="{Binding MainPageViewModel,
+                            Source={StaticResource Locator}}"
       mc:Ignorable="d">
+
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <Button Grid.Row="0"
-                Grid.Column="1"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <!--<local:PopToastControl x:Name="popToastControl" />-->
+
+        <Button Grid.Row="1"
                 HorizontalAlignment="Center"
                 Click="Button_Click"
-                Content="New Alarm" />
+                Content="Go to AlarmPage" />
 
+        <ToggleSwitch x:Name="OnOffAlarmSwitch"
+                      Grid.Row="2"
+                      HorizontalAlignment="Center"
+                      IsOn="{Binding AlarmIsOn,
+                                     Mode=TwoWay}" />
     </Grid>
 </Page>
