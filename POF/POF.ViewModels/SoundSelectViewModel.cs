@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
@@ -87,18 +88,11 @@ namespace POF.ViewModels
         }
     }
 
-    public class SelectedSound
-    {
-        public string Name { get; set; }
-        public string Path { get; set; }
-        public FileTypeEnum FileType { get; set; }
-    }
-
     public class SoundSelectViewModel : ViewModelBase
     {
         private string titlePlayingNow = "";
 
-        public SelectedSound SelectedSound { get; set; }
+        public SoundData SelectedSound { get; set; }
 
         public StorageFile CustomStorageFile { get; set; }
 
@@ -166,20 +160,19 @@ namespace POF.ViewModels
 
         public SoundSelectViewModel()
         {
-            // Object that will be desearialized and passed to this viewmodel as a parameter parsed to SelectedSound
-
             //TODO: save standard sound to local folder if user skip step of selecting sound
 
             //Examples
-            //SelectedSound = new SelectedSound() { Name = "0897.wav", FileType = FileTypeEnum.Custom };
-            SelectedSound = new SelectedSound()
+            // SelectedSound = new SoundData() { Title = "0897.wav", FileType = FileTypeEnum.Custom };
+            SelectedSound = new SoundData()
             {
-                Name = "Horizon.wma",
+                Title = "Horizon.wma",
                 FileType = FileTypeEnum.Custom,
-                Path = "C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\Horizon.wma",
+                FilePath = "C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\Horizon.wma",
             };
 
-            loadSoundCollections(SelectedSound);
+            loadCustmSoundCol(SelectedSound);
+            AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
             Player = new MediaElement();
             PlaySoundCommand = new RelayCommand<object>(playSound);
             OpenPopUpCommand = new RelayCommand(() => IsPopUpOpen = true);
@@ -190,6 +183,11 @@ namespace POF.ViewModels
 
         protected override void OnDataLoaded()
         {
+            //ToDelete
+            // object testObject = null;
+            //object testObject = new SoundData() { Title = "0888.wav", FileType = FileTypeEnum.Uri };
+            //loadSoundCollections(testObject);
+            //testObject = SaveSoundToLocal(testObject);
         }
 
         private bool IsInLocal(string fileName)
@@ -213,68 +211,122 @@ namespace POF.ViewModels
         /// if nothing found - loading standardSoundCollection with preset sound, and displaying name of a preset sound.
         /// </summary>
         /// <param name="sound"></param>
-        private void loadSoundCollections(SelectedSound sound)
-        {
-            string noExtName = sound.Name.Substring(0, sound.Name.IndexOf("."));
-
-            if (sound.FileType == FileTypeEnum.Custom && IsInLocal(sound.Name) == true)
-            {
-                AlarmCustomSoundSelection = new AlarmCustomSoundSelection() { new SoundData { Title = noExtName, FilePath = sound.Path, FileType = sound.FileType, IsInLocal = true } };
-                AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
-                SelectedSoundTitle = noExtName;
-            }
-            else if (sound.FileType == FileTypeEnum.Uri && IsInLocal(sound.Name) == true)
-            {
-                AlarmCustomSoundSelection = new AlarmCustomSoundSelection();
-                AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
-                SelectedSoundTitle = noExtName;
-            }
-            else
-            {
-                var preSelectedSound = new SelectedSound() { Name = "Bird Box", Path = "ms-appx:///Assets/Ringtones/Bird Box.wma", FileType = FileTypeEnum.Uri };
-                SelectedSoundTitle = preSelectedSound.Name;
-                AlarmCustomSoundSelection = new AlarmCustomSoundSelection();
-                AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
-            }
-        }
-
-        private async void saveNewSelectedSound(object obj)
+        private void loadCustmSoundCol(object obj)
         {
             var sound = obj as SoundData;
 
-            if (sound.FileType == FileTypeEnum.Uri)
+            //string noExtName = sound.Title.Substring(0, sound.Title.IndexOf("."));
+
+            //if (sound.FileType == FileTypeEnum.Custom && IsInLocal(sound.Title) == true)
+            //{
+            //    AlarmCustomSoundSelection = new AlarmCustomSoundSelection() { new SoundData { Title = noExtName, FilePath = sound.FilePath, FileType = sound.FileType, IsInLocal = true } };
+            //    AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
+            //    SelectedSoundTitle = noExtName;
+            //}
+            //else if (sound.FileType == FileTypeEnum.Uri && IsInLocal(sound.Title) == true)
+            //{
+            //    AlarmCustomSoundSelection = new AlarmCustomSoundSelection();
+            //    AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
+            //    SelectedSoundTitle = noExtName;
+            //}
+            //else
+            //{
+            //    SelectedSound = new SoundData() { Title = "Bird Box", FilePath = "ms-appx:/Assets/Ringtones/Bird Box.wma", FileType = FileTypeEnum.Uri };
+            //    SelectedSoundTitle = SelectedSound.Title;
+            //    AlarmCustomSoundSelection = new AlarmCustomSoundSelection();
+            //    AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
+            //}
+
+            if (sound != null)
             {
-                string path = sound.FilePath.Replace("ms-appx:/", "ms-appx:///");
+                string noExtName = sound.Title.Substring(0, sound.Title.IndexOf("."));
+
+                switch (sound.FileType)
+                {
+                    case FileTypeEnum.Uri:
+                        if (IsInLocal(sound.Title))
+                        {
+                            AlarmCustomSoundSelection = new AlarmCustomSoundSelection();
+                            SelectedSoundTitle = noExtName;
+                        }
+                        else
+                        {
+                            goto default;
+                        }
+                        break;
+
+                    case FileTypeEnum.Custom:
+                        if (IsInLocal(sound.Title))
+                        {
+                            AlarmCustomSoundSelection = new AlarmCustomSoundSelection() { new SoundData { Title = noExtName, FilePath = sound.FilePath, FileType = sound.FileType, IsInLocal = true } };
+                            SelectedSoundTitle = noExtName;
+                        }
+                        else
+                        {
+                            goto default;
+                        }
+                        break;
+
+                    default:
+                        createSelectedSnd();
+                        break;
+                }
+            }
+            else
+            {
+                createSelectedSnd();
+            }
+        }
+
+        private void createSelectedSnd()
+        {
+            AlarmCustomSoundSelection = new AlarmCustomSoundSelection();
+            SelectedSound = new SoundData() { Title = "Bird Box", FilePath = "ms-appx:/Assets/Ringtones/Bird Box.wma", FileType = FileTypeEnum.Uri };
+            SelectedSoundTitle = SelectedSound.Title;
+        }
+
+        public async Task<SoundData> SaveSoundToLocal(object soundObject)
+        {
+            var soundFile = soundObject as SoundData;
+
+            if (soundFile == null)
+            {
+                soundFile = new SoundData() { FilePath = SelectedSound.FilePath, Title = SelectedSound.Title, FileType = SelectedSound.FileType };
+            }
+
+            if (soundFile.FileType == FileTypeEnum.Uri)
+            {
+                string path = soundFile.FilePath.Replace("ms-appx:/", "ms-appx:///");
                 //if selected sound is from the standard collection, assign CustomStorageFile to it
                 CustomStorageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(path));
             }
 
             StorageFolder local = ApplicationData.Current.LocalFolder;
-            var dataFolder = await local.CreateFolderAsync("AlarmSoundFolder",
-            CreationCollisionOption.OpenIfExists);
+            var dataFolder = await local.CreateFolderAsync("AlarmSoundFolder", CreationCollisionOption.OpenIfExists);
             await CustomStorageFile.CopyAsync(dataFolder, CustomStorageFile.Name, NameCollisionOption.ReplaceExisting);
 
-            //check if saved?
             var file = dataFolder.TryGetItemAsync(CustomStorageFile.Name).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
             if (file != null)
             {
-                //saving new SelectedSound
-                SelectedSound.FileType = sound.FileType;
-                SelectedSound.Name = file.Name;
-                SelectedSound.Path = file.Path;
+                return soundFile;
             }
             else
             {
-                SelectedSound = new SelectedSound()
-                {
-                    Name = "Horizon.wma",
-                    FileType = FileTypeEnum.Custom,
-                    Path = "C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\Horizon.wma",
-                };
+                soundFile.Title = "SysAlarmSound";
+                soundFile.FileType = FileTypeEnum.System;
+                soundFile.FilePath = "ms-winsoundevent:Notification.Looping.Alarm";
             }
+            return soundFile;
+        }
 
+        private async void saveNewSelectedSound(object obj)
+        {
+            var sound = obj as SoundData;
             SelectedSoundTitle = sound.Title;
             IsPopUpOpen = false;
+
+            // pass it to AlarmPageViewModel
+            await SaveSoundToLocal(obj);
         }
 
         /// <summary>
@@ -312,10 +364,6 @@ namespace POF.ViewModels
             Player.Source = new Uri(path, UriKind.RelativeOrAbsolute);
         }
 
-        /// <summary>
-        /// if file is type of Custom but was just picked up
-        /// </summary>
-        /// <param name="title"></param>
         private async void playCustomSound(string title)
         {
             foreach (AccessListEntry item in StorageApplicationPermissions.FutureAccessList.Entries)
@@ -346,7 +394,7 @@ namespace POF.ViewModels
         }
 
         /// <summary>
-        /// Pick up custom sound from HomeGroup folders, add to popUp collection and futureAccess list
+        /// user can pick up a song from diff directories, it adds to AlarmCustomSoundSelection and futureAccess list with it's name as metadata
         /// </summary>
         async private void selectCustomSound()
         {

@@ -36,6 +36,13 @@
                        Text="EDIT ALARM" />
         </StackPanel>
 
+
+        <Button x:Name="testButton"
+                Grid.Row="0"
+                HorizontalAlignment="Right"
+                Command="{Binding TestCommand}"
+                Content="test" />
+
         <!--  bind to text  -->
         <StackPanel Grid.Row="1" VerticalAlignment="Center">
             <TextBox x:Name="AlarmNameTxt"
