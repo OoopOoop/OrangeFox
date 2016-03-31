@@ -43,7 +43,9 @@ namespace POF.ViewModels
         private void setToast(string alarmName, string alarmTime, string soundName, string snoozeTime)
         {
             // or default if user did not choose sound
-            soundName = "ms-appdata:///local/"+soundName;
+            // soundName = "ms-appdata:///local/"+soundName;
+
+            soundName = "ms-appdata:///local/0897.wav";
 
             string xml = $@"<toast activationType='foreground' scenario='reminder' launch='args'>
                                             <visual>
