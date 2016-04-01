@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,14 +37,14 @@ namespace POF.ViewModels
         private void InvokeToast()
         {
             ToastNotificationManager.History.Clear();
-            setToast("MorningAlarm", "10:38 PM", "0897.wma", "30");
+
+            setToast("MorningAlarm", "10:38 PM", Path, "30");
         }
 
 
-        private void setToast(string alarmName, string alarmTime, string soundName, string snoozeTime)
+        private void setToast(string alarmName, string alarmTime, string soundPath, string snoozeTime)
         {
-            // or default if user did not choose sound
-            soundName = "ms-appdata:///local/"+soundName;
+         
 
             string xml = $@"<toast activationType='foreground' scenario='reminder' launch='args'>
                                             <visual>
@@ -65,7 +66,7 @@ namespace POF.ViewModels
                     <action activationType='system' arguments='snooze' hint-inputId='snoozeTime' content='' />
                     <action activationType='system' arguments='dismiss' content='' />
                     </actions>
-                <audio src='{soundName}' loop='true'/>
+                <audio src='{soundPath}' loop='true'/>
                                         </toast>";
 
             XmlDocument doc = new XmlDocument();
@@ -76,11 +77,19 @@ namespace POF.ViewModels
             AlarmIsOn = false;
         }
 
+    
 
+        //TODO: add checking for blank spaces
+        public string Path { get; set; }
 
         public MainPageViewModel()
         {
-          
+            Messenger.Default.Register<SoundData>(
+                this,
+                sound =>
+            {
+                Path = sound.ToastFilePath;
+            });
         }
 
 

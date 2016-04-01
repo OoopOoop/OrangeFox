@@ -9,6 +9,7 @@ namespace POF.Shared
     public enum FileTypeEnum
     {
         Uri,
-        Custom
+        Custom,
+        System
     }
 }

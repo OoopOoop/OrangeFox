@@ -30,12 +30,20 @@ namespace POF.ViewModels
         public AlarmPageViewModel()
         {
             OpenSoundPopUp = new RelayCommand(openSoundPopUp);
+
         }
 
 
-        private void openSoundPopUp()
+        private  void openSoundPopUp()
         {
            IsSoundPopUpOpen = true;
+
         }
+
+
+
+        public ICommand TestCommand { get; set; }
+
+       
     }
 }
