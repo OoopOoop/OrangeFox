@@ -31,7 +31,6 @@ namespace POF.ViewModels
         {
             OpenSoundPopUp = new RelayCommand(openSoundPopUp);
 
-           // TestCommand = new RelayCommand(testMethod);
         }
 
 
@@ -43,13 +42,8 @@ namespace POF.ViewModels
 
 
 
-        //public ICommand TestCommand { get; set; }
+        public ICommand TestCommand { get; set; }
 
-        //private void testMethod()
-        //{
-        //    SoundSelectViewModel test = new SoundSelectViewModel();
-        
-        //}
-
+       
     }
 }

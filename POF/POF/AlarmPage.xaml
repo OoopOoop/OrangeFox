@@ -40,6 +40,7 @@
         <Button x:Name="testButton"
                 Grid.Row="0"
                 HorizontalAlignment="Right"
+                Click="goBackButton_Click"
                 Command="{Binding TestCommand}"
                 Content="test" />
 

@@ -1,9 +1,11 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using POF.Models;
 using POF.Shared;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -14,7 +16,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace POF.ViewModels
 {
-    public class SoundData
+    public class SoundData:MessageBase
     {
         #region Properties
 
@@ -26,8 +28,8 @@ namespace POF.ViewModels
             set { _filePath = value; }
         }
 
-        //does not work
-        public string FileName => FilePath?.Substring(FilePath.LastIndexOf(@"\"));
+   
+        public string FileName => FilePath?.Substring(FilePath.LastIndexOf("\\") + 1);
 
         private string _title;
 
@@ -37,14 +39,7 @@ namespace POF.ViewModels
             set { _title = value; }
         }
 
-        //private int _songID;
-
-        //public int SongID
-        //{
-        //    get { return _songID; }
-        //    set { _songID = value; }
-        //}
-
+     
         private FileTypeEnum _fileType;
 
         public FileTypeEnum FileType
@@ -193,24 +188,27 @@ namespace POF.ViewModels
             //};
 
 
-
             loadCustmSoundCol(SelectedSound);
             AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
             Player = new MediaElement();
             PlaySoundCommand = new RelayCommand<object>(playSound);
-            OpenPopUpCommand = new RelayCommand(() => IsPopUpOpen = true);
+            OpenPopUpCommand = new RelayCommand(openPopUp);
             PickCustomSoundCommand = new RelayCommand(selectCustomSound);
             SelectedSoundCommand = new RelayCommand<object>(saveNewSelectedSound);
             PopUpUnloadedCommand = new RelayCommand(() => Player.Stop());
         }
 
+
+        private void openPopUp()
+        {
+            IsPopUpOpen = true;
+        }
+
+
+
         protected override void OnDataLoaded()
         {
-            //ToDelete
-            // object testObject = null;
-            //object testObject = new SoundData() { Title = "0888.wav", FileType = FileTypeEnum.Uri };
-            //loadSoundCollections(testObject);
-            //testObject = SaveSoundToLocal(testObject);
+           
         }
 
         private bool IsInLocal(string fileName)
@@ -238,29 +236,6 @@ namespace POF.ViewModels
         {
             var sound = obj as SoundData;
 
-            //string noExtName = sound.Title.Substring(0, sound.Title.IndexOf("."));
-
-            //if (sound.FileType == FileTypeEnum.Custom && IsInLocal(sound.Title) == true)
-            //{
-            //    AlarmCustomSoundSelection = new AlarmCustomSoundSelection() { new SoundData { Title = noExtName, FilePath = sound.FilePath, FileType = sound.FileType, IsInLocal = true } };
-            //    AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
-            //    SelectedSoundTitle = noExtName;
-            //}
-            //else if (sound.FileType == FileTypeEnum.Uri && IsInLocal(sound.Title) == true)
-            //{
-            //    AlarmCustomSoundSelection = new AlarmCustomSoundSelection();
-            //    AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
-            //    SelectedSoundTitle = noExtName;
-            //}
-            //else
-            //{
-            //    SelectedSound = new SoundData() { Title = "Bird Box", FilePath = "ms-appx:/Assets/Ringtones/Bird Box.wma", FileType = FileTypeEnum.Uri };
-            //    SelectedSoundTitle = SelectedSound.Title;
-            //    AlarmCustomSoundSelection = new AlarmCustomSoundSelection();
-            //    AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
-            //}
-
-
             //If no sound or an invalid sound is sent, use the default
             if (sound == null || !IsInLocal(sound.FileName))
             {
@@ -278,61 +253,13 @@ namespace POF.ViewModels
             //Set the selected sound
             SelectedSound = sound;
             SelectedSoundTitle = sound.Title;
-
-
-            //if (sound != null)
-            //{
-            //    string noExtName = sound.Title.Substring(0, sound.Title.IndexOf("."));
-
-            //    switch (sound.FileType)
-            //    {
-            //        case FileTypeEnum.Uri:
-            //            if (IsInLocal(sound.Title))
-            //            {
-            //                AlarmCustomSoundSelection = new AlarmCustomSoundSelection();
-            //                SelectedSoundTitle = noExtName;
-            //            }
-            //            else
-            //            {
-            //                goto default;
-            //            }
-            //            break;
-
-            //        case FileTypeEnum.Custom:
-            //            if (IsInLocal(sound.Title))
-            //            {
-            //                AlarmCustomSoundSelection = new AlarmCustomSoundSelection() { new SoundData { Title = noExtName, FilePath = sound.FilePath, FileType = sound.FileType, IsInLocal = true } };
-            //                SelectedSoundTitle = noExtName;
-            //            }
-            //            else
-            //            {
-            //                goto default;
-            //            }
-            //            break;
-
-            //        default:
-            //            createSelectedSnd();
-            //            break;
-            //    }
-            //}
-            //else
-            //{
-            //    createSelectedSnd();
-            //}
         }
 
-        //private void createSelectedSnd()
-        //{
-        //    AlarmCustomSoundSelection = new AlarmCustomSoundSelection();
-        //    SelectedSound = new SoundData() { Title = "Bird Box", FilePath = "ms-appx:///Assets/Ringtones/Bird Box.wma", FileType = FileTypeEnum.Uri, ToastFilePath= "ms-appdata:///local/Bird Box.wma" };
-        //    SelectedSoundTitle = SelectedSound.Title;
-        //}
 
         public async Task<SoundData> SaveSoundToLocal(object soundObject)
         {
             var soundFile = soundObject as SoundData;
 
-          //  if (soundFile!=null&&soundFile.FileType == FileTypeEnum.Uri)
             if (soundFile != null)
             {
                 if (soundFile.FileType == FileTypeEnum.Uri)
@@ -354,9 +281,8 @@ namespace POF.ViewModels
 
             if (file != null)
             {
-                //does not work
-                soundFile.Title = (file as StorageFile)?.DisplayName;
-                soundFile.ToastFilePath = "ms-appdata:///local/" + file.Name;
+                soundFile.Title = Path.GetFileNameWithoutExtension(soundFile.FilePath);
+                soundFile.ToastFilePath = "ms-appdata:///local/AlarmSoundFolder/" + file.Name;
                 soundFile.FilePath = file.Path;
             }
             // if fails to save, use system sound for toast notification
@@ -373,12 +299,18 @@ namespace POF.ViewModels
         {
             var sound = obj as SoundData;
             SelectedSoundTitle = sound.Title;
-           // await SaveSoundToLocal(obj);
             IsPopUpOpen = false;
 
-            //pass it to AlarmPageViewModel
-            await SaveSoundToLocal(obj);
+
+
+            //pass it to AlarmPageViewModel when "Save Alarm" button will be pressed
+            // await SaveSoundToLocal(obj);
+            //Passing to MainViewModel at the moment to check if toast plays sound
+            SoundData dataToSend = await SaveSoundToLocal(obj);
+            Messenger.Default.Send(dataToSend);
+            
         }
+
 
         /// <summary>
         /// check if same sound is playing when clicked Play button, if so - stop player.
