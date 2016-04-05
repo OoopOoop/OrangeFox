@@ -38,7 +38,7 @@ namespace POF.ViewModels
         {
             ToastNotificationManager.History.Clear();
 
-            setToast("MorningAlarm", "10:38 PM", Path, "30");
+            setToast("MorningAlarm", "10:38 PM", Path, "10");
         }
 
 
@@ -71,8 +71,27 @@ namespace POF.ViewModels
 
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
-            var toast = new ToastNotification(doc);
-            ToastNotificationManager.CreateToastNotifier().Show(toast);
+
+            // var toast = new ToastNotification(doc);
+            // ToastNotificationManager.CreateToastNotifier().Show(toast);
+
+            //double snoozeMin;
+            //TimeSpan snoozeTimeSpan=TimeSpan.FromMinutes(10);
+            //bool canSnooze = Double.TryParse(snoozeTime, out snoozeMin);
+            //if(canSnooze)
+            //{
+            //    snoozeTimeSpan = TimeSpan.FromMinutes(snoozeMin);
+            //}
+
+
+
+            ToastNotifier toastNotifier=ToastNotificationManager.CreateToastNotifier();
+
+            DateTime sceduleTime = DateTime.Now.AddMinutes(1);
+         
+
+            var sceduleToast = new ScheduledToastNotification(doc, sceduleTime);
+            toastNotifier.AddToSchedule(sceduleToast);
 
             AlarmIsOn = false;
         }
@@ -90,6 +109,7 @@ namespace POF.ViewModels
             {
                 Path = sound.ToastFilePath;
             });
+
         }
 
 

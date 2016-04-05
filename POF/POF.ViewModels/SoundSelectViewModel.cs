@@ -194,8 +194,9 @@ namespace POF.ViewModels
             PlaySoundCommand = new RelayCommand<object>(playSound);
             OpenPopUpCommand = new RelayCommand(openPopUp);
             PickCustomSoundCommand = new RelayCommand(selectCustomSound);
-            SelectedSoundCommand = new RelayCommand<object>(saveNewSelectedSound);
+            SelectedSoundCommand = new RelayCommand<object>(setSound);
             PopUpUnloadedCommand = new RelayCommand(() => Player.Stop());
+            saveNewSelectedSound(SelectedSound);
         }
 
 
@@ -272,6 +273,7 @@ namespace POF.ViewModels
             else
             {
                 soundFile = new SoundData() { FilePath = SelectedSound.FilePath, Title = SelectedSound.Title, FileType = SelectedSound.FileType, ToastFilePath=SelectedSound.ToastFilePath};
+                CustomStorageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(soundFile.ToastFilePath));
             }
 
             StorageFolder local = ApplicationData.Current.LocalFolder;
@@ -295,21 +297,26 @@ namespace POF.ViewModels
             return soundFile;
         }
 
-        private async void saveNewSelectedSound(object obj)
+        private async void setSound(object obj)
         {
             var sound = obj as SoundData;
             SelectedSoundTitle = sound.Title;
             IsPopUpOpen = false;
 
+            await saveNewSelectedSound(obj);
+        }
 
 
+
+        private async Task saveNewSelectedSound(object obj)
+        {
             //pass it to AlarmPageViewModel when "Save Alarm" button will be pressed
             // await SaveSoundToLocal(obj);
             //Passing to MainViewModel at the moment to check if toast plays sound
             SoundData dataToSend = await SaveSoundToLocal(obj);
             Messenger.Default.Send(dataToSend);
-            
         }
+
 
 
         /// <summary>
