@@ -24,7 +24,6 @@ namespace POF
         public SoundsPopUpControl()
         {
             this.InitializeComponent();
-           
         }
 
         //TODO: put popUp in center of page, change NewHorOffse and NewVerticalOffset calculations (for different devices)
@@ -49,6 +48,11 @@ namespace POF
                 this.SelectionPopUp.HorizontalOffset = NewHorizontalOffset;
                 this.SelectionPopUp.VerticalOffset = NewVerticalOffset;
             }
+        }
+
+        private void SelectionPopUp_Unloaded(object sender, RoutedEventArgs e)
+        {
+            SelectionPopUp.IsOpen = false;
         }
     }
 }

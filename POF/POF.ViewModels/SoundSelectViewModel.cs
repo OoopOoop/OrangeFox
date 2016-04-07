@@ -188,7 +188,7 @@ namespace POF.ViewModels
             //};
 
 
-            loadCustmSoundCol(SelectedSound);
+            Task.Run(()=> loadCustmSoundCol(SelectedSound)).Wait();
             AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
             Player = new MediaElement();
             PlaySoundCommand = new RelayCommand<object>(playSound);
@@ -196,7 +196,6 @@ namespace POF.ViewModels
             PickCustomSoundCommand = new RelayCommand(selectCustomSound);
             SelectedSoundCommand = new RelayCommand<object>(setSound);
             PopUpUnloadedCommand = new RelayCommand(() => Player.Stop());
-            saveNewSelectedSound(SelectedSound);
         }
 
 
@@ -226,21 +225,16 @@ namespace POF.ViewModels
             return false;
         }
 
-        /// <summary>
-        /// Taking a sound object, checking it's file type
-        /// if of type is Custom and still saved in local folder - displaying it's name, loading customSoundCollection + standardSoundCollection
-        /// if of type Uri and still saved in local folder- displaying it's name and just loading standardSoundCollection
-        /// if nothing found - loading standardSoundCollection with preset sound, and displaying name of a preset sound.
-        /// </summary>
-        /// <param name="sound"></param>
-        private void loadCustmSoundCol(object obj)
+
+        private async Task loadCustmSoundCol(object obj)
         {
             var sound = obj as SoundData;
 
             //If no sound or an invalid sound is sent, use the default
             if (sound == null || !IsInLocal(sound.FileName))
             {
-                sound = new SoundData() { Title = "Bird Box", FilePath = "ms-appx:///Assets/Ringtones/Bird Box.wma", FileType = FileTypeEnum.Uri, ToastFilePath = "ms-appdata:///local/Bird Box.wma" };
+                sound = new SoundData() { Title = "Bird Box", FilePath = "ms-appx:/Assets/Ringtones/Bird Box.wma", FileType = FileTypeEnum.Uri, ToastFilePath = "ms-appdata:///local/Bird Box.wma" };
+                await saveNewSelectedSound(sound);
             }
 
             //Clear out the custom sound collection

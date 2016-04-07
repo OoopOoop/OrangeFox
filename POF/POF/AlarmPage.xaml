@@ -4,6 +4,7 @@
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:i="using:Microsoft.Xaml.Interactivity"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:POF"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:shared="using:POF.Shared"
@@ -59,18 +60,18 @@
         </StackPanel>
 
         <StackPanel Grid.Row="2" VerticalAlignment="Center">
-            <TimePicker x:Name="timePicker"
+            <TimePicker x:Name="AlarmTimePicker"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
                         BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                        BorderThickness="{ThemeResource ComboBoxBorderThemeThickness}">
+                        BorderThickness="{ThemeResource ComboBoxBorderThemeThickness}" Time="{Binding TimePickerTime, Mode=TwoWay}">
                 <TimePicker.Header>
                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Time" />
                 </TimePicker.Header>
             </TimePicker>
         </StackPanel>
 
-
+        <!--  DataContextChanged="timePicker_DataContextChanged"  -->
         <TextBlock Grid.Row="3"
                    HorizontalAlignment="Center"
                    Foreground="Gray"

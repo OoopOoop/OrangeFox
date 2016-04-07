@@ -162,12 +162,18 @@ namespace POF.ViewModels
         public DaySelectViewModel()
         {
             int savedSelectedDays = 7;
-
-            OpenPopUpCommand = new RelayCommand(() => IsPopUpOpen = true);
+            OpenPopUpCommand = new RelayCommand(openPopUp);
             AlarmSelection = new AlarmRepeatSelection(savedSelectedDays);
             SelectedDaysFlags = (SelectableDay)savedSelectedDays;
             SelectedDaysCommand = new RelayCommand<SelectionChangedEventArgs>(setSelectedDays);
         }
+
+
+        private void openPopUp()
+        {
+            IsPopUpOpen = true;
+        }
+
 
         public override string ToString()
         {

@@ -23,11 +23,13 @@
                     Content="{Binding DisplayDescription}"
                     Style="{StaticResource TransparentButtonStyle}" />
         </StackPanel>
+        <!--  LayoutUpdated="SelectionPopUp_LayoutUpdated">  -->
         <Popup x:Name="SelectionPopUp"
                Canvas.ZIndex="1"
                IsLightDismissEnabled="True"
                IsOpen="{Binding IsPopUpOpen}"
-               LayoutUpdated="SelectionPopUp_LayoutUpdated">
+               LayoutUpdated="SelectionPopUp_LayoutUpdated"
+               Unloaded="SelectionPopUp_Unloaded">
             <Popup.ChildTransitions>
                 <TransitionCollection>
                     <PopupThemeTransition />

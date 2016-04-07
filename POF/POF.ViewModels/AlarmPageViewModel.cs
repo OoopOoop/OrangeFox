@@ -5,45 +5,55 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml.Controls;
 
 namespace POF.ViewModels
 {
     public class AlarmPageViewModel : ViewModelBase
     {
-        public ICommand OpenSoundPopUp { get; set; }
 
-        private bool _isSoundPoUpOpen;
+        public ICommand TestCommand { get; }
 
-        public bool IsSoundPopUpOpen
+      
+
+ 
+        public AlarmPageViewModel()
         {
-            get { return _isSoundPoUpOpen; }
-            set { _isSoundPoUpOpen = value; OnPropertyChanged(); }
+            TestCommand = new RelayCommand<object>(testMethod);
+
+            TimePickerTime=new TimeSpan(14,15,00);
         }
 
-
-        protected override void OnDataLoaded()
+        private void testMethod(object obj)
         {
            
         }
 
-
-        public AlarmPageViewModel()
+        protected override void OnDataLoaded()
         {
-            OpenSoundPopUp = new RelayCommand(openSoundPopUp);
-
-        }
-
-
-        private  void openSoundPopUp()
-        {
-           IsSoundPopUpOpen = true;
 
         }
 
 
 
-        public ICommand TestCommand { get; set; }
+        private TimeSpan timePickerTime;
+        public TimeSpan TimePickerTime
+        {
+            get { return timePickerTime; }
+            set
+            {
+                timePickerTime = value;
+                OnPropertyChanged();
+                SaveNewTime();
+            }
+        }
 
-       
+        private void SaveNewTime()
+        {
+            var newtime = TimePickerTime;
+        }
+
+      
+
     }
 }

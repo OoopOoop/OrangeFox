@@ -64,5 +64,10 @@ namespace POF
                 DaysOfWeekList.SelectedItems.Add(day);
             }
         }
+
+        private void SelectionPopUp_Unloaded(object sender, RoutedEventArgs e)
+        {
+            SelectionPopUp.IsOpen = false;
+        }
     }
 }
