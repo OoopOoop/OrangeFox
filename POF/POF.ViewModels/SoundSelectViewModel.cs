@@ -120,6 +120,7 @@ namespace POF.ViewModels
             set { isPopUpOpen = value; OnPropertyChanged(); }
         }
 
+
         private double _popUpHeight;
 
         public double PopUpHeight
@@ -195,7 +196,15 @@ namespace POF.ViewModels
             OpenPopUpCommand = new RelayCommand(openPopUp);
             PickCustomSoundCommand = new RelayCommand(selectCustomSound);
             SelectedSoundCommand = new RelayCommand<object>(setSound);
-            PopUpUnloadedCommand = new RelayCommand(() => Player.Stop());
+            PopUpUnloadedCommand = new RelayCommand(closePopUp);
+           
+        }
+
+
+        private void closePopUp()
+        {
+            Player.Stop();
+            IsPopUpOpen = false;
         }
 
 

@@ -24,12 +24,11 @@
                     Style="{StaticResource TransparentButtonStyle}" />
         </StackPanel>
         <!--  LayoutUpdated="SelectionPopUp_LayoutUpdated">  -->
-        <Popup x:Name="SelectionPopUp"
+        <Popup x:Name="DayPopUp"
                Canvas.ZIndex="1"
                IsLightDismissEnabled="True"
                IsOpen="{Binding IsPopUpOpen}"
-               LayoutUpdated="SelectionPopUp_LayoutUpdated"
-               Unloaded="SelectionPopUp_Unloaded">
+               LayoutUpdated="DayPopUp_LayoutUpdated">
             <Popup.ChildTransitions>
                 <TransitionCollection>
                     <PopupThemeTransition />
@@ -44,6 +43,15 @@
                                      ConverterParameter=0.65}"
                     Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}"
                     BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}">
+
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Unloaded">
+                        <core:InvokeCommandAction Command="{Binding PopUpUnloadedCommand}" />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+
+
+
                 <ScrollViewer x:Name="scroll" VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
                         <ListView x:Name="DaysOfWeekList"

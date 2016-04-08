@@ -21,20 +21,24 @@ namespace POF
 {
     public sealed partial class SoundsPopUpControl : UserControl
     {
+      
         public SoundsPopUpControl()
         {
             this.InitializeComponent();
+            SoundPopUpControl.LayoutUpdated += SelectionPopUp_LayoutUpdated;
         }
+
 
         //TODO: put popUp in center of page, change NewHorOffse and NewVerticalOffset calculations (for different devices)
         private void SelectionPopUp_LayoutUpdated(object sender, object e)
         {
+           
             if (PopUpBorder.ActualWidth == 0 && PopUpBorder.ActualHeight == 0)
             {
                 return;
             }
-
-
+       
+           
             double ActualHorizontalOffset = this.SelectionPopUp.HorizontalOffset;
             double ActualVerticalOffset = this.SelectionPopUp.VerticalOffset;
 
@@ -48,11 +52,6 @@ namespace POF
                 this.SelectionPopUp.HorizontalOffset = NewHorizontalOffset;
                 this.SelectionPopUp.VerticalOffset = NewVerticalOffset;
             }
-        }
-
-        private void SelectionPopUp_Unloaded(object sender, RoutedEventArgs e)
-        {
-            SelectionPopUp.IsOpen = false;
         }
     }
 }

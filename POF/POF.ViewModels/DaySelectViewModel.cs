@@ -134,14 +134,18 @@ namespace POF.ViewModels
 
         public bool IsPopUpOpen
         {
-            get { return isPopUpOpen; }
-            set { isPopUpOpen = value; OnPropertyChanged(); }
+            get
+            { return isPopUpOpen; }
+            set
+            { isPopUpOpen = value;
+                OnPropertyChanged(); }
         }
 
         private delegate void statusUpdate(IList<object> changedItems, bool newStatus);
 
         public ICommand OpenPopUpCommand { get; }
         public ICommand SelectedDaysCommand { get; }
+        public ICommand PopUpUnloadedCommand { get; }
 
         [Flags]
         public enum SelectableDay
@@ -162,17 +166,18 @@ namespace POF.ViewModels
         public DaySelectViewModel()
         {
             int savedSelectedDays = 7;
-            OpenPopUpCommand = new RelayCommand(openPopUp);
+            OpenPopUpCommand = new RelayCommand(()=>IsPopUpOpen=true);
             AlarmSelection = new AlarmRepeatSelection(savedSelectedDays);
             SelectedDaysFlags = (SelectableDay)savedSelectedDays;
             SelectedDaysCommand = new RelayCommand<SelectionChangedEventArgs>(setSelectedDays);
+            PopUpUnloadedCommand = new RelayCommand(() => IsPopUpOpen = false);
         }
 
 
-        private void openPopUp()
-        {
-            IsPopUpOpen = true;
-        }
+        //private void openPopUp()
+        //{
+        //    IsPopUpOpen = true;
+        //}
 
 
         public override string ToString()

@@ -29,9 +29,7 @@
         <Popup x:Name="SelectionPopUp"
                Canvas.ZIndex="1"
                IsLightDismissEnabled="True"
-               IsOpen="{Binding IsPopUpOpen}"
-               LayoutUpdated="SelectionPopUp_LayoutUpdated"
-               Unloaded="SelectionPopUp_Unloaded">
+               IsOpen="{Binding IsPopUpOpen}">
             <Popup.ChildTransitions>
                 <TransitionCollection>
                     <PopupThemeTransition />
@@ -40,17 +38,20 @@
             <Border x:Name="PopUpBorder"
                     Width="{Binding PopUpWidth,
                                     Converter={StaticResource WidthConverter},
-                                    ConverterParameter=0.9}"
+                                    ConverterParameter=0.20}"
                     Height="{Binding PopUpHeight,
                                      Converter={StaticResource HeightConverter},
-                                     ConverterParameter=0.75}"
+                                     ConverterParameter=0.20}"
                     Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}"
                     BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}">
+
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Unloaded">
                         <core:InvokeCommandAction Command="{Binding PopUpUnloadedCommand}" />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
+
+
                 <ScrollViewer x:Name="scroll" VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
                         <ListView x:Name="CustomPlayList"
