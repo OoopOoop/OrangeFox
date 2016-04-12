@@ -25,7 +25,7 @@ namespace POF
         public SoundsPopUpControl()
         {
             this.InitializeComponent();
-            SoundPopUpControl.LayoutUpdated += SelectionPopUp_LayoutUpdated;
+          
         }
 
 

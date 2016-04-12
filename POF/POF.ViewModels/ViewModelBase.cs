@@ -17,6 +17,7 @@ namespace POF.ViewModels
 
 
         protected POFContext Repository { get; private set;}
+   
 
         public ViewModelBase()
         {
