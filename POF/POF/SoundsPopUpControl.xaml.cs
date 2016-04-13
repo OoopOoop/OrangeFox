@@ -25,9 +25,11 @@ namespace POF
         public SoundsPopUpControl()
         {
             this.InitializeComponent();
-          
+           //DataContext = new SoundSelectViewModel();
         }
 
+
+       
 
         //TODO: put popUp in center of page, change NewHorOffse and NewVerticalOffset calculations (for different devices)
         private void SelectionPopUp_LayoutUpdated(object sender, object e)

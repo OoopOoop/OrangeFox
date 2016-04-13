@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,20 +15,24 @@ namespace POF.ViewModels
 
         public ICommand TestCommand { get; }
 
+        public SoundSelectViewModel Sound { get; set; }
       
-
- 
         public AlarmPageViewModel()
         {
-            TestCommand = new RelayCommand<object>(testMethod);
-
-            TimePickerTime=new TimeSpan(14,15,00);
-        }
-
-        private void testMethod(object obj)
-        {
            
+            TimePickerTime=new TimeSpan(14,15,00);
+
+            Sound = new SoundSelectViewModel();
+
+            Messenger.Default.Register<SoundData>(
+              this,
+              sound =>
+              {
+                  Sound.SelectedSound = sound;
+              });         
         }
+
+        
 
         protected override void OnDataLoaded()
         {

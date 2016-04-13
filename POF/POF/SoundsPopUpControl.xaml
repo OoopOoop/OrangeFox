@@ -39,10 +39,10 @@
             <Border x:Name="PopUpBorder"
                     Width="{Binding PopUpWidth,
                                     Converter={StaticResource WidthConverter},
-                                    ConverterParameter=0.20}"
+                                    ConverterParameter=0.9}"
                     Height="{Binding PopUpHeight,
                                      Converter={StaticResource HeightConverter},
-                                     ConverterParameter=0.20}"
+                                     ConverterParameter=0.75}"
                     Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}"
                     BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}">
 

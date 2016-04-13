@@ -188,7 +188,6 @@ namespace POF.ViewModels
             //    ToastFilePath = "ms-appdata:///local/Horizon.wma"
             //};
 
-
             Task.Run(()=> loadCustmSoundCol(SelectedSound)).Wait();
             AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
             Player = new MediaElement();
@@ -197,7 +196,6 @@ namespace POF.ViewModels
             PickCustomSoundCommand = new RelayCommand(selectCustomSound);
             SelectedSoundCommand = new RelayCommand<object>(setSound);
             PopUpUnloadedCommand = new RelayCommand(closePopUp);
-           
         }
 
 
@@ -210,6 +208,8 @@ namespace POF.ViewModels
 
         private void openPopUp()
         {
+            //set datacontext
+           
             IsPopUpOpen = true;
         }
 
