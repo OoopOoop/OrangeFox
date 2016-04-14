@@ -17,19 +17,22 @@ namespace POF.ViewModels
 
         public SoundSelectViewModel Sound { get; set; }
       
+        
+
         public AlarmPageViewModel()
         {
            
             TimePickerTime=new TimeSpan(14,15,00);
 
-            Sound = new SoundSelectViewModel();
+            //  Sound = new SoundSelectViewModel();
 
             Messenger.Default.Register<SoundData>(
-              this,
+            this,
               sound =>
               {
                   Sound.SelectedSound = sound;
-              });         
+                 // Sound = new SoundSelectViewModel();
+              });
         }
 
         

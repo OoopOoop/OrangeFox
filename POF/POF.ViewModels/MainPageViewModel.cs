@@ -103,12 +103,12 @@ namespace POF.ViewModels
 
         public MainPageViewModel()
         {
-            Messenger.Default.Register<SoundData>(
-                this,
-                sound =>
-            {
-                Path = sound.ToastFilePath;
-            });
+            //Messenger.Default.Register<SoundData>(
+            //    this,
+            //    sound =>
+            //{
+            //    Path = sound.ToastFilePath;
+            //});
 
         }
 

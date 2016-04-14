@@ -172,13 +172,13 @@ namespace POF.ViewModels
             //TODO: save standard sound to local folder if user skip step of selecting sound
 
             //Examples
-            SelectedSound = new SoundData()
-            {
-                Title = "0897",
-                FileType = FileTypeEnum.Custom,
-                ToastFilePath = "ms-appdata:///local/AlarmSoundFolder/0897.wav",
-                FilePath="C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\0897.wav"
-            };
+            //SelectedSound = new SoundData()
+            //{
+            //    Title = "0897",
+            //    FileType = FileTypeEnum.Custom,
+            //    ToastFilePath = "ms-appdata:///local/AlarmSoundFolder/0897.wav",
+            //    FilePath="C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\0897.wav"
+            //};
 
             //SelectedSound = new SoundData()
             //{
@@ -187,6 +187,8 @@ namespace POF.ViewModels
             //    FilePath = "C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\Horizon.wma",
             //    ToastFilePath = "ms-appdata:///local/Horizon.wma"
             //};
+
+          //  SelectedSound = (SoundData)Sound;
 
             Task.Run(()=> loadCustmSoundCol(SelectedSound)).Wait();
             AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
