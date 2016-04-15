@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using POF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
@@ -32,6 +34,8 @@ namespace POF
         /// </summary>
         /// 
 
+
+       
 
         public App()
         {

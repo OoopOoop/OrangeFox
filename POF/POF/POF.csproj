@@ -196,6 +196,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\POF.Models\POF.Models.csproj">
+      <Project>{40F8AEB5-1DA7-48A2-931A-34D00793E4AE}</Project>
+      <Name>POF.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\POF.Shared\POF.Shared.csproj">
       <Project>{880dae10-cbb4-433e-98c2-96a8d01fbd54}</Project>
       <Name>POF.Shared</Name>

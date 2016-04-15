@@ -1,10 +1,12 @@
-﻿using POF.Shared;
+﻿using GalaSoft.MvvmLight.Ioc;
+using POF.Shared;
 using POF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -21,21 +23,26 @@ namespace POF
 {
     public sealed partial class SoundsPopUpControl : UserControl
     {
+      
         public SoundsPopUpControl()
         {
             this.InitializeComponent();
-           
+         
         }
+
+
+       
 
         //TODO: put popUp in center of page, change NewHorOffse and NewVerticalOffset calculations (for different devices)
         private void SelectionPopUp_LayoutUpdated(object sender, object e)
         {
+           
             if (PopUpBorder.ActualWidth == 0 && PopUpBorder.ActualHeight == 0)
             {
                 return;
             }
-
-
+       
+           
             double ActualHorizontalOffset = this.SelectionPopUp.HorizontalOffset;
             double ActualVerticalOffset = this.SelectionPopUp.VerticalOffset;
 

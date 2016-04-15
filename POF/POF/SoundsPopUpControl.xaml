@@ -7,6 +7,7 @@
              xmlns:local="using:POF"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:shared="using:POF.Shared"
+             xmlns:viewmodel="using:POF.ViewModels"
              x:Name="SoundPopUpControl"
              DataContext="{Binding SoundSelectViewModel,
                                    Source={StaticResource Locator}}"
@@ -14,6 +15,16 @@
              d:DesignWidth="400"
              mc:Ignorable="d">
 
+
+    <!--
+        DataContext="{Binding SoundSelectViewModel,
+        Source={StaticResource Locator}}"
+    -->
+
+
+    <!--<UserControl.DataContext>
+        <viewmodel:SoundSelectViewModel />
+    </UserControl.DataContext>-->
 
     <Grid x:Name="rootGrid">
         <ContentControl x:Name="MediaPlayer" Content="{Binding Player}" />
@@ -45,11 +56,14 @@
                                      ConverterParameter=0.75}"
                     Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}"
                     BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}">
+
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Unloaded">
                         <core:InvokeCommandAction Command="{Binding PopUpUnloadedCommand}" />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
+
+
                 <ScrollViewer x:Name="scroll" VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
                         <ListView x:Name="CustomPlayList"

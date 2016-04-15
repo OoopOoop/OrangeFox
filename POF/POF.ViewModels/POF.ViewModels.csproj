@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="AlarmPageViewModel.cs" />
     <Compile Include="DaySelectViewModel.cs" />
+    <Compile Include="ISoundViewModel.cs" />
     <Compile Include="MainPageViewModel.cs" />
     <Compile Include="POFContextFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

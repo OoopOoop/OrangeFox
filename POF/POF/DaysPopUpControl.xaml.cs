@@ -20,35 +20,37 @@ namespace POF
 {
     public sealed partial class DaysPopUpControl : UserControl
     {
+       
         public DaysPopUpControl()
         {
             this.InitializeComponent();
-
+           
         }
 
 
         //TODO: same repeating event for 2 popups -> make 1
-        private void SelectionPopUp_LayoutUpdated(object sender, object e)
+        private void DayPopUp_LayoutUpdated(object sender, object e)
         {
-            if (PopUpBorder.ActualWidth == 0 && PopUpBorder.ActualHeight == 0)
-            {
-                return;
-            }
+       
+                if (PopUpBorder.ActualWidth == 0 && PopUpBorder.ActualHeight == 0)
+                {
+                    return;
+                }
 
-            double ActualHorizontalOffset = this.SelectionPopUp.HorizontalOffset;
-            double ActualVerticalOffset = this.SelectionPopUp.VerticalOffset;
-
-
-            double NewHorizontalOffset = (Window.Current.Bounds.Width - PopUpBorder.ActualWidth) / 2 - 10;
-            double NewVerticalOffset = (Window.Current.Bounds.Height - PopUpBorder.ActualHeight) / 2 - 300;
+                double ActualHorizontalOffset = this.DayPopUp.HorizontalOffset;
+                double ActualVerticalOffset = this.DayPopUp.VerticalOffset;
 
 
-            if (ActualHorizontalOffset != NewHorizontalOffset || ActualVerticalOffset != NewVerticalOffset)
-            {
-                this.SelectionPopUp.HorizontalOffset = NewHorizontalOffset;
-                this.SelectionPopUp.VerticalOffset = NewVerticalOffset;
-            }
+                double NewHorizontalOffset = (Window.Current.Bounds.Width - PopUpBorder.ActualWidth) / 2 - 10;
+                double NewVerticalOffset = (Window.Current.Bounds.Height - PopUpBorder.ActualHeight) / 2 - 300;
 
+
+                if (ActualHorizontalOffset != NewHorizontalOffset || ActualVerticalOffset != NewVerticalOffset)
+                {
+                    this.DayPopUp.HorizontalOffset = NewHorizontalOffset;
+                    this.DayPopUp.VerticalOffset = NewVerticalOffset;
+                }
+           
         }
 
         private void DaysOfWeekList_Loaded(object sender, RoutedEventArgs e)

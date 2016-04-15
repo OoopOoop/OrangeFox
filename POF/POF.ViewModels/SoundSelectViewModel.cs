@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace POF.ViewModels
 {
-    public class SoundData:MessageBase
+    public class SoundData:MessageBase, ISoundViewModel
     {
         #region Properties
 
@@ -64,6 +64,18 @@ namespace POF.ViewModels
             set { _toastFilePath = value; }
         }
 
+        //TODO: implement alarmPageViewModel.SetSound,connect it in viewmodellocator with ISoundViewModel
+
+        public SoundData SetSound()
+        {
+            return new SoundData() {  
+                Title = "Archipelago",
+                FileType = FileTypeEnum.Uri,
+                ToastFilePath = "ms-appx:///Assets/Ringtones/Archipelago.wma",
+                FilePath = "C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\Archipelago.wma"
+            };
+        
+        }
 
 
         #endregion Properties
@@ -120,6 +132,7 @@ namespace POF.ViewModels
             set { isPopUpOpen = value; OnPropertyChanged(); }
         }
 
+
         private double _popUpHeight;
 
         public double PopUpHeight
@@ -166,18 +179,24 @@ namespace POF.ViewModels
         public ICommand PlaySoundCommand { get; }
         public ICommand PopUpUnloadedCommand { get; }
 
-        public SoundSelectViewModel()
+
+        private ISoundViewModel _soundViewModel;
+
+        
+        public SoundSelectViewModel(ISoundViewModel soundViewModel)
         {
+            _soundViewModel = soundViewModel;
+
             //TODO: save standard sound to local folder if user skip step of selecting sound
 
             //Examples
-            SelectedSound = new SoundData()
-            {
-                Title = "0897",
-                FileType = FileTypeEnum.Custom,
-                ToastFilePath = "ms-appdata:///local/AlarmSoundFolder/0897.wav",
-                FilePath="C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\0897.wav"
-            };
+            //SelectedSound = new SoundData()
+            //{
+            //    Title = "0897",
+            //    FileType = FileTypeEnum.Custom,
+            //    ToastFilePath = "ms-appdata:///local/AlarmSoundFolder/0897.wav",
+            //    FilePath="C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\0897.wav"
+            //};
 
             //SelectedSound = new SoundData()
             //{
@@ -187,20 +206,41 @@ namespace POF.ViewModels
             //    ToastFilePath = "ms-appdata:///local/Horizon.wma"
             //};
 
+            SelectedSound = getSound();
 
-            loadCustmSoundCol(SelectedSound);
+
+            //  Task.Run(()=> loadCustmSoundCol(SelectedSound)).Wait();
+
+            Task.Run(async() => await loadCustmSoundCol(SelectedSound)).Wait();
+
             AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
             Player = new MediaElement();
             PlaySoundCommand = new RelayCommand<object>(playSound);
             OpenPopUpCommand = new RelayCommand(openPopUp);
             PickCustomSoundCommand = new RelayCommand(selectCustomSound);
-            SelectedSoundCommand = new RelayCommand<object>(saveNewSelectedSound);
-            PopUpUnloadedCommand = new RelayCommand(() => Player.Stop());
+            SelectedSoundCommand = new RelayCommand<object>(setSound);
+            PopUpUnloadedCommand = new RelayCommand(closePopUp);
+        }
+
+
+        
+        public SoundData getSound()
+        {
+           return  _soundViewModel.SetSound();
+        }
+
+
+        private void closePopUp()
+        {
+            Player.Stop();
+            IsPopUpOpen = false;
         }
 
 
         private void openPopUp()
         {
+            //set datacontext
+           
             IsPopUpOpen = true;
         }
 
@@ -225,21 +265,16 @@ namespace POF.ViewModels
             return false;
         }
 
-        /// <summary>
-        /// Taking a sound object, checking it's file type
-        /// if of type is Custom and still saved in local folder - displaying it's name, loading customSoundCollection + standardSoundCollection
-        /// if of type Uri and still saved in local folder- displaying it's name and just loading standardSoundCollection
-        /// if nothing found - loading standardSoundCollection with preset sound, and displaying name of a preset sound.
-        /// </summary>
-        /// <param name="sound"></param>
-        private void loadCustmSoundCol(object obj)
+
+        private async Task loadCustmSoundCol(object obj)
         {
             var sound = obj as SoundData;
 
             //If no sound or an invalid sound is sent, use the default
             if (sound == null || !IsInLocal(sound.FileName))
             {
-                sound = new SoundData() { Title = "Bird Box", FilePath = "ms-appx:///Assets/Ringtones/Bird Box.wma", FileType = FileTypeEnum.Uri, ToastFilePath = "ms-appdata:///local/Bird Box.wma" };
+                sound = new SoundData() { Title = "Bird Box", FilePath = "ms-appx:/Assets/Ringtones/Bird Box.wma", FileType = FileTypeEnum.Uri, ToastFilePath = "ms-appdata:///local/Bird Box.wma" };
+                await saveNewSelectedSound(sound);
             }
 
             //Clear out the custom sound collection
@@ -272,6 +307,7 @@ namespace POF.ViewModels
             else
             {
                 soundFile = new SoundData() { FilePath = SelectedSound.FilePath, Title = SelectedSound.Title, FileType = SelectedSound.FileType, ToastFilePath=SelectedSound.ToastFilePath};
+                CustomStorageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(soundFile.ToastFilePath));
             }
 
             StorageFolder local = ApplicationData.Current.LocalFolder;
@@ -295,21 +331,26 @@ namespace POF.ViewModels
             return soundFile;
         }
 
-        private async void saveNewSelectedSound(object obj)
+        private async void setSound(object obj)
         {
             var sound = obj as SoundData;
             SelectedSoundTitle = sound.Title;
             IsPopUpOpen = false;
 
+            await saveNewSelectedSound(obj);
+        }
 
 
+
+        private async Task saveNewSelectedSound(object obj)
+        {
             //pass it to AlarmPageViewModel when "Save Alarm" button will be pressed
             // await SaveSoundToLocal(obj);
             //Passing to MainViewModel at the moment to check if toast plays sound
             SoundData dataToSend = await SaveSoundToLocal(obj);
             Messenger.Default.Send(dataToSend);
-            
         }
+
 
 
         /// <summary>
