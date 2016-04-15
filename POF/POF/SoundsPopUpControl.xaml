@@ -9,6 +9,8 @@
              xmlns:shared="using:POF.Shared"
              xmlns:viewmodel="using:POF.ViewModels"
              x:Name="SoundPopUpControl"
+             DataContext="{Binding SoundSelectViewModel,
+                                   Source={StaticResource Locator}}"
              d:DesignHeight="300"
              d:DesignWidth="400"
              mc:Ignorable="d">
@@ -20,9 +22,9 @@
     -->
 
 
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <viewmodel:SoundSelectViewModel />
-    </UserControl.DataContext>
+    </UserControl.DataContext>-->
 
     <Grid x:Name="rootGrid">
         <ContentControl x:Name="MediaPlayer" Content="{Binding Player}" />

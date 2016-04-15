@@ -18,7 +18,7 @@ namespace POF.Tests
         [UITestMethod]
         public  void StandardSoundsCount()
         {
-            var target = new SoundSelectViewModel();
+          //  var target = new SoundSelectViewModel();
             //Microsoft.VisualStudio.TestPlatform.UnitTestFramework.Assert.AreEqual(target.StandardSoundGroup.Count, 4);
 
         }

@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace POF.ViewModels
 {
-    public class SoundData:MessageBase
+    public class SoundData:MessageBase, ISoundViewModel
     {
         #region Properties
 
@@ -64,6 +64,18 @@ namespace POF.ViewModels
             set { _toastFilePath = value; }
         }
 
+        //TODO: implement alarmPageViewModel.SetSound,connect it in viewmodellocator with ISoundViewModel
+
+        public SoundData SetSound()
+        {
+            return new SoundData() {  
+                Title = "Archipelago",
+                FileType = FileTypeEnum.Uri,
+                ToastFilePath = "ms-appx:///Assets/Ringtones/Archipelago.wma",
+                FilePath = "C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\Archipelago.wma"
+            };
+        
+        }
 
 
         #endregion Properties
@@ -167,8 +179,14 @@ namespace POF.ViewModels
         public ICommand PlaySoundCommand { get; }
         public ICommand PopUpUnloadedCommand { get; }
 
-        public SoundSelectViewModel()
+
+        private ISoundViewModel _soundViewModel;
+
+        
+        public SoundSelectViewModel(ISoundViewModel soundViewModel)
         {
+            _soundViewModel = soundViewModel;
+
             //TODO: save standard sound to local folder if user skip step of selecting sound
 
             //Examples
@@ -188,9 +206,13 @@ namespace POF.ViewModels
             //    ToastFilePath = "ms-appdata:///local/Horizon.wma"
             //};
 
-          //  SelectedSound = (SoundData)Sound;
+            SelectedSound = getSound();
 
-            Task.Run(()=> loadCustmSoundCol(SelectedSound)).Wait();
+
+            //  Task.Run(()=> loadCustmSoundCol(SelectedSound)).Wait();
+
+            Task.Run(async() => await loadCustmSoundCol(SelectedSound)).Wait();
+
             AlarmStandardSoundSelection = new AlarmStandardSoundSelection(base.Repository.StandardSoundFiles);
             Player = new MediaElement();
             PlaySoundCommand = new RelayCommand<object>(playSound);
@@ -198,6 +220,13 @@ namespace POF.ViewModels
             PickCustomSoundCommand = new RelayCommand(selectCustomSound);
             SelectedSoundCommand = new RelayCommand<object>(setSound);
             PopUpUnloadedCommand = new RelayCommand(closePopUp);
+        }
+
+
+        
+        public SoundData getSound()
+        {
+           return  _soundViewModel.SetSound();
         }
 
 

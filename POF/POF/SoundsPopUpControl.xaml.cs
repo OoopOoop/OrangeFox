@@ -1,10 +1,12 @@
-﻿using POF.Shared;
+﻿using GalaSoft.MvvmLight.Ioc;
+using POF.Shared;
 using POF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -25,7 +27,7 @@ namespace POF
         public SoundsPopUpControl()
         {
             this.InitializeComponent();
-           //DataContext = new SoundSelectViewModel();
+         
         }
 
 
