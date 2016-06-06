@@ -11,7 +11,7 @@ namespace POF.ViewModels
     {
         public ViewModelLocator()
         {
-            SimpleIoc.Default.Register<ISoundViewModel, SoundData>(true);
+            //SimpleIoc.Default.Register<ISoundViewModel, SoundData>(true);
             SimpleIoc.Default.Register<SoundSelectViewModel>();
             SimpleIoc.Default.Register<AlarmPageViewModel>();
             SimpleIoc.Default.Register<DaySelectViewModel>();
@@ -25,8 +25,9 @@ namespace POF.ViewModels
        
 
         public SoundSelectViewModel SoundSelectViewModel => SimpleIoc.Default.GetInstance<SoundSelectViewModel>(Guid.NewGuid().ToString());
+       // public SoundSelectViewModel SoundSelectViewModel => SimpleIoc.Default.GetInstance<SoundSelectViewModel>();
         public AlarmPageViewModel AlarmPageViewModel => SimpleIoc.Default.GetInstance<AlarmPageViewModel>();
-        public DaySelectViewModel DaySelectViewModel => SimpleIoc.Default.GetInstance<DaySelectViewModel>();
+        public DaySelectViewModel DaySelectViewModel => SimpleIoc.Default.GetInstance<DaySelectViewModel>(Guid.NewGuid().ToString());
         public MainPageViewModel MainPageViewModel => SimpleIoc.Default.GetInstance<MainPageViewModel>();
     }
 }

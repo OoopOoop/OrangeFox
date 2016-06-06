@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace POF.ViewModels
 {
-    public class AlarmPageViewModel : ViewModelBase, ISoundViewModel
+    public class AlarmPageViewModel : ViewModelBase
     {
 
         public ICommand TestCommand { get; }
@@ -41,12 +41,7 @@ namespace POF.ViewModels
         }
 
 
-        public SoundData SetSound()
-        {
-            return SelectedSound;
-        }
-
-
+       
         private void getSound()
         {
             Messenger.Default.Register<SoundData>(

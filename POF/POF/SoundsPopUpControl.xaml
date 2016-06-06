@@ -9,10 +9,10 @@
              xmlns:shared="using:POF.Shared"
              xmlns:viewmodel="using:POF.ViewModels"
              x:Name="SoundPopUpControl"
-             DataContext="{Binding SoundSelectViewModel,
-                                   Source={StaticResource Locator}}"
              d:DesignHeight="300"
              d:DesignWidth="400"
+             DataContext="{Binding SoundSelectViewModel,
+                                   Source={StaticResource Locator}}"
              mc:Ignorable="d">
 
 

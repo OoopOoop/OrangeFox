@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace POF.ViewModels
 {
-    public class SoundData:MessageBase, ISoundViewModel
+    public class SoundData:MessageBase
     {
         #region Properties
 
@@ -180,12 +180,12 @@ namespace POF.ViewModels
         public ICommand PopUpUnloadedCommand { get; }
 
 
-        private ISoundViewModel _soundViewModel;
+  
 
         
-        public SoundSelectViewModel(ISoundViewModel soundViewModel)
+        public SoundSelectViewModel()
         {
-            _soundViewModel = soundViewModel;
+           
 
             //TODO: save standard sound to local folder if user skip step of selecting sound
 
@@ -206,7 +206,7 @@ namespace POF.ViewModels
             //    ToastFilePath = "ms-appdata:///local/Horizon.wma"
             //};
 
-            SelectedSound = getSound();
+            //SelectedSound = getSound();
 
 
             //  Task.Run(()=> loadCustmSoundCol(SelectedSound)).Wait();
@@ -223,11 +223,7 @@ namespace POF.ViewModels
         }
 
 
-        
-        public SoundData getSound()
-        {
-           return  _soundViewModel.SetSound();
-        }
+      
 
 
         private void closePopUp()
@@ -408,14 +404,21 @@ namespace POF.ViewModels
         private void addCustomSong(StorageFile file)
         {
             // if (AlarmCustomSoundSelection.Any(x => x.FilePath == file.Path))
-            if (AlarmCustomSoundSelection.Any(x => x.Title == file.DisplayName))
-            {
-                return;
-            }
-            else
+            //if (AlarmCustomSoundSelection.Any(x => x.Title == file.DisplayName))
+            //{
+            //    return;
+            //}
+            //else
+            //{
+            //    AlarmCustomSoundSelection.Add(new SoundData { Title = file.DisplayName, FilePath = file.Path, FileType = FileTypeEnum.Custom, IsInLocal = false });
+            //}
+
+
+            if (!AlarmCustomSoundSelection.Any(x => x.Title == file.DisplayName))
             {
                 AlarmCustomSoundSelection.Add(new SoundData { Title = file.DisplayName, FilePath = file.Path, FileType = FileTypeEnum.Custom, IsInLocal = false });
             }
+          
         }
 
         /// <summary>
