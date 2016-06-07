@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace POF.Models
 {
-   public class SoundFile
-    {
-        public string FilePath { get; set; }
-        public string Title { get; set; }
-        public FileTypeEnum FileType { get; set;}
+   //public class SoundFile
+   // {
+   //     public string FilePath { get; set; }
+   //     public string Title { get; set; }
+   //     public FileTypeEnum FileType { get; set;}
 
 
-        //   public int SongID { get; set; }
-        //   public Windows.Storage.Streams.IRandomAccessStream Stream { get; set; }
-    }
+   //     //   public int SongID { get; set; }
+   //     //   public Windows.Storage.Streams.IRandomAccessStream Stream { get; set; }
+   // }
 }

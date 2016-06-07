@@ -66,5 +66,12 @@ namespace POF
                 DaysOfWeekList.SelectedItems.Add(day);
             }
         }
+
+        private void DayPopUp_Closed(object sender, object e)
+        {
+            var viewModel = (DaySelectViewModel)DataContext;
+            if (viewModel.FlyoutClosedCommand.CanExecute(null))
+                viewModel.FlyoutClosedCommand.Execute(null);
+        }
     }
 }

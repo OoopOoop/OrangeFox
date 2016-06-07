@@ -7,10 +7,10 @@
              xmlns:local="using:POF"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              x:Name="DayPopUpControl"
-             DataContext="{Binding DaySelectViewModel,
-                                   Source={StaticResource Locator}}"
              d:DesignHeight="300"
              d:DesignWidth="400"
+             DataContext="{Binding DaySelectViewModel,
+                                   Source={StaticResource Locator}}"
              mc:Ignorable="d">
 
     <Grid>
@@ -26,9 +26,12 @@
         <!--  LayoutUpdated="SelectionPopUp_LayoutUpdated">  -->
         <Popup x:Name="DayPopUp"
                Canvas.ZIndex="1"
+               Closed="DayPopUp_Closed"
                IsLightDismissEnabled="True"
                IsOpen="{Binding IsPopUpOpen}"
                LayoutUpdated="DayPopUp_LayoutUpdated">
+
+
             <Popup.ChildTransitions>
                 <TransitionCollection>
                     <PopupThemeTransition />

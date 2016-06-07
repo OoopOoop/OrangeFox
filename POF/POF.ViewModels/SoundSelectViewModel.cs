@@ -16,74 +16,92 @@ using Windows.UI.Xaml.Controls;
 
 namespace POF.ViewModels
 {
-    public class SoundData:MessageBase
-    {
-        #region Properties
+    //public class SoundData : MessageBase
+    //{
+        //    #region Properties
 
-        private string _filePath;
+        //    private string _filePath;
 
-        public string FilePath
-        {
-            get { return _filePath; }
-            set { _filePath = value; }
-        }
-
-   
-        public string FileName => FilePath?.Substring(FilePath.LastIndexOf("\\") + 1);
-
-        private string _title;
-
-        public string Title
-        {
-            get { return _title; }
-            set { _title = value; }
-        }
-
-     
-        private FileTypeEnum _fileType;
-
-        public FileTypeEnum FileType
-        {
-            get { return _fileType; }
-            set { _fileType = value; }
-        }
-
-        private bool _isInLocal;
-
-        public bool IsInLocal
-        {
-            get { return _isInLocal; }
-            set { _isInLocal = value; }
-        }
-
-        private string _toastFilePath;
-
-        public string ToastFilePath
-        {
-            get { return _toastFilePath; }
-            set { _toastFilePath = value; }
-        }
-
-        //TODO: implement alarmPageViewModel.SetSound,connect it in viewmodellocator with ISoundViewModel
-
-        public SoundData SetSound()
-        {
-            return new SoundData() {  
-                Title = "Archipelago",
-                FileType = FileTypeEnum.Uri,
-                ToastFilePath = "ms-appx:///Assets/Ringtones/Archipelago.wma",
-                FilePath = "C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\Archipelago.wma"
-            };
-        
-        }
+        //    public string FilePath
+        //    {
+        //        get { return _filePath; }
+        //        set { _filePath = value; }
+        //    }
 
 
-        #endregion Properties
-    }
+        //    public string FileName => FilePath?.Substring(FilePath.LastIndexOf("\\") + 1);
+
+        //    private string _title;
+
+        //    public string Title
+        //    {
+        //        get { return _title; }
+        //        set { _title = value; }
+        //    }
+
+
+        //    private FileTypeEnum _fileType;
+
+        //    public FileTypeEnum FileType
+        //    {
+        //        get { return _fileType; }
+        //        set { _fileType = value; }
+        //    }
+
+        //    private bool _isInLocal;
+
+        //    public bool IsInLocal
+        //    {
+        //        get { return _isInLocal; }
+        //        set { _isInLocal = value; }
+        //    }
+
+        //    private string _toastFilePath;
+
+        //    public string ToastFilePath
+        //    {
+        //        get { return _toastFilePath; }
+        //        set { _toastFilePath = value; }
+        //    }
+
+        //    //TODO: implement alarmPageViewModel.SetSound,connect it in viewmodellocator with ISoundViewModel
+
+        //    public SoundData SetSound()
+        //    {
+        //        return new SoundData() {  
+        //            Title = "Archipelago",
+        //            FileType = FileTypeEnum.Uri,
+        //            ToastFilePath = "ms-appx:///Assets/Ringtones/Archipelago.wma",
+        //            FilePath = "C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\Archipelago.wma"
+        //        };
+
+        //    }
+
+
+        //    #endregion Properties
+    //}
 
     public class AlarmStandardSoundSelection : ObservableCollection<SoundData>
     {
-        public AlarmStandardSoundSelection(List<SoundFile> modelSoundCollection) : base()
+        //public AlarmStandardSoundSelection(List<SoundFile> modelSoundCollection) : base()
+        //{
+        //    this.addSounds(modelSoundCollection);
+        //}
+
+        //public AlarmStandardSoundSelection() : base()
+        //{
+        //}
+
+        //private void addSounds(List<SoundFile> collection)
+        //{
+        //    foreach (SoundFile item in collection)
+        //    {
+        //        this.Add(new SoundData() { FilePath = item.FilePath, Title = item.Title, FileType = item.FileType });
+        //    }
+        //}
+
+
+        public AlarmStandardSoundSelection(List<SoundData> modelSoundCollection) : base()
         {
             this.addSounds(modelSoundCollection);
         }
@@ -92,9 +110,9 @@ namespace POF.ViewModels
         {
         }
 
-        private void addSounds(List<SoundFile> collection)
+        private void addSounds(List<SoundData> collection)
         {
-            foreach (SoundFile item in collection)
+            foreach (SoundData item in collection)
             {
                 this.Add(new SoundData() { FilePath = item.FilePath, Title = item.Title, FileType = item.FileType });
             }
@@ -185,7 +203,7 @@ namespace POF.ViewModels
         
         public SoundSelectViewModel()
         {
-           
+
 
             //TODO: save standard sound to local folder if user skip step of selecting sound
 

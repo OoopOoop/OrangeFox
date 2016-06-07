@@ -58,7 +58,8 @@
             <TextBox x:Name="AlarmNameTxt"
                      BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                      BorderThickness="{ThemeResource ComboBoxBorderThemeThickness}"
-                     Text="Good Morning"
+                     Text="{Binding AlarmName,
+                                    Mode=TwoWay}"
                      TextAlignment="Left"
                      TextWrapping="Wrap">
                 <TextBox.Header>
@@ -127,8 +128,9 @@
     </Grid>
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Save"
-                          IsEnabled="False"
+            <AppBarButton Command="{Binding SaveNewAlarmCommand}"
+                          Icon="Save"
+                          IsEnabled="True"
                           Label="Save" />
             <AppBarButton Icon="Delete" Label="Delete" />
         </CommandBar>

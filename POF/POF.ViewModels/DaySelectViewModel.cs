@@ -1,4 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+using POF.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -165,13 +167,26 @@ namespace POF.ViewModels
 
         public DaySelectViewModel()
         {
-            int savedSelectedDays = 7;
+           //(pass parameter)
+            int savedSelectedDays = 0;
+
+
+
             OpenPopUpCommand = new RelayCommand(()=>IsPopUpOpen=true);
             AlarmSelection = new AlarmRepeatSelection(savedSelectedDays);
             SelectedDaysFlags = (SelectableDay)savedSelectedDays;
             SelectedDaysCommand = new RelayCommand<SelectionChangedEventArgs>(setSelectedDays);
             PopUpUnloadedCommand = new RelayCommand(() => IsPopUpOpen = false);
+
+            FlyoutClosedCommand = new RelayCommand(saveSelectedDays);
+
+            Days = new DaysData();
+            Days.SelectedDaysInt = (int)(SelectableDay)SelectedDaysFlags;
+            Days.SelectedDaysStr = DisplayDescription;
+            saveSelectedDays();
         }
+
+     
 
 
         //private void openPopUp()
@@ -231,7 +246,23 @@ namespace POF.ViewModels
             setter(e.RemovedItems, false);
 
             SelectedDaysFlags = AlarmSelection.selectableDayFlags();
+
             OnPropertyChanged(nameof(DisplayDescription));
         }
+
+      
+
+        public RelayCommand FlyoutClosedCommand { get; set;}
+        DaysData Days;
+
+
+        private void saveSelectedDays()
+        {
+            Days.SelectedDaysInt = (int)(SelectableDay)SelectedDaysFlags;
+            Days.SelectedDaysStr = DisplayDescription;
+            Messenger.Default.Send(Days);
+        }
+
+
     }
 }
