@@ -2,8 +2,11 @@
 using GalaSoft.MvvmLight.Messaging;
 using POF.Models;
 using POF.Shared;
+using POF.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,12 +15,41 @@ using Windows.UI.Xaml.Controls;
 
 namespace POF.ViewModels
 {
+   
+    public class SnoozeTimeCollection:ObservableCollection<SnoozeTime>
+    {
+       public SnoozeTimeCollection()
+        {
+            this.Add(new SnoozeTime { SnoozeMin = "5"});
+            this.Add(new SnoozeTime { SnoozeMin = "10"});
+            this.Add(new SnoozeTime { SnoozeMin = "20"});
+            this.Add(new SnoozeTime { SnoozeMin = "30"});
+            this.Add(new SnoozeTime { SnoozeMin = "1"});
+        }
+    }
+       
+
     public class AlarmPageViewModel : ViewModelBase
     {
+        private string newAlarmHeader = "NEW ALARM";
+        private string editAlarmHeader = "EDIT ALARM";
 
-        //public SoundSelectViewModel SoundToSelect { get; set; }
-        //public DaySelectViewModel DaysToSelect { get; set;}
+        private SnoozeTime _selectedSnoozeTime;
+        public SnoozeTime SelectedSnoozeTime
+        {
+            get { return _selectedSnoozeTime; }
+            set { _selectedSnoozeTime = value; OnPropertyChanged(); }
+        }
 
+
+        private SnoozeTimeCollection _snoozeTimeCollection;
+        public SnoozeTimeCollection SnoozeTimeCollection
+        {
+            get { return _snoozeTimeCollection; }
+            set { _snoozeTimeCollection = value; OnPropertyChanged(); }
+        }
+
+        
 
         private TimeSpan timePickerTime;
         public TimeSpan TimePickerTime
@@ -27,12 +59,13 @@ namespace POF.ViewModels
             {
                 timePickerTime = value;
                 OnPropertyChanged();
+                calculateRemainingtime();
             }
         }
 
 
         private SoundData _selectedSound { get; set; }
-        private DaysData _selectedDays { get; set;}
+        private SelectedDaysData _selectedDays { get; set;}
 
 
         private string _alarmName;
@@ -44,22 +77,31 @@ namespace POF.ViewModels
 
 
 
+        private string _timeRemainTxt;
+        public string TimeRemainTxt
+        {
+            get { return _timeRemainTxt; }
+            set { _timeRemainTxt = value;OnPropertyChanged(); }
+        }
+
+
+
+        private string _pageHeaderTxt;
+        public string PageHeaderTxt
+        {
+            get { return _pageHeaderTxt; }
+            set { _pageHeaderTxt = value; OnPropertyChanged(); }
+        }
+
 
 
         public RelayCommand SaveNewAlarmCommand { get; set;}
 
 
-
-
         public AlarmPageViewModel()
         {
             //takes saved alarmEvent, or opens new  one
-
-
-            // TimePickerTime=new TimeSpan(14,15,00);
-
-
-
+            
             //SelectedSound = new SoundData()
             //{
             //    Title = "Archipelago",
@@ -68,10 +110,13 @@ namespace POF.ViewModels
             //    FilePath = "C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\Archipelago.wma"
             //};
 
-            AlarmName = "Good Morning";
+
+            SnoozeTimeCollection = new SnoozeTimeCollection();
+            addNewAlarm();
 
 
-            //to receive data from days and sound viewmodels
+
+            //to receive data from DaySelectViewModel and SoundSelectViewmodel
             getSelectedSound();
             getSelectedDays();
 
@@ -82,6 +127,42 @@ namespace POF.ViewModels
         }
 
 
+
+        private void calculateRemainingtime()
+        {
+            string timeLeft = "";
+            var timeReminder = Convert.ToDateTime(TimePickerTime.ToString());
+
+            if(timeReminder.Date<DateTime.Now)
+            {
+                timeReminder=timeReminder.AddDays(1);
+            }
+
+            TimeSpan timeSpan = timeReminder - DateTime.Now;
+
+            if(timeSpan.Hours>=1)
+            {
+                timeLeft = String.Format("{0} {1} {2}, {3} {4}", "In", timeSpan.Hours, timeSpan.Hours > 1 ? "hours" : "hour", timeSpan.Minutes, "minutes");
+            }
+            else
+            {
+                timeLeft= String.Format("{0} {1} {2}", "In",timeSpan.Minutes, "minutes");
+            }
+            TimeRemainTxt=timeLeft;
+        }
+
+        
+
+        private void addNewAlarm()
+        {
+            PageHeaderTxt = newAlarmHeader;
+            AlarmName = "Alarm";
+            TimePickerTime = new TimeSpan(07, 00, 00);      
+            SelectedSnoozeTime = SnoozeTimeCollection[1];
+        }
+
+
+
         private void saveNewAlarmEvent()
         {
             var alarm = new AlarmEvent();
@@ -90,7 +171,7 @@ namespace POF.ViewModels
             alarm.SelectedSound = _selectedSound;
             alarm.TimeSet = Convert.ToDateTime(TimePickerTime.ToString());
             alarm.SelectedDays = this._selectedDays;
-
+            alarm.SnoozeTime = SelectedSnoozeTime.SnoozeMin;
 
             var testtoremove = new object();
         }
@@ -110,7 +191,7 @@ namespace POF.ViewModels
 
         private void getSelectedDays()
         {
-            Messenger.Default.Register<DaysData>(
+            Messenger.Default.Register<SelectedDaysData>(
            this,
              days =>
              {

@@ -34,6 +34,6 @@ namespace POF
             Frame.Navigate(typeof(MainPage));
         }
 
-     
+      
     }
 }

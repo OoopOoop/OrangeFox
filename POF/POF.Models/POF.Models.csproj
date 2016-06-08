@@ -108,9 +108,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlarmEvent.cs" />
-    <Compile Include="DaysData.cs" />
+    <Compile Include="SelectedDaysData.cs" />
     <Compile Include="POFContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SnoozeTime.cs" />
     <Compile Include="SoundData.cs" />
     <Compile Include="SoundFile.cs" />
     <EmbeddedResource Include="Properties\POF.Models.rd.xml" />

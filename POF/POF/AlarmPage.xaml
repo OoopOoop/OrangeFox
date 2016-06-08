@@ -42,7 +42,7 @@
             <TextBlock FontWeight="Bold"
                        Padding="0,0,0,10"
                        Style="{StaticResource BodyTextBlockStyle}"
-                       Text="EDIT ALARM" />
+                       Text="{Binding PageHeaderTxt}" />
         </StackPanel>
 
 
@@ -86,7 +86,7 @@
         <TextBlock Grid.Row="3"
                    HorizontalAlignment="Center"
                    Foreground="Gray"
-                   Text="In 5 hours, 57 minutes" />
+                   Text="{Binding TimeRemainTxt}" />
 
         <StackPanel Grid.Row="4">
             <local:SoundsPopUpControl />
@@ -94,19 +94,25 @@
 
         <local:DaysPopUpControl Grid.Row="5" />
 
-        <ComboBox x:Name="snoozeComboBox"
+        <ComboBox x:Name="SnoozeComboBox"
                   Grid.Row="6"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Center"
-                  SelectedIndex="1">
+                  ItemsSource="{Binding SnoozeTimeCollection}"
+                  SelectedItem="{Binding SelectedSnoozeTime,
+                                         Mode=TwoWay}"
+                  SelectedValuePath="SnoozeTime">
             <ComboBox.Header>
                 <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Snooze Time" />
             </ComboBox.Header>
-            <ComboBoxItem>5 minutes</ComboBoxItem>
+
+            <!--  DisplayMemberPath="SnoozeTime"  -->
+
+            <!--<ComboBoxItem>5 minutes</ComboBoxItem>
             <ComboBoxItem>10 minutes</ComboBoxItem>
             <ComboBoxItem>20 minutes</ComboBoxItem>
             <ComboBoxItem>30 minutes</ComboBoxItem>
-            <ComboBoxItem>1 hour</ComboBoxItem>
+            <ComboBoxItem>1 hour</ComboBoxItem>-->
         </ComboBox>
 
 

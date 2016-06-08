@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace POF.Models
 {
-   public  class DaysData
+   public  class SelectedDaysData
     {
         public int SelectedDaysInt { get; set; }
         public string SelectedDaysStr { get; set; }

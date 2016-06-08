@@ -180,7 +180,7 @@ namespace POF.ViewModels
 
             FlyoutClosedCommand = new RelayCommand(saveSelectedDays);
 
-            Days = new DaysData();
+            Days = new SelectedDaysData();
             Days.SelectedDaysInt = (int)(SelectableDay)SelectedDaysFlags;
             Days.SelectedDaysStr = DisplayDescription;
             saveSelectedDays();
@@ -253,7 +253,7 @@ namespace POF.ViewModels
       
 
         public RelayCommand FlyoutClosedCommand { get; set;}
-        DaysData Days;
+        SelectedDaysData Days;
 
 
         private void saveSelectedDays()
