@@ -10,17 +10,15 @@
       xmlns:shared="using:POF.Shared"
       xmlns:viewmodel="using:POF.ViewModels"
       x:Name="alarmPage"
+      DataContext="{Binding AlarmPageViewModel,
+                            Source={StaticResource Locator}}"
       IsTabStop="True"
       mc:Ignorable="d">
 
-    <!--
-        DataContext="{Binding AlarmPageViewModel,
-        Source={StaticResource Locator}}"
-    -->
 
-    <Page.DataContext>
+    <!--<Page.DataContext>
         <viewmodel:AlarmPageViewModel />
-    </Page.DataContext>
+    </Page.DataContext>-->
 
 
     <Grid x:Name="RootGrid"

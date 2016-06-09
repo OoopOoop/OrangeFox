@@ -1,6 +1,10 @@
-﻿using GalaSoft.MvvmLight.Messaging;
+﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Views;
+using POF.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +15,19 @@ namespace POF.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+
+        private ObservableCollection<AlarmEvent> _savedAlarmCollection;
+        public ObservableCollection<AlarmEvent> SavedAlarmCollection
+        {
+            get { return _savedAlarmCollection; }
+            set { _savedAlarmCollection = value;OnPropertyChanged(); }
+        }
+
+
+        public RelayCommand AddNewAlarmCommand { get; set; }
+
+
+
         public string AudioName { get; set;}
 
         private bool alarmIsOn;
@@ -44,8 +61,6 @@ namespace POF.ViewModels
 
         private void setToast(string alarmName, string alarmTime, string soundPath, string snoozeTime)
         {
-         
-
             string xml = $@"<toast activationType='foreground' scenario='reminder' launch='args'>
                                             <visual>
                                                 <binding template='ToastGeneric'>
@@ -101,7 +116,11 @@ namespace POF.ViewModels
         //TODO: add checking for blank spaces
         public string Path { get; set; }
 
-        public MainPageViewModel()
+
+        private INavigationService _navigationService;
+
+
+        public MainPageViewModel(INavigationService navigationService)
         {
             //Messenger.Default.Register<SoundData>(
             //    this,
@@ -109,8 +128,28 @@ namespace POF.ViewModels
             //{
             //    Path = sound.ToastFilePath;
             //});
-
+          _navigationService=navigationService;
+           AddNewAlarmCommand = new RelayCommand(navigateToAddPage);
+           getNewAlarms();
         }
+
+
+        private void navigateToAddPage()
+        {
+            _navigationService.NavigateTo("AddPage");
+        }
+
+
+        private void getNewAlarms()
+        {
+            Messenger.Default.Register<AlarmEvent>(
+                this,
+                alarm =>
+                {
+                    SavedAlarmCollection.Add(alarm);
+                });
+        }
+
 
 
         protected override void OnDataLoaded()

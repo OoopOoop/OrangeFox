@@ -1,21 +1,13 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Views;
 using POF.Models;
-using POF.Shared;
-using POF.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Windows.UI.Xaml.Controls;
 
 namespace POF.ViewModels
 {
-   
+
     public class SnoozeTimeCollection:ObservableCollection<SnoozeTime>
     {
        public SnoozeTimeCollection()
@@ -31,8 +23,8 @@ namespace POF.ViewModels
 
     public class AlarmPageViewModel : ViewModelBase
     {
-        private string newAlarmHeader = "NEW ALARM";
-        private string editAlarmHeader = "EDIT ALARM";
+        private const string newAlarmHeader = "NEW ALARM";
+        private const string editAlarmHeader = "EDIT ALARM";
 
         private SnoozeTime _selectedSnoozeTime;
         public SnoozeTime SelectedSnoozeTime
@@ -98,10 +90,12 @@ namespace POF.ViewModels
         public RelayCommand SaveNewAlarmCommand { get; set;}
 
 
-        public AlarmPageViewModel()
+        INavigationService _navigationService;
+
+        public AlarmPageViewModel(INavigationService navigationService)
         {
             //takes saved alarmEvent, or opens new  one
-            
+
             //SelectedSound = new SoundData()
             //{
             //    Title = "Archipelago",
@@ -110,6 +104,8 @@ namespace POF.ViewModels
             //    FilePath = "C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\Archipelago.wma"
             //};
 
+
+            _navigationService = navigationService;
 
             SnoozeTimeCollection = new SnoozeTimeCollection();
             addNewAlarm();
@@ -125,7 +121,6 @@ namespace POF.ViewModels
             SaveNewAlarmCommand = new RelayCommand(saveNewAlarmEvent);
 
         }
-
 
 
         private void calculateRemainingtime()
@@ -146,7 +141,8 @@ namespace POF.ViewModels
             }
             else
             {
-                timeLeft= String.Format("{0} {1} {2}", "In",timeSpan.Minutes, "minutes");
+               // timeLeft= String.Format("{0} {1} {2}", "In",timeSpan.Minutes, "minutes");
+                timeLeft = $"In {timeSpan.Minutes} minutes";
             }
             TimeRemainTxt=timeLeft;
         }
@@ -158,7 +154,14 @@ namespace POF.ViewModels
             PageHeaderTxt = newAlarmHeader;
             AlarmName = "Alarm";
             TimePickerTime = new TimeSpan(07, 00, 00);      
+            // 10 min snooze as a standard
             SelectedSnoozeTime = SnoozeTimeCollection[1];
+        }
+
+
+        private void editAlarm()
+        {
+            PageHeaderTxt = editAlarmHeader;
         }
 
 
@@ -173,7 +176,10 @@ namespace POF.ViewModels
             alarm.SelectedDays = this._selectedDays;
             alarm.SnoozeTime = SelectedSnoozeTime.SnoozeMin;
 
-            var testtoremove = new object();
+
+            Messenger.Default.Send(alarm);
+
+            _navigationService.NavigateTo("MainPage");
         }
 
 

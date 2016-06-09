@@ -116,7 +116,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="ViewModelBase.cs" />
-    <Compile Include="ViewModelLocator.cs" />
     <EmbeddedResource Include="Properties\POF.ViewModels.rd.xml" />
   </ItemGroup>
   <ItemGroup>

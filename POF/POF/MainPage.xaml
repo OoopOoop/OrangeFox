@@ -10,18 +10,45 @@
       mc:Ignorable="d">
 
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Margin="10" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
 
-        <!--<local:PopToastControl x:Name="popToastControl" />-->
+        <TextBlock Grid.Row="0"
+                   FontWeight="Bold"
+                   Text="ALARMS" />
+        <TextBlock Grid.Row="1"
+                   FontSize="36"
+                   Text="all" />
 
-        <Button Grid.Row="1"
+        <ListView x:Name="AlarmsListView"
+                  Grid.Row="2"
+                  ItemsSource="{Binding}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding TimeSet}" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding AlarmName}" />
+                            <ToggleSwitch Grid.Column="1" />
+                        </Grid>
+                        <TextBlock Text="{Binding SelectedDays}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+
+        <!--<Button Grid.Row="2"
                 HorizontalAlignment="Center"
                 Click="Button_Click"
                 Content="Go to AlarmPage" />
@@ -30,6 +57,20 @@
                       Grid.Row="2"
                       HorizontalAlignment="Center"
                       IsOn="{Binding AlarmIsOn,
-                                     Mode=TwoWay}" />
+                                     Mode=TwoWay}" Margin="111,142.333,95,31" />-->
+
+
+
     </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Command="{Binding AddNewAlarmCommand}"
+                          Icon="Add"
+                          IsEnabled="True"
+                          Label="Add" />
+
+        </CommandBar>
+    </Page.BottomAppBar>
+
 </Page>
