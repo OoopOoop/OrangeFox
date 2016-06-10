@@ -8,6 +8,8 @@ namespace POF.Models
 {
   public class AlarmEvent
     {
+        public int ID { get; set; }
+
         public string AlarmName { get; set;}
 
         //replace with sound name ("sound.wav") that stored in local folder?

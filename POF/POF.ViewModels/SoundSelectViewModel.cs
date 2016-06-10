@@ -260,10 +260,10 @@ namespace POF.ViewModels
 
 
 
-        protected override void OnDataLoaded()
-        {
+        //protected override void OnDataLoaded()
+        //{
            
-        }
+        //}
 
         private bool IsInLocal(string fileName)
         {

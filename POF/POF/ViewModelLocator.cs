@@ -15,7 +15,7 @@ namespace POF
         public ViewModelLocator()
         {
 
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+           // ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             var navigationService = this.createNavigationService();
             SimpleIoc.Default.Register<INavigationService>(() => navigationService);

@@ -3,34 +3,62 @@ using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using POF.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 
 namespace POF.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase
+    public class DisplayAlarm : ViewModelBase
     {
+        private string _alarmName;
+        private string _daysSelected;
+        private string _timeSelected;
+        private bool _isOn;
 
-        private ObservableCollection<AlarmEvent> _savedAlarmCollection;
-        public ObservableCollection<AlarmEvent> SavedAlarmCollection
+        public int id { get; set; }
+
+        public string AlarmName
         {
-            get { return _savedAlarmCollection; }
-            set { _savedAlarmCollection = value;OnPropertyChanged(); }
+            get { return _alarmName; }
+            set { _alarmName = value; OnPropertyChanged(); }
         }
 
+        public string DaysSelected
+        {
+            get { return _daysSelected; }
+            set { _daysSelected = value; OnPropertyChanged(); }
+        }
+
+        public bool IsOn
+        {
+            get { return _isOn; }
+            set { _isOn = value; OnPropertyChanged(); }
+        }
+
+        public string TimeSelected
+        {
+            get { return _timeSelected; }
+            set { _timeSelected = value; OnPropertyChanged(); }
+        }
+    }
+
+    public class MainPageViewModel : ViewModelBase
+    {
+        private ObservableCollection<DisplayAlarm> _savedAlarmCollection;
+
+        public ObservableCollection<DisplayAlarm> SavedAlarmCollection
+        {
+            get { return _savedAlarmCollection; }
+            set { _savedAlarmCollection = value; OnPropertyChanged(); }
+        }
 
         public RelayCommand AddNewAlarmCommand { get; set; }
 
-
-
-        public string AudioName { get; set;}
+        public string AudioName { get; set; }
 
         private bool alarmIsOn;
+
         public bool AlarmIsOn
         {
             get
@@ -39,10 +67,10 @@ namespace POF.ViewModels
             }
             set
             {
-                if(alarmIsOn!=value)
+                if (alarmIsOn != value)
                 {
                     alarmIsOn = value;
-                    if(alarmIsOn)
+                    if (alarmIsOn)
                     {
                         InvokeToast();
                     }
@@ -50,7 +78,7 @@ namespace POF.ViewModels
                 alarmIsOn = value; OnPropertyChanged();
             }
         }
-      
+
         private void InvokeToast()
         {
             ToastNotificationManager.History.Clear();
@@ -58,15 +86,14 @@ namespace POF.ViewModels
             setToast("MorningAlarm", "10:38 PM", Path, "10");
         }
 
-
         private void setToast(string alarmName, string alarmTime, string soundPath, string snoozeTime)
         {
             string xml = $@"<toast activationType='foreground' scenario='reminder' launch='args'>
                                             <visual>
                                                 <binding template='ToastGeneric'>
-                                                <image placement='AppLogoOverride' src='Assets/Alarm_Icon.png'/> 
+                                                <image placement='AppLogoOverride' src='Assets/Alarm_Icon.png'/>
                                                 <text>Alarm</text>
-                                                <text>{alarmName}</text> 
+                                                <text>{alarmName}</text>
                                                 <text>{alarmTime}</text>
                                                 </binding>
                                             </visual>
@@ -98,12 +125,9 @@ namespace POF.ViewModels
             //    snoozeTimeSpan = TimeSpan.FromMinutes(snoozeMin);
             //}
 
-
-
-            ToastNotifier toastNotifier=ToastNotificationManager.CreateToastNotifier();
+            ToastNotifier toastNotifier = ToastNotificationManager.CreateToastNotifier();
 
             DateTime sceduleTime = DateTime.Now.AddMinutes(1);
-         
 
             var sceduleToast = new ScheduledToastNotification(doc, sceduleTime);
             toastNotifier.AddToSchedule(sceduleToast);
@@ -111,14 +135,10 @@ namespace POF.ViewModels
             AlarmIsOn = false;
         }
 
-    
-
         //TODO: add checking for blank spaces
         public string Path { get; set; }
 
-
         private INavigationService _navigationService;
-
 
         public MainPageViewModel(INavigationService navigationService)
         {
@@ -128,17 +148,18 @@ namespace POF.ViewModels
             //{
             //    Path = sound.ToastFilePath;
             //});
-          _navigationService=navigationService;
-           AddNewAlarmCommand = new RelayCommand(navigateToAddPage);
-           getNewAlarms();
-        }
+            _navigationService = navigationService;
+            AddNewAlarmCommand = new RelayCommand(navigateToAddPage);
+            getNewAlarms();
 
+
+            SavedAlarmCollection = new ObservableCollection<DisplayAlarm>();
+        }
 
         private void navigateToAddPage()
         {
             _navigationService.NavigateTo("AddPage");
         }
-
 
         private void getNewAlarms()
         {
@@ -146,15 +167,15 @@ namespace POF.ViewModels
                 this,
                 alarm =>
                 {
-                    SavedAlarmCollection.Add(alarm);
+                    SavedAlarmCollection.Add(new DisplayAlarm
+                    {
+                        AlarmName = alarm.AlarmName,
+                        id = alarm.ID,
+                        DaysSelected = alarm.SelectedDays.SelectedDaysStr,
+                        IsOn = alarm.IsOn,
+                        TimeSelected = alarm.TimeSet.ToString()
+                    });
                 });
-        }
-
-
-
-        protected override void OnDataLoaded()
-        {
-           
         }
     }
 }

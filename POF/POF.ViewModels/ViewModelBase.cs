@@ -27,10 +27,10 @@ namespace POF.ViewModels
         private async void LoadData()
         {
             Repository = await POFContextFactory.GetPofContextAsync();
-            OnDataLoaded();
+           // OnDataLoaded();
         }
 
-        protected abstract void OnDataLoaded();
+       // protected abstract void OnDataLoaded();
 
         //protected abstract void Save();
     }

@@ -161,9 +161,9 @@ namespace POF.ViewModels
             Sunday = 1 << 6
         }
 
-        protected override void OnDataLoaded()
-        {
-        }
+        //protected override void OnDataLoaded()
+        //{
+        //}
 
         public DaySelectViewModel()
         {

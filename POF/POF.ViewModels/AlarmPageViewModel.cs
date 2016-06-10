@@ -111,13 +111,11 @@ namespace POF.ViewModels
             addNewAlarm();
 
 
-
             //to receive data from DaySelectViewModel and SoundSelectViewmodel
             getSelectedSound();
             getSelectedDays();
 
 
-            
             SaveNewAlarmCommand = new RelayCommand(saveNewAlarmEvent);
 
         }
@@ -208,10 +206,10 @@ namespace POF.ViewModels
 
 
 
-        protected override void OnDataLoaded()
-        {
+        //protected override void OnDataLoaded()
+        //{
 
-        }
+        //}
 
         
     }

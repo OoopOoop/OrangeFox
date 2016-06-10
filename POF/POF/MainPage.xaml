@@ -28,7 +28,7 @@
 
         <ListView x:Name="AlarmsListView"
                   Grid.Row="2"
-                  ItemsSource="{Binding}">
+                  ItemsSource="{Binding SavedAlarmCollection}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
@@ -40,7 +40,7 @@
                             <TextBlock Grid.Column="0" Text="{Binding AlarmName}" />
                             <ToggleSwitch Grid.Column="1" />
                         </Grid>
-                        <TextBlock Text="{Binding SelectedDays}" />
+                        <TextBlock Text="{Binding DaysSelected}" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

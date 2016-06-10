@@ -9,7 +9,7 @@
     <Application.Resources>
         <!--<vm:ViewModelLocator x:Key="Locator" />-->
 
-        <local:ViewModelLocator x:Key="Locator" />
+        <local:ViewModelLocator x:Key="Locator"/>
 
         <!--#region Styles for SoundsPopUpControl, add to Dictionary-->
         <Style x:Key="SoundsListViewItemStyle" TargetType="ListViewItem">
