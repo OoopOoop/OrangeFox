@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POF", "POF\POF.csproj", "{A2A66273-5F03-4ED7-95AB-A3BFCD0D22AE}"
 EndProject
@@ -26,6 +26,7 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A2A66273-5F03-4ED7-95AB-A3BFCD0D22AE}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A2A66273-5F03-4ED7-95AB-A3BFCD0D22AE}.Debug|Any CPU.Deploy.0 = Debug|x86
 		{A2A66273-5F03-4ED7-95AB-A3BFCD0D22AE}.Debug|ARM.ActiveCfg = Debug|ARM
 		{A2A66273-5F03-4ED7-95AB-A3BFCD0D22AE}.Debug|ARM.Build.0 = Debug|ARM
 		{A2A66273-5F03-4ED7-95AB-A3BFCD0D22AE}.Debug|ARM.Deploy.0 = Debug|ARM

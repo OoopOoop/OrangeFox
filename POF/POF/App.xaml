@@ -1,15 +1,18 @@
-﻿<Application x:Class="POF.App"
+﻿<Application
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:POF"
              xmlns:shared="using:POF.Shared"
              xmlns:vm="using:POF.ViewModels"
+             x:Class="POF.App"
              RequestedTheme="Dark">
 
     <Application.Resources>
+        <!--#endregion Styles for SoundsPopUpControl-->
+        <!--#endregion Styles for DaysPopUpControl-->
         <!--<vm:ViewModelLocator x:Key="Locator" />-->
 
-        <local:ViewModelLocator x:Key="Locator"/>
+        <local:ViewModelLocator x:Key="Locator" />
 
         <!--#region Styles for SoundsPopUpControl, add to Dictionary-->
         <Style x:Key="SoundsListViewItemStyle" TargetType="ListViewItem">
@@ -29,33 +32,32 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
                         <ListViewItemPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                               CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
-                                               CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
-                                               CheckMode="Overlay"
-                                               ContentMargin="{TemplateBinding Padding}"
-                                               ContentTransitions="{TemplateBinding ContentTransitions}"
-                                               DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
-                                               DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
-                                               DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
-                                               DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
-                                               FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
-                                               FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                                               PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
-                                               PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
-                                               PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
-                                               PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}"
-                                               ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
-                                               SelectedBackground="{ThemeResource MenuFlyoutSeparatorThemeBrush}"
-                                               SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
-                                               SelectedPointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
-                                               SelectedPressedBackground="{ThemeResource MenuFlyoutSeparatorThemeBrush}"
-                                               SelectionCheckMarkVisualEnabled="False" />
+    						VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+    						CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+    						CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+    						CheckMode="Overlay"
+    						ContentMargin="{TemplateBinding Padding}"
+    						ContentTransitions="{TemplateBinding ContentTransitions}"
+    						DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+    						DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
+    						DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+    						DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+    						FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
+    						FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+    						PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+    						PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
+    						PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+    						PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}"
+    						ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+    						SelectedBackground="{ThemeResource MenuFlyoutSeparatorThemeBrush}"
+    						SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+    						SelectedPointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
+    						SelectedPressedBackground="{ThemeResource MenuFlyoutSeparatorThemeBrush}"
+    						SelectionCheckMarkVisualEnabled="False" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-
 
 
 
@@ -71,15 +73,15 @@
             <Setter Property="BorderThickness" Value="{ThemeResource ComboBoxBorderThemeThickness}" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="Content" Value="{RelativeSource self}" />
+            <Setter Property="Content" Value="{RelativeSource Mode=self}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid x:Name="RootGrid"
-                              HorizontalAlignment="Stretch"
-                              Background="{TemplateBinding Background}"
-                              BorderBrush="{TemplateBinding BorderBrush}"
-                              BorderThickness="{TemplateBinding BorderThickness}">
+    						HorizontalAlignment="Stretch"
+    						Background="{TemplateBinding Background}"
+    						BorderBrush="{TemplateBinding BorderBrush}"
+    						BorderThickness="{TemplateBinding BorderThickness}">
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
@@ -137,26 +139,26 @@
                                     <ColumnDefinition Width="32" />
                                 </Grid.ColumnDefinitions>
                                 <ContentPresenter x:Name="ContentPresenter"
-                                                  Grid.Column="0"
-                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalContentAlignment="Center"
-                                                  AutomationProperties.AccessibilityView="Raw"
-                                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                  Padding="{TemplateBinding Padding}" />
+    								Grid.Column="0"
+    								HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+    								VerticalContentAlignment="Center"
+    								AutomationProperties.AccessibilityView="Raw"
+    								BorderBrush="{TemplateBinding BorderBrush}"
+    								Content="{TemplateBinding Content}"
+    								ContentTemplate="{TemplateBinding ContentTemplate}"
+    								ContentTransitions="{TemplateBinding ContentTransitions}"
+    								Padding="{TemplateBinding Padding}" />
 
                                 <FontIcon x:Name="DropdownGlyph"
-                                          Grid.Column="1"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          AutomationProperties.AccessibilityView="Raw"
-                                          FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                          FontSize="12"
-                                          Foreground="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
-                                          Glyph="&#xE0E5;"
-                                          IsHitTestVisible="False" />
+    								Grid.Column="1"
+    								HorizontalAlignment="Center"
+    								VerticalAlignment="Center"
+    								AutomationProperties.AccessibilityView="Raw"
+    								FontFamily="{ThemeResource SymbolThemeFontFamily}"
+    								FontSize="12"
+    								Foreground="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+    								Glyph="&#xE0E5;"
+    								IsHitTestVisible="False" />
                             </Grid>
                         </Grid>
                     </ControlTemplate>
@@ -234,25 +236,25 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <ContentPresenter x:Name="ContentPresenter"
-                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  AutomationProperties.AccessibilityView="Raw"
-                                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                  Padding="{TemplateBinding Padding}" />
+    								HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+    								VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+    								AutomationProperties.AccessibilityView="Raw"
+    								BorderBrush="{TemplateBinding BorderBrush}"
+    								Content="{TemplateBinding Content}"
+    								ContentTemplate="{TemplateBinding ContentTemplate}"
+    								ContentTransitions="{TemplateBinding ContentTransitions}"
+    								Padding="{TemplateBinding Padding}" />
                                 <TextBlock Grid.Column="0"
-                                           VerticalAlignment="Stretch"
-                                           Style="{StaticResource BodyTextBlockStyle}"
-                                           Text="Pick from my music" />
+    								VerticalAlignment="Stretch"
+    								Style="{StaticResource BodyTextBlockStyle}"
+    								Text="Pick from my music" />
 
 
                                 <TextBlock Grid.Column="1"
-                                           VerticalAlignment="Stretch"
-                                           FontFamily="Segoe MDL2 Assets"
-                                           Padding="{TemplateBinding Padding}"
-                                           Text="" />
+    								VerticalAlignment="Stretch"
+    								FontFamily="Segoe MDL2 Assets"
+    								Padding="{TemplateBinding Padding}"
+    								Text="&#xE974;" />
                             </Grid>
                         </Grid>
                     </ControlTemplate>
@@ -324,19 +326,17 @@
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
                             <ContentPresenter x:Name="ContentPresenter"
-                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              AutomationProperties.AccessibilityView="Raw"
-                                              BorderBrush="{TemplateBinding BorderBrush}"
-                                              BorderThickness="{TemplateBinding BorderThickness}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              ContentTransitions="{TemplateBinding ContentTransitions}"
-                                              Padding="{TemplateBinding Padding}">
-                                <ContentPresenter.Content>
-                                    <FontIcon HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              Glyph="" />
-                                </ContentPresenter.Content>
+    							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+    							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+    							AutomationProperties.AccessibilityView="Raw"
+    							BorderBrush="{TemplateBinding BorderBrush}"
+    							BorderThickness="{TemplateBinding BorderThickness}"
+    							ContentTemplate="{TemplateBinding ContentTemplate}"
+    							ContentTransitions="{TemplateBinding ContentTransitions}"
+    							Padding="{TemplateBinding Padding}">
+                                <FontIcon HorizontalAlignment="Center"
+    								VerticalAlignment="Center"
+    								Glyph="&#xE102;" />
                             </ContentPresenter>
                         </Grid>
                     </ControlTemplate>
@@ -353,18 +353,17 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Background="Transparent"
-                        Command="{Binding DataContext.PlaySoundCommand,
-                                          ElementName=SoundPopUpControl}"
-                        CommandParameter="{Binding}"
-                        Style="{StaticResource PlaySoundButtonStyle}" />
+    				VerticalAlignment="Center"
+    				Background="Transparent"
+    				Command="{Binding DataContext.PlaySoundCommand, ElementName=SoundPopUpControl}"
+    				CommandParameter="{Binding}"
+    				Style="{StaticResource PlaySoundButtonStyle}" />
                 <TextBlock Grid.Column="1"
-                           Margin="20,0,0,0"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Style="{StaticResource BodyTextBlockStyle}"
-                           Text="{Binding Title}" />
+    				Margin="20,0,0,0"
+    				HorizontalAlignment="Center"
+    				VerticalAlignment="Center"
+    				Style="{StaticResource BodyTextBlockStyle}"
+    				Text="{Binding Title}" />
             </Grid>
         </DataTemplate>
 
@@ -372,12 +371,6 @@
         <shared:PopUpWidthConverter x:Key="WidthConverter" />
         <shared:BooleanToVisibilityConverter x:Key="VisibilityConverter" />
         <shared:SelectionChangedConverter x:Key="SelectionChangedConverter" />
-        <!--#endregion Styles for SoundsPopUpControl-->
-
-
-
-
-
         <!--#region Styles for DaysPopUpControl-->
         <Style x:Key="ListViewDaySelectStyle" TargetType="ListViewItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
@@ -396,9 +389,9 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
                         <Grid x:Name="ContentBorder"
-                              Background="{TemplateBinding Background}"
-                              BorderBrush="{TemplateBinding BorderBrush}"
-                              BorderThickness="{TemplateBinding BorderThickness}">
+    						Background="{TemplateBinding Background}"
+    						BorderBrush="{TemplateBinding BorderBrush}"
+    						BorderThickness="{TemplateBinding BorderThickness}">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal">
@@ -409,9 +402,9 @@
                                     <VisualState x:Name="PointerOver">
                                         <Storyboard>
                                             <DoubleAnimation Duration="0"
-                                                             Storyboard.TargetName="BorderBackground"
-                                                             Storyboard.TargetProperty="Opacity"
-                                                             To="1" />
+    											Storyboard.TargetName="BorderBackground"
+    											Storyboard.TargetProperty="Opacity"
+    											To="1" />
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderBackground" Storyboard.TargetProperty="Fill">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
                                             </ObjectAnimationUsingKeyFrames>
@@ -423,9 +416,9 @@
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
                                             <DoubleAnimation Duration="0"
-                                                             Storyboard.TargetName="BorderBackground"
-                                                             Storyboard.TargetProperty="Opacity"
-                                                             To="1" />
+    											Storyboard.TargetName="BorderBackground"
+    											Storyboard.TargetProperty="Opacity"
+    											To="1" />
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare" Storyboard.TargetProperty="BorderBrush">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
@@ -443,13 +436,13 @@
                                     <VisualState x:Name="Selected">
                                         <Storyboard>
                                             <DoubleAnimation Duration="0:0:0"
-                                                             Storyboard.TargetName="MultiSelectCheck"
-                                                             Storyboard.TargetProperty="Opacity"
-                                                             To="1" />
+    											Storyboard.TargetName="MultiSelectCheck"
+    											Storyboard.TargetProperty="Opacity"
+    											To="1" />
                                             <DoubleAnimation Duration="0"
-                                                             Storyboard.TargetName="BorderBackground"
-                                                             Storyboard.TargetProperty="Opacity"
-                                                             To="1" />
+    											Storyboard.TargetName="BorderBackground"
+    											Storyboard.TargetProperty="Opacity"
+    											To="1" />
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare" Storyboard.TargetProperty="BorderBrush">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
@@ -467,13 +460,13 @@
                                     <VisualState x:Name="PointerOverSelected">
                                         <Storyboard>
                                             <DoubleAnimation Duration="0:0:0"
-                                                             Storyboard.TargetName="MultiSelectCheck"
-                                                             Storyboard.TargetProperty="Opacity"
-                                                             To="1" />
+    											Storyboard.TargetName="MultiSelectCheck"
+    											Storyboard.TargetProperty="Opacity"
+    											To="1" />
                                             <DoubleAnimation Duration="0"
-                                                             Storyboard.TargetName="BorderBackground"
-                                                             Storyboard.TargetProperty="Opacity"
-                                                             To="1" />
+    											Storyboard.TargetName="BorderBackground"
+    											Storyboard.TargetProperty="Opacity"
+    											To="1" />
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare" Storyboard.TargetProperty="BorderBrush">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
@@ -491,13 +484,13 @@
                                     <VisualState x:Name="PressedSelected">
                                         <Storyboard>
                                             <DoubleAnimation Duration="0:0:0"
-                                                             Storyboard.TargetName="MultiSelectCheck"
-                                                             Storyboard.TargetProperty="Opacity"
-                                                             To="1" />
+    											Storyboard.TargetName="MultiSelectCheck"
+    											Storyboard.TargetProperty="Opacity"
+    											To="1" />
                                             <DoubleAnimation Duration="0"
-                                                             Storyboard.TargetName="BorderBackground"
-                                                             Storyboard.TargetProperty="Opacity"
-                                                             To="1" />
+    											Storyboard.TargetName="BorderBackground"
+    											Storyboard.TargetProperty="Opacity"
+    											To="1" />
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare" Storyboard.TargetProperty="BorderBrush">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
@@ -518,9 +511,9 @@
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
                                             <DoubleAnimation Duration="0"
-                                                             Storyboard.TargetName="ContentBorder"
-                                                             Storyboard.TargetProperty="Opacity"
-                                                             To="{ThemeResource ListViewItemDisabledThemeOpacity}" />
+    											Storyboard.TargetName="ContentBorder"
+    											Storyboard.TargetProperty="Opacity"
+    											To="{ThemeResource ListViewItemDisabledThemeOpacity}" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -530,20 +523,20 @@
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheckBoxTransform" Storyboard.TargetProperty="X">
                                                 <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0" />
                                                 <SplineDoubleKeyFrame KeySpline="0.1,0.9,0.2,1"
-                                                                      KeyTime="0:0:0.333"
-                                                                      Value="-32" />
+    												KeyTime="0:0:0.333"
+    												Value="-32" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectClipTransform" Storyboard.TargetProperty="X">
                                                 <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0" />
                                                 <SplineDoubleKeyFrame KeySpline="0.1,0.9,0.2,1"
-                                                                      KeyTime="0:0:0.333"
-                                                                      Value="32" />
+    												KeyTime="0:0:0.333"
+    												Value="32" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenterTranslateTransform" Storyboard.TargetProperty="X">
                                                 <EasingDoubleKeyFrame KeyTime="0:0:0" Value="32" />
                                                 <SplineDoubleKeyFrame KeySpline="0.1,0.9,0.2,1"
-                                                                      KeyTime="0:0:0.333"
-                                                                      Value="0" />
+    												KeyTime="0:0:0.333"
+    												Value="0" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare" Storyboard.TargetProperty="Visibility">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
@@ -556,20 +549,20 @@
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheckBoxTransform" Storyboard.TargetProperty="X">
                                                 <EasingDoubleKeyFrame KeyTime="0:0:0" Value="-32" />
                                                 <SplineDoubleKeyFrame KeySpline="0.1,0.9,0.2,1"
-                                                                      KeyTime="0:0:0.333"
-                                                                      Value="0" />
+    												KeyTime="0:0:0.333"
+    												Value="0" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectClipTransform" Storyboard.TargetProperty="X">
                                                 <EasingDoubleKeyFrame KeyTime="0:0:0" Value="32" />
                                                 <SplineDoubleKeyFrame KeySpline="0.1,0.9,0.2,1"
-                                                                      KeyTime="0:0:0.333"
-                                                                      Value="0" />
+    												KeyTime="0:0:0.333"
+    												Value="0" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenterTranslateTransform" Storyboard.TargetProperty="X">
                                                 <EasingDoubleKeyFrame KeyTime="0:0:0" Value="-32" />
                                                 <SplineDoubleKeyFrame KeySpline="0.1,0.9,0.2,1"
-                                                                      KeyTime="0:0:0.333"
-                                                                      Value="0" />
+    												KeyTime="0:0:0.333"
+    												Value="0" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare" Storyboard.TargetProperty="Visibility">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
@@ -585,33 +578,33 @@
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
                             <Rectangle x:Name="BorderBackground"
-                                       Control.IsTemplateFocusTarget="True"
-                                       Fill="{ThemeResource SystemControlHighlightListAccentLowBrush}"
-                                       IsHitTestVisible="False"
-                                       Opacity="0" />
+    							Control.IsTemplateFocusTarget="True"
+    							Fill="{ThemeResource SystemControlHighlightListAccentLowBrush}"
+    							IsHitTestVisible="False"
+    							Opacity="0" />
                             <Grid x:Name="ContentPresenterGrid"
-                                  Margin="0,0,0,0"
-                                  Background="Transparent">
+    							Margin="0,0,0,0"
+    							Background="Transparent">
                                 <Grid.RenderTransform>
                                     <TranslateTransform x:Name="ContentPresenterTranslateTransform" />
                                 </Grid.RenderTransform>
                                 <ContentPresenter x:Name="ContentPresenter"
-                                                  Margin="{TemplateBinding Padding}"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  ContentTransitions="{TemplateBinding ContentTransitions}" />
+    								Margin="{TemplateBinding Padding}"
+    								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+    								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+    								Content="{TemplateBinding Content}"
+    								ContentTemplate="{TemplateBinding ContentTemplate}"
+    								ContentTransitions="{TemplateBinding ContentTransitions}" />
                             </Grid>
                             <Border x:Name="MultiSelectSquare"
-                                    Width="20"
-                                    Height="20"
-                                    Margin="12,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    BorderBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
-                                    BorderThickness="2"
-                                    Visibility="Collapsed">
+    							Width="20"
+    							Height="20"
+    							Margin="12,0,0,0"
+    							HorizontalAlignment="Left"
+    							VerticalAlignment="Center"
+    							BorderBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+    							BorderThickness="2"
+    							Visibility="Collapsed">
                                 <Border.Clip>
                                     <RectangleGeometry Rect="0,0,20,20">
                                         <RectangleGeometry.Transform>
@@ -623,32 +616,30 @@
                                     <TranslateTransform x:Name="MultiSelectCheckBoxTransform" />
                                 </Border.RenderTransform>
                                 <FontIcon x:Name="MultiSelectCheck"
-                                          FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                          FontSize="16"
-                                          Foreground="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
-                                          Glyph="&#xE73E;"
-                                          Opacity="0"
-                                          Visibility="Collapsed" />
+    								FontFamily="{ThemeResource SymbolThemeFontFamily}"
+    								FontSize="16"
+    								Foreground="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+    								Glyph="&#xE73E;"
+    								Opacity="0"
+    								Visibility="Collapsed" />
                             </Border>
                             <TextBlock x:Name="MultiArrangeOverlayText"
-                                       Grid.ColumnSpan="2"
-                                       Margin="18,9,0,0"
-                                       AutomationProperties.AccessibilityView="Raw"
-                                       FontFamily="{ThemeResource ContentControlThemeFontFamily}"
-                                       FontSize="26.667"
-                                       Foreground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
-                                       IsHitTestVisible="False"
-                                       Opacity="0"
-                                       Text="{Binding RelativeSource={RelativeSource TemplatedParent},
-                                                      Path=TemplateSettings.DragItemsCount}"
-                                       TextTrimming="WordEllipsis"
-                                       TextWrapping="Wrap" />
+    							Grid.ColumnSpan="2"
+    							Margin="18,9,0,0"
+    							AutomationProperties.AccessibilityView="Raw"
+    							FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+    							FontSize="26.667"
+    							Foreground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+    							IsHitTestVisible="False"
+    							Opacity="0"
+    							Text="{Binding TemplateSettings.DragItemsCount, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+    							TextTrimming="WordEllipsis"
+    							TextWrapping="Wrap" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <!--#endregion Styles for DaysPopUpControl-->
 
 
 

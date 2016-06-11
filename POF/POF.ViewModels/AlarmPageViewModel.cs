@@ -176,7 +176,6 @@ namespace POF.ViewModels
 
 
             Messenger.Default.Send(alarm);
-
             _navigationService.NavigateTo("MainPage");
         }
 

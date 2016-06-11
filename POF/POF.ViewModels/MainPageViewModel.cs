@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Views;
 using POF.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 
@@ -173,7 +174,7 @@ namespace POF.ViewModels
                         id = alarm.ID,
                         DaysSelected = alarm.SelectedDays.SelectedDaysStr,
                         IsOn = alarm.IsOn,
-                        TimeSelected = alarm.TimeSet.ToString()
+                        TimeSelected = alarm.TimeSet.ToString("t")
                     });
                 });
         }
