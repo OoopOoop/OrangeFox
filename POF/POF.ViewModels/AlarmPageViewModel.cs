@@ -57,9 +57,9 @@ namespace POF.ViewModels
 
 
         private SoundData _selectedSound { get; set; }
-        private SelectedDaysData _selectedDays { get; set;}
+        private DaysData _selectedDays { get; set;}
 
-
+        
         private string _alarmName;
         public string AlarmName
         {
@@ -168,11 +168,15 @@ namespace POF.ViewModels
         {
             var alarm = new AlarmEvent();
             alarm.AlarmName = AlarmName;
-            alarm.IsOn = true;
+            alarm.IsAlarmOn = true;
             alarm.SelectedSound = _selectedSound;
             alarm.TimeSet = Convert.ToDateTime(TimePickerTime.ToString());
+           
             alarm.SelectedDays = this._selectedDays;
-            alarm.SnoozeTime = SelectedSnoozeTime.SnoozeMin;
+
+            //alarm.SnoozeTime = SelectedSnoozeTime.SnoozeMin;
+
+            alarm.SnoozeTime = SelectedSnoozeTime;
 
 
             Messenger.Default.Send(alarm);
@@ -194,7 +198,7 @@ namespace POF.ViewModels
 
         private void getSelectedDays()
         {
-            Messenger.Default.Register<SelectedDaysData>(
+            Messenger.Default.Register<DaysData>(
            this,
              days =>
              {

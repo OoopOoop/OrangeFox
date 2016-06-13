@@ -32,6 +32,6 @@ namespace POF.ViewModels
 
        // protected abstract void OnDataLoaded();
 
-        //protected abstract void Save();
+     
     }
 }

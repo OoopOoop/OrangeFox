@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using POF.Shared;
+using System.Text;
 
 namespace POF.Models
 {
@@ -51,17 +52,17 @@ namespace POF.Models
             set { _toastFilePath = value; }
         }
 
-       
+
 
         //public SoundData SetSound()
         //{
         //    //return new SoundData()
-            //{
-            //    Title = "Archipelago",
-            //    FileType = FileTypeEnum.Uri,
-            //    ToastFilePath = "ms-appx:///Assets/Ringtones/Archipelago.wma",
-            //    FilePath = "C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\Archipelago.wma"
-            //};
+        //{
+        //    Title = "Archipelago",
+        //    FileType = FileTypeEnum.Uri,
+        //    ToastFilePath = "ms-appx:///Assets/Ringtones/Archipelago.wma",
+        //    FilePath = "C:\\Data\\Users\\DefApps\\AppData\\Local\\Packages\\66157101-a353-4f28-b29a-ddc6fe58dccc_rvrkc1hdkd6c0\\LocalState\\AlarmSoundFolder\\Archipelago.wma"
+        //};
 
         //}
 

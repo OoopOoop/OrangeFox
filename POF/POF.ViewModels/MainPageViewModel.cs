@@ -10,45 +10,52 @@ using Windows.UI.Notifications;
 
 namespace POF.ViewModels
 {
-    public class DisplayAlarm : ViewModelBase
-    {
-        private string _alarmName;
-        private string _daysSelected;
-        private string _timeSelected;
-        private bool _isOn;
+    //public class DisplayAlarm : ViewModelBase
+    //{
+    //    private string _alarmName;
+    //    private string _daysSelected;
+    //    private string _timeSelected;
+    //    private bool _isAlarmOn;
 
-        public int id { get; set; }
+    //    public int id { get; set; }
 
-        public string AlarmName
-        {
-            get { return _alarmName; }
-            set { _alarmName = value; OnPropertyChanged(); }
-        }
+    //    public string AlarmName
+    //    {
+    //        get { return _alarmName; }
+    //        set { _alarmName = value; OnPropertyChanged(); }
+    //    }
 
-        public string DaysSelected
-        {
-            get { return _daysSelected; }
-            set { _daysSelected = value; OnPropertyChanged(); }
-        }
+    //    public string DaysSelected
+    //    {
+    //        get { return _daysSelected; }
+    //        set { _daysSelected = value; OnPropertyChanged(); }
+    //    }
 
-        public bool IsOn
-        {
-            get { return _isOn; }
-            set { _isOn = value; OnPropertyChanged(); }
-        }
+    //    public bool IsAlarmOn
+    //    {
+    //        get { return _isAlarmOn; }
+    //        set { _isAlarmOn = value; OnPropertyChanged(); }
+    //    }
 
-        public string TimeSelected
-        {
-            get { return _timeSelected; }
-            set { _timeSelected = value; OnPropertyChanged(); }
-        }
-    }
+    //    public string TimeSelected
+    //    {
+    //        get { return _timeSelected; }
+    //        set { _timeSelected = value; OnPropertyChanged(); }
+    //    }
+
+    //    private SoundData selectedSong;
+    //    public SoundData SelectedSong
+    //    {
+    //        get { return selectedSong; }
+    //        set { selectedSong = value;OnPropertyChanged(); }
+    //    }
+    //}
+
 
     public class MainPageViewModel : ViewModelBase
     {
-        private ObservableCollection<DisplayAlarm> _savedAlarmCollection;
-
-        public ObservableCollection<DisplayAlarm> SavedAlarmCollection
+        private ObservableCollection<AlarmEvent> _savedAlarmCollection;
+        public ObservableCollection<AlarmEvent> SavedAlarmCollection
         {
             get { return _savedAlarmCollection; }
             set { _savedAlarmCollection = value; OnPropertyChanged(); }
@@ -58,27 +65,8 @@ namespace POF.ViewModels
 
         public string AudioName { get; set; }
 
-        private bool alarmIsOn;
 
-        public bool AlarmIsOn
-        {
-            get
-            {
-                return alarmIsOn;
-            }
-            set
-            {
-                if (alarmIsOn != value)
-                {
-                    alarmIsOn = value;
-                    if (alarmIsOn)
-                    {
-                        InvokeToast();
-                    }
-                }
-                alarmIsOn = value; OnPropertyChanged();
-            }
-        }
+
 
         private void InvokeToast()
         {
@@ -132,8 +120,6 @@ namespace POF.ViewModels
 
             var sceduleToast = new ScheduledToastNotification(doc, sceduleTime);
             toastNotifier.AddToSchedule(sceduleToast);
-
-            AlarmIsOn = false;
         }
 
         //TODO: add checking for blank spaces
@@ -152,9 +138,7 @@ namespace POF.ViewModels
             _navigationService = navigationService;
             AddNewAlarmCommand = new RelayCommand(navigateToAddPage);
             getNewAlarms();
-
-
-            SavedAlarmCollection = new ObservableCollection<DisplayAlarm>();
+            SavedAlarmCollection = new ObservableCollection<AlarmEvent>();
         }
 
         private void navigateToAddPage()
@@ -168,13 +152,21 @@ namespace POF.ViewModels
                 this,
                 alarm =>
                 {
-                    SavedAlarmCollection.Add(new DisplayAlarm
+                    SavedAlarmCollection.Add(new AlarmEvent
                     {
+                        //AlarmName = alarm.AlarmName,
+                        //id = alarm.ID,
+                        //DaysSelected = alarm.SelectedDays.DaysString,
+                        //IsAlarmOn = alarm.IsAlarmOn,
+                        //SelectedSong = alarm.SelectedSound,
+                        //TimeSelected = alarm.TimeSet.ToString("t")
+
                         AlarmName = alarm.AlarmName,
-                        id = alarm.ID,
-                        DaysSelected = alarm.SelectedDays.SelectedDaysStr,
-                        IsOn = alarm.IsOn,
-                        TimeSelected = alarm.TimeSet.ToString("t")
+                        SelectedDays=alarm.SelectedDays,
+                        IsAlarmOn = alarm.IsAlarmOn,                   
+                        SelectedSound = alarm.SelectedSound,
+                        TimeSet = alarm.TimeSet,
+                        SnoozeTime=alarm.SnoozeTime
                     });
                 });
         }

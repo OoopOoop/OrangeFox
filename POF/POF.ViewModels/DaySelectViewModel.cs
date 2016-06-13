@@ -17,6 +17,8 @@ namespace POF.ViewModels
         public string DisplayName => DaySelectViewModel.SelectableDayToFullString(EnumValue);
     }
 
+
+
     public class AlarmRepeatSelection : ObservableCollection<Day>
     {
         public AlarmRepeatSelection(int selectableDayFlags) : this((DaySelectViewModel.SelectableDay)selectableDayFlags)
@@ -180,9 +182,9 @@ namespace POF.ViewModels
 
             FlyoutClosedCommand = new RelayCommand(saveSelectedDays);
 
-            Days = new SelectedDaysData();
-            Days.SelectedDaysInt = (int)(SelectableDay)SelectedDaysFlags;
-            Days.SelectedDaysStr = DisplayDescription;
+            Days = new DaysData();
+            Days.DaysInt = (int)(SelectableDay)SelectedDaysFlags;
+            Days.DaysString = DisplayDescription;
             saveSelectedDays();
         }
 
@@ -253,13 +255,13 @@ namespace POF.ViewModels
       
 
         public RelayCommand FlyoutClosedCommand { get; set;}
-        SelectedDaysData Days;
+        DaysData Days;
 
 
         private void saveSelectedDays()
         {
-            Days.SelectedDaysInt = (int)(SelectableDay)SelectedDaysFlags;
-            Days.SelectedDaysStr = DisplayDescription;
+            Days.DaysInt = (int)(SelectableDay)SelectedDaysFlags;
+            Days.DaysString = DisplayDescription;
             Messenger.Default.Send(Days);
         }
 
