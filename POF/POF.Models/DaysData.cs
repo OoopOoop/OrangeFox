@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace POF.Models
 {
-   public  class DaysData
+    public  class DaysData
     {
-        public int DaysInt { get; set; }
-        public string DaysString { get; set; }
+        public int DisplayNameNum { get; set; }
+        public string DisplayName { get; set; }
+
+
 
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("{0}", DaysString);
+            sb.AppendFormat("{0}", DisplayName);
             return sb.ToString();
         }
     }

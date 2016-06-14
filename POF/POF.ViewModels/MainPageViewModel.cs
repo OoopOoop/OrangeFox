@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using POF.Models;
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using Windows.Data.Xml.Dom;
@@ -75,6 +76,9 @@ namespace POF.ViewModels
             setToast("MorningAlarm", "10:38 PM", Path, "10");
         }
 
+
+
+
         private void setToast(string alarmName, string alarmTime, string soundPath, string snoozeTime)
         {
             string xml = $@"<toast activationType='foreground' scenario='reminder' launch='args'>
@@ -146,6 +150,7 @@ namespace POF.ViewModels
             _navigationService.NavigateTo("AddPage");
         }
 
+
         private void getNewAlarms()
         {
             Messenger.Default.Register<AlarmEvent>(
@@ -167,8 +172,26 @@ namespace POF.ViewModels
                         SelectedSound = alarm.SelectedSound,
                         TimeSet = alarm.TimeSet,
                         SnoozeTime=alarm.SnoozeTime
+                        
                     });
+                   // setAlarm(alarm);
                 });
         }
+
+
+
+        private void setAlarm(AlarmEvent alarm)
+        {
+            var days = alarm.SelectedDays as IEnumerable;
+            foreach (var item in days)
+            {
+              //  DateTime day = (DateTime.Now.DayOfWeek)item;
+            }
+        }
+
+
+
+
+
     }
 }

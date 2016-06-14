@@ -18,8 +18,7 @@ namespace POF.Shared
             double.TryParse(parameter as string, out multiplier);
             return Window.Current.Bounds.Width * multiplier;
         }
-
-
+        
         public object ConvertBack(object value, Type targetType, object parameter, string language) => null;
     }
 }

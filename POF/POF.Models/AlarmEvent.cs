@@ -32,7 +32,6 @@ namespace POF.Models
 
 
         private SoundData _selectedSound;
-
         public SoundData SelectedSound
         {
             get { return _selectedSound; }
@@ -56,7 +55,6 @@ namespace POF.Models
         }
 
         private SnoozeTime _snoozeTime;
-
         public SnoozeTime SnoozeTime
         {
             get { return _snoozeTime; }
@@ -64,13 +62,10 @@ namespace POF.Models
         }
 
         private DaysData _selectedDays;
-
         public DaysData SelectedDays
         {
             get { return _selectedDays; }
             set { _selectedDays = value; OnPropertyChanged(); }
         }
-
-
     }
 }

@@ -58,8 +58,9 @@ namespace POF.ViewModels
 
         private SoundData _selectedSound { get; set; }
         private DaysData _selectedDays { get; set;}
+       
 
-        
+
         private string _alarmName;
         public string AlarmName
         {
@@ -205,15 +206,5 @@ namespace POF.ViewModels
                  _selectedDays = days;
              });
         }
-
-
-
-
-        //protected override void OnDataLoaded()
-        //{
-
-        //}
-
-        
     }
 }

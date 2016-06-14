@@ -260,11 +260,6 @@ namespace POF.ViewModels
 
 
 
-        //protected override void OnDataLoaded()
-        //{
-           
-        //}
-
         private bool IsInLocal(string fileName)
         {
             StorageFolder local = ApplicationData.Current.LocalFolder;

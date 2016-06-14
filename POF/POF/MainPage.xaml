@@ -12,6 +12,7 @@
 
     <Page.Resources>
         <shared:TimeConverter x:Key="TimeConverter" />
+        <shared:TextColorConverter x:Key="TextColorConverter" />
     </Page.Resources>
 
 
@@ -52,10 +53,15 @@
 
                         <StackPanel Grid.Column="0">
                             <TextBlock FontSize="19" Text="{Binding TimeSet, Converter={StaticResource TimeConverter}}" />
-                            <TextBlock FontFamily="Segoe UI Semibold" Text="{Binding AlarmName}" />
+                            <TextBlock FontFamily="Segoe UI Semibold"
+                                       Foreground="{Binding ElementName=OnOffSwitch,
+                                                            Path=IsOn,
+                                                            Converter={StaticResource TextColorConverter}}"
+                                       Text="{Binding AlarmName}" />
                             <TextBlock Foreground="#FF706D6D" Text="{Binding SelectedDays}" />
                         </StackPanel>
-                        <ToggleSwitch Grid.Column="1"
+                        <ToggleSwitch x:Name="OnOffSwitch"
+                                      Grid.Column="1"
                                       HorizontalAlignment="Left"
                                       FlowDirection="LeftToRight"
                                       IsOn="{Binding IsAlarmOn}" />

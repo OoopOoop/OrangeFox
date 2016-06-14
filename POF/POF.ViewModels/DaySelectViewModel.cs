@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using POF.Models;
+using POF.Shared;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +17,6 @@ namespace POF.ViewModels
         public bool IsSelected { get; set; }
         public string DisplayName => DaySelectViewModel.SelectableDayToFullString(EnumValue);
     }
-
 
 
     public class AlarmRepeatSelection : ObservableCollection<Day>
@@ -55,6 +55,7 @@ namespace POF.ViewModels
         }
     }
 
+    
     public class DaySelectViewModel : ViewModelBase
     {
         private const SelectableDay daysWeekend = (SelectableDay.Saturday | SelectableDay.Sunday);
@@ -111,15 +112,14 @@ namespace POF.ViewModels
         }
 
         private double _popUpHeight;
-
         public double PopUpHeight
         {
             get { return _popUpHeight; }
             set { _popUpHeight = value; OnPropertyChanged(); }
         }
 
-        private double _popUpWidth;
 
+        private double _popUpWidth;
         public double PopUpWidth
         {
             get { return _popUpWidth; }
@@ -127,7 +127,6 @@ namespace POF.ViewModels
         }
 
         private AlarmRepeatSelection _alarmSelection;
-
         public AlarmRepeatSelection AlarmSelection
         {
             get { return _alarmSelection; }
@@ -135,7 +134,6 @@ namespace POF.ViewModels
         }
 
         private bool isPopUpOpen;
-
         public bool IsPopUpOpen
         {
             get
@@ -163,17 +161,12 @@ namespace POF.ViewModels
             Sunday = 1 << 6
         }
 
-        //protected override void OnDataLoaded()
-        //{
-        //}
 
         public DaySelectViewModel()
         {
            //(pass parameter)
             int savedSelectedDays = 0;
-
-
-
+            
             OpenPopUpCommand = new RelayCommand(()=>IsPopUpOpen=true);
             AlarmSelection = new AlarmRepeatSelection(savedSelectedDays);
             SelectedDaysFlags = (SelectableDay)savedSelectedDays;
@@ -182,21 +175,11 @@ namespace POF.ViewModels
 
             FlyoutClosedCommand = new RelayCommand(saveSelectedDays);
 
-            Days = new DaysData();
-            Days.DaysInt = (int)(SelectableDay)SelectedDaysFlags;
-            Days.DaysString = DisplayDescription;
+            //when flyout was not opened (standard value applies - only once)
             saveSelectedDays();
         }
 
      
-
-
-        //private void openPopUp()
-        //{
-        //    IsPopUpOpen = true;
-        //}
-
-
         public override string ToString()
         {
             if (selectedDaysFlags == 0)
@@ -255,16 +238,18 @@ namespace POF.ViewModels
       
 
         public RelayCommand FlyoutClosedCommand { get; set;}
-        DaysData Days;
 
 
+       
         private void saveSelectedDays()
         {
-            Days.DaysInt = (int)(SelectableDay)SelectedDaysFlags;
-            Days.DaysString = DisplayDescription;
+
+            // add integer selectable day flags 
+
+            var Days = new DaysData();
+            Days.DisplayNameNum = (int)(SelectableDay)SelectedDaysFlags;
+            Days.DisplayName = DisplayDescription;
             Messenger.Default.Send(Days);
         }
-
-
     }
 }
