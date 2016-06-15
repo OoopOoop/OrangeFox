@@ -97,7 +97,6 @@ namespace POF.ViewModels
         }
 
         private SelectableDay selectedDaysFlags;
-
         public SelectableDay SelectedDaysFlags
         {
             get { return selectedDaysFlags; }

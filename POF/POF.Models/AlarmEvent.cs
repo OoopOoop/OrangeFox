@@ -19,7 +19,7 @@ namespace POF.Models
        //  public DateTime TimeSet { get; set;}
        //  public bool IsAlarmOn { get; set;}
        //  public string SnoozeTime { get; set;}
-      //  public DaysData SelectedDays { get; set;}
+       //  public DaysData SelectedDays { get; set;}
 
 
         private string alarmName;
