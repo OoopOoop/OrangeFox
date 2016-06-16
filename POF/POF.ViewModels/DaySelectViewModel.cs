@@ -242,7 +242,6 @@ namespace POF.ViewModels
        
         private void saveSelectedDays()
         {
-
             // add integer selectable day flags 
 
             var Days = new DaysData();

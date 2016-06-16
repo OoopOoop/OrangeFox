@@ -24,16 +24,18 @@ namespace POF.NextAlarm
         public string AlarmName { get; set; }
         public string SongName { get; set; }
         public TimeSpan Time { get; set; }
-
-       // public int SelectedDayFlags { get; set;}
-
         public DayOfWeek DayOfWeek { get; set; }
+
+
+       public string DayName { get; set; }
     }
 
 
     public class AlarmManagement
     {
-        public List<Alarm> alarm;
+        public List<Alarm> alarmList { get; set; }
+        public SelectableDay EnumValue { get; set; }
+    
 
         public AlarmManagement()
         {
@@ -41,15 +43,30 @@ namespace POF.NextAlarm
             //                          new Alarm { AlarmName = "Alarm2", SongName = "Song2", Time = new TimeSpan(22, 00, 00), SelectedDayFlags = 9},
             //                          new Alarm { AlarmName = "Alarm3", SongName = "Song3", Time = new TimeSpan(08, 30, 00), SelectedDayFlags = 4 },
             //                          new Alarm { AlarmName = "Alarm4", SongName = "Song4", Time = new TimeSpan(15, 14, 00), SelectedDayFlags = 0 }};
+
+
+            alarmList = new List<Alarm>(); 
         }
 
 
 
-        public Alarm createAlarms(int selectedDays, TimeSpan time, )
+        public Alarm createAlarms(int selectedDays, TimeSpan time, string name)
         {
             var alarm = new Alarm();
+          
 
+            SelectableDay selected = (SelectableDay)selectedDays;
+          
 
+            //TODO: create new datetime with time span and given int of selected days
+            foreach (SelectableDay day in Enum.GetValues(typeof(SelectableDay)))
+            {
+                if(selected.HasFlag(day))
+                {
+                    alarmList.Add(new Alarm { AlarmName = name, Time = time, DayName = day.ToString() });
+                }
+               
+            }
 
 
             return alarm;
@@ -65,8 +82,8 @@ namespace POF.NextAlarm
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Test");
-            Console.ReadLine();
+            AlarmManagement man = new AlarmManagement();
+            man.createAlarms(96, new TimeSpan(07, 00, 00), "My Alarm");
         }
     }
 }
