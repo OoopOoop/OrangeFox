@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,11 +24,11 @@ namespace POF.NextAlarm
     {
         public string AlarmName { get; set; }
         public string SongName { get; set; }
-        public TimeSpan Time { get; set; }
-        public DayOfWeek DayOfWeek { get; set; }
+        public DateTime Day { get; set;}
 
-
-       public string DayName { get; set; }
+        //public TimeSpan Time { get; set; }
+        //public DayOfWeek DayOfWeek { get; set; }
+        //public string DayName { get; set; }
     }
 
 
@@ -50,30 +51,46 @@ namespace POF.NextAlarm
 
 
 
-        public Alarm createAlarms(int selectedDays, TimeSpan time, string name)
+        public Alarm createAlarms(int selectedDays, TimeSpan SelectedTime, string name)
         {
             var alarm = new Alarm();
           
 
             SelectableDay selected = (SelectableDay)selectedDays;
-          
 
-            //TODO: create new datetime with time span and given int of selected days
-            foreach (SelectableDay day in Enum.GetValues(typeof(SelectableDay)))
+            Calendar calendar = CultureInfo.CurrentCulture.Calendar;
+
+            DateTime date = DateTime.Today;
+
+            
+            foreach (SelectableDay selectedDay in Enum.GetValues(typeof(SelectableDay)))
             {
-                if(selected.HasFlag(day))
+                if (selected.HasFlag(selectedDay))
                 {
-                    alarmList.Add(new Alarm { AlarmName = name, Time = time, DayName = day.ToString() });
+                   DayOfWeek dayNeeded=(DayOfWeek)Enum.Parse(typeof(DayOfWeek), Enum.GetName(typeof(SelectableDay), selectedDay));
+
+                    while (date.DayOfWeek!=dayNeeded)
+                    {
+                       date=date.AddDays(1);
+                    }
+
+                    var DaySelected = new DateTime(date.Year, date.Month, date.Day, SelectedTime.Hours,SelectedTime.Minutes,SelectedTime.Seconds);
+
+                    alarmList.Add(new Alarm { AlarmName = name, SongName="Birds", Day=DaySelected});
                 }
                
             }
-
 
             return alarm;
         }
 
 
-
+        public string returnFirstAlarm()
+        {
+            var dateList = alarmList.OrderBy(x => x.Day).FirstOrDefault();
+          
+            return dateList.Day.Date.ToString("ddd d MMM"); 
+        }
     }
 
 
@@ -83,7 +100,9 @@ namespace POF.NextAlarm
         static void Main(string[] args)
         {
             AlarmManagement man = new AlarmManagement();
-            man.createAlarms(96, new TimeSpan(07, 00, 00), "My Alarm");
+            man.createAlarms(96, new TimeSpan(07, 26, 00), "My Alarm");
+            Console.WriteLine(man.returnFirstAlarm());
+            Console.ReadLine();
         }
     }
 }
