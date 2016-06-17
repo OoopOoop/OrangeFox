@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace POF.NextAlarm
 {
@@ -25,10 +23,6 @@ namespace POF.NextAlarm
         public string AlarmName { get; set; }
         public string SongName { get; set; }
         public DateTime Day { get; set;}
-
-        //public TimeSpan Time { get; set; }
-        //public DayOfWeek DayOfWeek { get; set; }
-        //public string DayName { get; set; }
     }
 
 
@@ -40,12 +34,6 @@ namespace POF.NextAlarm
 
         public AlarmManagement()
         {
-            //alarm = new List<Alarm> { new Alarm { AlarmName = "Alarm1", SongName = "Song1", Time = new TimeSpan(07, 00, 00), SelectedDayFlags = 96 },
-            //                          new Alarm { AlarmName = "Alarm2", SongName = "Song2", Time = new TimeSpan(22, 00, 00), SelectedDayFlags = 9},
-            //                          new Alarm { AlarmName = "Alarm3", SongName = "Song3", Time = new TimeSpan(08, 30, 00), SelectedDayFlags = 4 },
-            //                          new Alarm { AlarmName = "Alarm4", SongName = "Song4", Time = new TimeSpan(15, 14, 00), SelectedDayFlags = 0 }};
-
-
             alarmList = new List<Alarm>(); 
         }
 
