@@ -39,12 +39,20 @@ namespace POF.Models
         }
 
 
-        private DateTime _timeSet;
-        public DateTime TimeSet
+        //private DateTime _timeSet;
+        //public DateTime TimeSet
+        //{
+        //    get { return _timeSet; }
+        //    set { _timeSet = value;OnPropertyChanged(); }
+        //}
+
+        private TimeSpan _timeSet;
+        public TimeSpan TimeSet
         {
             get { return _timeSet; }
-            set { _timeSet = value;OnPropertyChanged(); }
+            set { _timeSet = value; OnPropertyChanged(); }
         }
+
 
 
         private bool _isAlarmOn;
