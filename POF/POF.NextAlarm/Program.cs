@@ -36,8 +36,7 @@ namespace POF.NextAlarm
         {
             alarmList = new List<Alarm>(); 
         }
-
-
+        
 
         public Alarm createAlarms(int selectedDays, TimeSpan SelectedTime, string name)
         {
@@ -65,8 +64,7 @@ namespace POF.NextAlarm
                     var DaySelected = new DateTime(date.Year, date.Month, date.Day, SelectedTime.Hours,SelectedTime.Minutes,SelectedTime.Seconds);
 
                     alarmList.Add(new Alarm { AlarmName = name, SongName="Birds", Day=DaySelected});
-                }
-               
+                }      
             }
 
             return alarm;

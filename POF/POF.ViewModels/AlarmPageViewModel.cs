@@ -171,12 +171,13 @@ namespace POF.ViewModels
             alarm.AlarmName = AlarmName;
             alarm.IsAlarmOn = true;
             alarm.SelectedSound = _selectedSound;
-            alarm.TimeSet = Convert.ToDateTime(TimePickerTime.ToString());
-           
+
+            //alarm.TimeSet = Convert.ToDateTime(TimePickerTime.ToString());
+
+            alarm.TimeSet = TimePickerTime;
+
+
             alarm.SelectedDays = this._selectedDays;
-
-            //alarm.SnoozeTime = SelectedSnoozeTime.SnoozeMin;
-
             alarm.SnoozeTime = SelectedSnoozeTime;
 
 

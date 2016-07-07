@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POF.Tests", "POF.Tests\POF.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POF.NextAlarm", "POF.NextAlarm\POF.NextAlarm.csproj", "{C1E35434-DD50-4940-8A98-4C8289491EAC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POF.Games", "POF.Games\POF.Games.csproj", "{0E897B0D-AD43-4674-9562-17B729906B42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,6 +134,26 @@ Global
 		{C1E35434-DD50-4940-8A98-4C8289491EAC}.Release|x64.Build.0 = Release|Any CPU
 		{C1E35434-DD50-4940-8A98-4C8289491EAC}.Release|x86.ActiveCfg = Release|Any CPU
 		{C1E35434-DD50-4940-8A98-4C8289491EAC}.Release|x86.Build.0 = Release|Any CPU
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Debug|ARM.ActiveCfg = Debug|ARM
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Debug|ARM.Build.0 = Debug|ARM
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Debug|ARM.Deploy.0 = Debug|ARM
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Debug|x64.ActiveCfg = Debug|x64
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Debug|x64.Build.0 = Debug|x64
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Debug|x64.Deploy.0 = Debug|x64
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Debug|x86.ActiveCfg = Debug|x86
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Debug|x86.Build.0 = Debug|x86
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Debug|x86.Deploy.0 = Debug|x86
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Release|Any CPU.ActiveCfg = Release|x86
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Release|ARM.ActiveCfg = Release|ARM
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Release|ARM.Build.0 = Release|ARM
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Release|ARM.Deploy.0 = Release|ARM
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Release|x64.ActiveCfg = Release|x64
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Release|x64.Build.0 = Release|x64
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Release|x64.Deploy.0 = Release|x64
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Release|x86.ActiveCfg = Release|x86
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Release|x86.Build.0 = Release|x86
+		{0E897B0D-AD43-4674-9562-17B729906B42}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,10 +4,13 @@ using GalaSoft.MvvmLight.Views;
 using POF.Models;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
+using static POF.ViewModels.DaySelectViewModel;
 
 namespace POF.ViewModels
 {
@@ -143,6 +146,9 @@ namespace POF.ViewModels
             AddNewAlarmCommand = new RelayCommand(navigateToAddPage);
             getNewAlarms();
             SavedAlarmCollection = new ObservableCollection<AlarmEvent>();
+
+
+            SetAlarmList = new List<NextAlarm>();
         }
 
         private void navigateToAddPage()
@@ -159,13 +165,6 @@ namespace POF.ViewModels
                 {
                     SavedAlarmCollection.Add(new AlarmEvent
                     {
-                        //AlarmName = alarm.AlarmName,
-                        //id = alarm.ID,
-                        //DaysSelected = alarm.SelectedDays.DaysString,
-                        //IsAlarmOn = alarm.IsAlarmOn,
-                        //SelectedSong = alarm.SelectedSound,
-                        //TimeSelected = alarm.TimeSet.ToString("t")
-
                         AlarmName = alarm.AlarmName,
                         SelectedDays=alarm.SelectedDays,
                         IsAlarmOn = alarm.IsAlarmOn,                   
@@ -174,22 +173,64 @@ namespace POF.ViewModels
                         SnoozeTime=alarm.SnoozeTime
                         
                     });
-                   // setAlarm(alarm);
+
+                    createAlarms(alarm);
+                    //setToast(); 
                 });
         }
 
 
-
-        private void setAlarm(AlarmEvent alarm)
+        public class NextAlarm
         {
-            var days = alarm.SelectedDays as IEnumerable;
-            foreach (var item in days)
-            {
-              //  DateTime day = (DateTime.Now.DayOfWeek)item;
-            }
+            public string AlarmName { get; set; }
+            public string SongPath { get; set; }
+            public DateTime Day { get; set; }
         }
 
 
+        public List<NextAlarm> SetAlarmList { get; set; }
+
+        public NextAlarm createAlarms(AlarmEvent alarmEvent)
+        {
+            var alarm = new NextAlarm();
+
+
+            SelectableDay selected = (SelectableDay)alarmEvent.SelectedDays.DisplayNameNum;
+
+
+            Calendar calendar = CultureInfo.CurrentCulture.Calendar;
+
+            DateTime date = DateTime.Today;
+
+
+            foreach (SelectableDay selectedDay in Enum.GetValues(typeof(SelectableDay)))
+            {
+                if (selected.HasFlag(selectedDay))
+                {
+                    DayOfWeek dayNeeded = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), Enum.GetName(typeof(SelectableDay), selectedDay));
+
+                    while (date.DayOfWeek != dayNeeded)
+                    {
+                        date = date.AddDays(1);
+                    }
+
+                    var DaySelected = new DateTime(date.Year, date.Month, date.Day, alarmEvent.TimeSet.Hours, alarmEvent.TimeSet.Minutes, alarmEvent.TimeSet.Seconds);
+
+                    SetAlarmList.Add(new NextAlarm { AlarmName = alarmEvent.AlarmName, SongPath = alarmEvent.SelectedSound.FilePath, Day = DaySelected });
+                }
+            }
+
+            return alarm;
+        }
+
+
+
+        private NextAlarm returnNextAlarm()
+        {
+            var nextAlarm = SetAlarmList.OrderBy(x => x.Day).FirstOrDefault();
+
+            return nextAlarm;
+        }
 
 
 
