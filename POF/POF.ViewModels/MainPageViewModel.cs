@@ -14,48 +14,7 @@ using static POF.ViewModels.DaySelectViewModel;
 
 namespace POF.ViewModels
 {
-    //public class DisplayAlarm : ViewModelBase
-    //{
-    //    private string _alarmName;
-    //    private string _daysSelected;
-    //    private string _timeSelected;
-    //    private bool _isAlarmOn;
-
-    //    public int id { get; set; }
-
-    //    public string AlarmName
-    //    {
-    //        get { return _alarmName; }
-    //        set { _alarmName = value; OnPropertyChanged(); }
-    //    }
-
-    //    public string DaysSelected
-    //    {
-    //        get { return _daysSelected; }
-    //        set { _daysSelected = value; OnPropertyChanged(); }
-    //    }
-
-    //    public bool IsAlarmOn
-    //    {
-    //        get { return _isAlarmOn; }
-    //        set { _isAlarmOn = value; OnPropertyChanged(); }
-    //    }
-
-    //    public string TimeSelected
-    //    {
-    //        get { return _timeSelected; }
-    //        set { _timeSelected = value; OnPropertyChanged(); }
-    //    }
-
-    //    private SoundData selectedSong;
-    //    public SoundData SelectedSong
-    //    {
-    //        get { return selectedSong; }
-    //        set { selectedSong = value;OnPropertyChanged(); }
-    //    }
-    //}
-
-
+   
     public class MainPageViewModel : ViewModelBase
     {
         private ObservableCollection<AlarmEvent> _savedAlarmCollection;
@@ -70,20 +29,75 @@ namespace POF.ViewModels
         public string AudioName { get; set; }
 
 
+        //private void InvokeToast()
+        //{
+        //    ToastNotificationManager.History.Clear();
+
+        //    setToast("MorningAlarm", "10:38 PM", Path, "10");
+        //}
 
 
-        private void InvokeToast()
+
+        //private void setToast(string alarmName, string alarmTime, string soundPath, string snoozeTime)
+        //{
+        //    string xml = $@"<toast activationType='foreground' scenario='reminder' launch='args'>
+        //                                    <visual>
+        //                                        <binding template='ToastGeneric'>
+        //                                        <image placement='AppLogoOverride' src='Assets/Alarm_Icon.png'/>
+        //                                        <text>Alarm</text>
+        //                                        <text>{alarmName}</text>
+        //                                        <text>{alarmTime}</text>
+        //                                        </binding>
+        //                                    </visual>
+        //            <actions>
+        //               <input id='snoozeTime' type='selection' defaultInput='{snoozeTime}'>
+        //                    <selection id='5' content  = '5 minutes'/>
+        //                    <selection id='10' content = '10 minutes'/>
+        //                    <selection id='20' content = '20 minutes'/>
+        //                    <selection id='30' content = '30 minutes'/>
+        //                    <selection id='60' content = '1 hour'/>
+        //                </input>
+        //            <action activationType='system' arguments='snooze' hint-inputId='snoozeTime' content='' />
+        //            <action activationType='system' arguments='dismiss' content='' />
+        //            </actions>
+        //        <audio src='{soundPath}' loop='true'/>
+        //                                </toast>";
+
+        //    XmlDocument doc = new XmlDocument();
+        //    doc.LoadXml(xml);
+
+        //    // var toast = new ToastNotification(doc);
+        //    // ToastNotificationManager.CreateToastNotifier().Show(toast);
+
+        //    //double snoozeMin;
+        //    //TimeSpan snoozeTimeSpan=TimeSpan.FromMinutes(10);
+        //    //bool canSnooze = Double.TryParse(snoozeTime, out snoozeMin);
+        //    //if(canSnooze)
+        //    //{
+        //    //    snoozeTimeSpan = TimeSpan.FromMinutes(snoozeMin);
+        //    //}
+
+        //    ToastNotifier toastNotifier = ToastNotificationManager.CreateToastNotifier();
+
+        //    DateTime sceduleTime = DateTime.Now.AddMinutes(1);
+
+        //    var sceduleToast = new ScheduledToastNotification(doc, sceduleTime);
+        //    toastNotifier.AddToSchedule(sceduleToast);
+        //}
+
+
+     
+        private void setToast(NextAlarm nextAlarm)
         {
             ToastNotificationManager.History.Clear();
 
-            setToast("MorningAlarm", "10:38 PM", Path, "10");
-        }
+
+            string alarmName = nextAlarm.AlarmName;
+            string alarmTime = nextAlarm.Day.ToString("hh:mm tt");
+            string snoozeTime = nextAlarm.SnoozeTime;
+            string soundPath = nextAlarm.SongPath;
 
 
-
-
-        private void setToast(string alarmName, string alarmTime, string soundPath, string snoozeTime)
-        {
             string xml = $@"<toast activationType='foreground' scenario='reminder' launch='args'>
                                             <visual>
                                                 <binding template='ToastGeneric'>
@@ -129,6 +143,9 @@ namespace POF.ViewModels
             toastNotifier.AddToSchedule(sceduleToast);
         }
 
+        
+
+
         //TODO: add checking for blank spaces
         public string Path { get; set; }
 
@@ -149,6 +166,8 @@ namespace POF.ViewModels
 
 
             SetAlarmList = new List<NextAlarm>();
+            calendar = CultureInfo.CurrentCulture.Calendar;
+          //  date = DateTime.Today;
         }
 
         private void navigateToAddPage()
@@ -161,21 +180,19 @@ namespace POF.ViewModels
         {
             Messenger.Default.Register<AlarmEvent>(
                 this,
-                alarm =>
+                ReceivedAlarm =>
                 {
                     SavedAlarmCollection.Add(new AlarmEvent
                     {
-                        AlarmName = alarm.AlarmName,
-                        SelectedDays=alarm.SelectedDays,
-                        IsAlarmOn = alarm.IsAlarmOn,                   
-                        SelectedSound = alarm.SelectedSound,
-                        TimeSet = alarm.TimeSet,
-                        SnoozeTime=alarm.SnoozeTime
+                        AlarmName = ReceivedAlarm.AlarmName,
+                        SelectedDays=ReceivedAlarm.SelectedDays,
+                        IsAlarmOn = ReceivedAlarm.IsAlarmOn,                   
+                        SelectedSound = ReceivedAlarm.SelectedSound,
+                        TimeSet = ReceivedAlarm.TimeSet,
+                        SnoozeTime=ReceivedAlarm.SnoozeTime
                         
                     });
-
-                    createAlarms(alarm);
-                    //setToast(); 
+                    createNextAlarm(ReceivedAlarm);
                 });
         }
 
@@ -185,54 +202,66 @@ namespace POF.ViewModels
             public string AlarmName { get; set; }
             public string SongPath { get; set; }
             public DateTime Day { get; set; }
+            public string SnoozeTime { get; set; }
         }
 
 
         public List<NextAlarm> SetAlarmList { get; set; }
+        
+        private Calendar calendar { get; set; }
+       //  private DateTime date { get; set; }
 
-        public NextAlarm createAlarms(AlarmEvent alarmEvent)
+
+
+
+        public void createNextAlarm(AlarmEvent alarmEvent)
         {
-            var alarm = new NextAlarm();
-
-
             SelectableDay selected = (SelectableDay)alarmEvent.SelectedDays.DisplayNameNum;
 
-
-            Calendar calendar = CultureInfo.CurrentCulture.Calendar;
-
-            DateTime date = DateTime.Today;
-
-
-            foreach (SelectableDay selectedDay in Enum.GetValues(typeof(SelectableDay)))
+            if (selected != 0)
             {
-                if (selected.HasFlag(selectedDay))
+                foreach (SelectableDay selectedDay in Enum.GetValues(typeof(SelectableDay)))
                 {
-                    DayOfWeek dayNeeded = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), Enum.GetName(typeof(SelectableDay), selectedDay));
+                    DateTime date = date = DateTime.Today;
 
-                    while (date.DayOfWeek != dayNeeded)
+                    if (selected.HasFlag(selectedDay))
                     {
-                        date = date.AddDays(1);
+                        DayOfWeek dayNeeded = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), Enum.GetName(typeof(SelectableDay), selectedDay));
+
+                        while (date.DayOfWeek != dayNeeded)
+                        {
+                            date = date.AddDays(1);
+                        }
+
+                        var DaySelected = new DateTime(date.Year, date.Month, date.Day, alarmEvent.TimeSet.Hours, alarmEvent.TimeSet.Minutes, alarmEvent.TimeSet.Seconds);
+
+                        SetAlarmList.Add(new NextAlarm { AlarmName = alarmEvent.AlarmName, SongPath = alarmEvent.SelectedSound.FilePath, Day = DaySelected, SnoozeTime = alarmEvent.SnoozeTime.SnoozeMin });
                     }
-
-                    var DaySelected = new DateTime(date.Year, date.Month, date.Day, alarmEvent.TimeSet.Hours, alarmEvent.TimeSet.Minutes, alarmEvent.TimeSet.Seconds);
-
-                    SetAlarmList.Add(new NextAlarm { AlarmName = alarmEvent.AlarmName, SongPath = alarmEvent.SelectedSound.FilePath, Day = DaySelected });
                 }
             }
+            else
+            {
+                DateTime timeNeeded =Convert.ToDateTime( alarmEvent.TimeSet.ToString());
+                DateTime timeNow = DateTime.Now ;
 
-            return alarm;
+                if(timeNeeded.TimeOfDay<timeNow.TimeOfDay)
+                {
+                    timeNeeded = timeNeeded.AddDays(1);
+                }
+                var DaySelected = new DateTime(timeNeeded.Year, timeNeeded.Month, timeNeeded.Day, alarmEvent.TimeSet.Hours, alarmEvent.TimeSet.Minutes, alarmEvent.TimeSet.Seconds);
+                SetAlarmList.Add(new NextAlarm { AlarmName = alarmEvent.AlarmName, SongPath = alarmEvent.SelectedSound.FilePath, Day = DaySelected, SnoozeTime = alarmEvent.SnoozeTime.SnoozeMin });
+            }
+            SetNextAlarm();
         }
 
 
 
-        private NextAlarm returnNextAlarm()
+        private void SetNextAlarm()
         {
-            var nextAlarm = SetAlarmList.OrderBy(x => x.Day).FirstOrDefault();
+            NextAlarm nextAlarm = SetAlarmList.OrderBy(x => x.Day).FirstOrDefault();
 
-            return nextAlarm;
+            setToast(nextAlarm);
         }
-
-
-
+        
     }
 }
