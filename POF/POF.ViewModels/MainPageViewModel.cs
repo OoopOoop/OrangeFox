@@ -3,10 +3,8 @@ using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using POF.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
@@ -14,7 +12,7 @@ using static POF.ViewModels.DaySelectViewModel;
 
 namespace POF.ViewModels
 {
-   
+
     public class MainPageViewModel : ViewModelBase
     {
         private ObservableCollection<AlarmEvent> _savedAlarmCollection;
@@ -86,7 +84,10 @@ namespace POF.ViewModels
         //}
 
 
-     
+     /// <summary>
+     /// Set alarm toast notification
+     /// </summary>
+     /// <param name="nextAlarm"></param>
         private void setToast(NextAlarm nextAlarm)
         {
             ToastNotificationManager.History.Clear();
@@ -165,9 +166,7 @@ namespace POF.ViewModels
             SavedAlarmCollection = new ObservableCollection<AlarmEvent>();
 
 
-            SetAlarmList = new List<NextAlarm>();
-            calendar = CultureInfo.CurrentCulture.Calendar;
-          //  date = DateTime.Today;
+            NewAlarmList = new List<NextAlarm>();
         }
 
         private void navigateToAddPage()
@@ -176,6 +175,9 @@ namespace POF.ViewModels
         }
 
 
+        /// <summary>
+        /// Get new instance of alarm from the AlarmPageViewModel
+        /// </summary>
         private void getNewAlarms()
         {
             Messenger.Default.Register<AlarmEvent>(
@@ -206,60 +208,93 @@ namespace POF.ViewModels
         }
 
 
-        public List<NextAlarm> SetAlarmList { get; set; }
-        
-        private Calendar calendar { get; set; }
-       //  private DateTime date { get; set; }
+        public List<NextAlarm> NewAlarmList { get; set; }
+        DateTime dateToday;
 
+        /// <summary>
+        /// Check if same day as today was selected and if its too late for today, transfer alarm for the next day
+        /// </summary>
+        /// <param name="alarmEvent"></param>
+        /// <param name="selectedDay"></param>
+        /// <returns></returns>
+        private bool isSameDay(AlarmEvent alarmEvent, DayOfWeek selectedDay)
+        {
+            bool isTimeAhead = false;
+            var timeSelected = Convert.ToDateTime(alarmEvent.TimeSet.ToString());
+          
+            if (selectedDay==DateTime.Today.DayOfWeek)
+            {
+                isTimeAhead=timeSelected < DateTime.Now;
+            } 
+            return isTimeAhead;
+        }
 
-
-
+        /// <summary>
+        /// Create new alarm instance of alarm from selected days and time and add it to the NewAlarmList
+        /// </summary>
+        /// <param name="alarmEvent"></param>
         public void createNextAlarm(AlarmEvent alarmEvent)
         {
             SelectableDay selected = (SelectableDay)alarmEvent.SelectedDays.DisplayNameNum;
 
+            bool isDayTodaySelected;
+         
             if (selected != 0)
             {
                 foreach (SelectableDay selectedDay in Enum.GetValues(typeof(SelectableDay)))
                 {
-                    DateTime date = date = DateTime.Today;
+                    dateToday = DateTime.Today;
 
                     if (selected.HasFlag(selectedDay))
                     {
-                        DayOfWeek dayNeeded = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), Enum.GetName(typeof(SelectableDay), selectedDay));
+                        DayOfWeek dayHasFlag= (DayOfWeek)Enum.Parse(typeof(DayOfWeek), Enum.GetName(typeof(SelectableDay), selectedDay));
 
-                        while (date.DayOfWeek != dayNeeded)
+                        isDayTodaySelected = isSameDay(alarmEvent, dayHasFlag);
+                        
+                        while (dateToday.DayOfWeek != dayHasFlag||isDayTodaySelected)
                         {
-                            date = date.AddDays(1);
+                            dateToday = dateToday.AddDays(1);
+                            isDayTodaySelected = false;
                         }
 
-                        var DaySelected = new DateTime(date.Year, date.Month, date.Day, alarmEvent.TimeSet.Hours, alarmEvent.TimeSet.Minutes, alarmEvent.TimeSet.Seconds);
-
-                        SetAlarmList.Add(new NextAlarm { AlarmName = alarmEvent.AlarmName, SongPath = alarmEvent.SelectedSound.FilePath, Day = DaySelected, SnoozeTime = alarmEvent.SnoozeTime.SnoozeMin });
+                        addAlarmToList(dateToday, alarmEvent);
                     }
                 }
             }
+
+            //if day repeat selected "only once"
             else
             {
-                DateTime timeNeeded =Convert.ToDateTime( alarmEvent.TimeSet.ToString());
-                DateTime timeNow = DateTime.Now ;
-
-                if(timeNeeded.TimeOfDay<timeNow.TimeOfDay)
+                dateToday = Convert.ToDateTime(alarmEvent.TimeSet.ToString());
+            
+                if(dateToday.TimeOfDay<DateTime.Now.TimeOfDay)
                 {
-                    timeNeeded = timeNeeded.AddDays(1);
+                    dateToday = dateToday.AddDays(1);
                 }
-                var DaySelected = new DateTime(timeNeeded.Year, timeNeeded.Month, timeNeeded.Day, alarmEvent.TimeSet.Hours, alarmEvent.TimeSet.Minutes, alarmEvent.TimeSet.Seconds);
-                SetAlarmList.Add(new NextAlarm { AlarmName = alarmEvent.AlarmName, SongPath = alarmEvent.SelectedSound.FilePath, Day = DaySelected, SnoozeTime = alarmEvent.SnoozeTime.SnoozeMin });
+            
+                addAlarmToList(dateToday, alarmEvent);
             }
-            SetNextAlarm();
+
+            setNextAlarm();
         }
 
-
-
-        private void SetNextAlarm()
+        /// <summary>
+        /// Add alarm to the NewAlarmList 
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="alarmEvent"></param>
+        private void addAlarmToList(DateTime dateTime,AlarmEvent alarmEvent)
         {
-            NextAlarm nextAlarm = SetAlarmList.OrderBy(x => x.Day).FirstOrDefault();
+            var DayTimeSelected = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, alarmEvent.TimeSet.Hours, alarmEvent.TimeSet.Minutes, alarmEvent.TimeSet.Seconds);
+            NewAlarmList.Add(new NextAlarm { AlarmName = alarmEvent.AlarmName, SongPath = alarmEvent.SelectedSound.FilePath, Day = DayTimeSelected, SnoozeTime = alarmEvent.SnoozeTime.SnoozeMin });
+        }
 
+        /// <summary>
+        /// Select what alarm comes first and set the toast
+        /// </summary>
+        private void setNextAlarm()
+        {
+            NextAlarm nextAlarm = NewAlarmList.OrderBy(x => x.Day).FirstOrDefault();
             setToast(nextAlarm);
         }
         
