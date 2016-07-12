@@ -121,7 +121,9 @@ namespace POF.ViewModels
 
         }
 
-
+        /// <summary>
+        /// Display time remaining before alarm goes off.
+        /// </summary>
         private void calculateRemainingtime()
         {
             string timeLeft = "";
@@ -136,12 +138,28 @@ namespace POF.ViewModels
 
             if(timeSpan.Hours>=1)
             {
-                timeLeft = String.Format("{0} {1} {2}, {3} {4}", "In", timeSpan.Hours, timeSpan.Hours > 1 ? "hours" : "hour", timeSpan.Minutes, "minutes");
+                //int minute=timeSpan.Minutes;
+
+                //if(timeSpan.Milliseconds>0)
+                //{
+                //    minute = timeSpan.Minutes+1;
+                //}
+
+                timeLeft = String.Format("{0} {1} {2}, {3} {4}", "In", timeSpan.Hours, timeSpan.Hours >1 ? "hours" : "hour", timeSpan.Minutes+1, "minutes");
             }
             else
             {
-               // timeLeft= String.Format("{0} {1} {2}", "In",timeSpan.Minutes, "minutes");
-                timeLeft = $"In {timeSpan.Minutes} minutes";
+             
+                //if(timeSpan.Minutes==0||timeSpan.Milliseconds>0)
+                //{
+                //    timeLeft = $"In {timeSpan.Minutes + 1} minutes";
+                //}
+
+                //else
+                //{
+                    timeLeft = $"In {timeSpan.Minutes+1} minutes";
+                //}
+             
             }
             TimeRemainTxt=timeLeft;
         }

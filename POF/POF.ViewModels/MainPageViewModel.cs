@@ -95,9 +95,10 @@ namespace POF.ViewModels
 
             string alarmName = nextAlarm.AlarmName;
             string alarmTime = nextAlarm.Day.ToString("hh:mm tt");
-            string snoozeTime = nextAlarm.SnoozeTime;
-            string soundPath = nextAlarm.SongPath;
 
+            string snoozeTime = nextAlarm.SnoozeTime;
+            string soundPath = nextAlarm.ToastSongPath;
+            //string soundPath = "ms-appx:///Assets/Ringtones/Archipelago.wma";
 
             string xml = $@"<toast activationType='foreground' scenario='reminder' launch='args'>
                                             <visual>
@@ -125,8 +126,8 @@ namespace POF.ViewModels
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
 
-            // var toast = new ToastNotification(doc);
-            // ToastNotificationManager.CreateToastNotifier().Show(toast);
+            //var toast = new ToastNotification(doc);
+            //ToastNotificationManager.CreateToastNotifier().Show(toast);
 
             //double snoozeMin;
             //TimeSpan snoozeTimeSpan=TimeSpan.FromMinutes(10);
@@ -136,12 +137,19 @@ namespace POF.ViewModels
             //    snoozeTimeSpan = TimeSpan.FromMinutes(snoozeMin);
             //}
 
+
+            DateTime sceduleTime = nextAlarm.Day;
+
+
             ToastNotifier toastNotifier = ToastNotificationManager.CreateToastNotifier();
 
-            DateTime sceduleTime = DateTime.Now.AddMinutes(1);
 
             var sceduleToast = new ScheduledToastNotification(doc, sceduleTime);
+
+
+
             toastNotifier.AddToSchedule(sceduleToast);
+
         }
 
         
@@ -202,7 +210,7 @@ namespace POF.ViewModels
         public class NextAlarm
         {
             public string AlarmName { get; set; }
-            public string SongPath { get; set; }
+            public string ToastSongPath { get; set; }
             public DateTime Day { get; set; }
             public string SnoozeTime { get; set; }
         }
@@ -286,7 +294,7 @@ namespace POF.ViewModels
         private void addAlarmToList(DateTime dateTime,AlarmEvent alarmEvent)
         {
             var DayTimeSelected = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, alarmEvent.TimeSet.Hours, alarmEvent.TimeSet.Minutes, alarmEvent.TimeSet.Seconds);
-            NewAlarmList.Add(new NextAlarm { AlarmName = alarmEvent.AlarmName, SongPath = alarmEvent.SelectedSound.FilePath, Day = DayTimeSelected, SnoozeTime = alarmEvent.SnoozeTime.SnoozeMin });
+            NewAlarmList.Add(new NextAlarm { AlarmName = alarmEvent.AlarmName, ToastSongPath = alarmEvent.SelectedSound.ToastFilePath, Day = DayTimeSelected, SnoozeTime = alarmEvent.SnoozeTime.SnoozeMin });
         }
 
         /// <summary>
