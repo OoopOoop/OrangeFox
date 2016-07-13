@@ -90,7 +90,7 @@ namespace POF.ViewModels
      /// <param name="nextAlarm"></param>
         private void setToast(NextAlarm nextAlarm)
         {
-            ToastNotificationManager.History.Clear();
+            //ToastNotificationManager.History.Clear();
 
 
             string alarmName = nextAlarm.AlarmName;
@@ -98,7 +98,7 @@ namespace POF.ViewModels
 
             string snoozeTime = nextAlarm.SnoozeTime;
             string soundPath = nextAlarm.ToastSongPath;
-            //string soundPath = "ms-appx:///Assets/Ringtones/Archipelago.wma";
+        
 
             string xml = $@"<toast activationType='foreground' scenario='reminder' launch='args'>
                                             <visual>
@@ -144,15 +144,18 @@ namespace POF.ViewModels
             ToastNotifier toastNotifier = ToastNotificationManager.CreateToastNotifier();
 
 
-            var sceduleToast = new ScheduledToastNotification(doc, sceduleTime);
+            var toast = new ScheduledToastNotification(doc, sceduleTime);
+
+           
+            toast.Id = nextAlarm.ID;
 
 
+            toastNotifier.AddToSchedule(toast);
 
-            toastNotifier.AddToSchedule(sceduleToast);
-
+            setNextAlarm();
         }
 
-        
+     
 
 
         //TODO: add checking for blank spaces
@@ -209,6 +212,10 @@ namespace POF.ViewModels
 
         public class NextAlarm
         {
+            public string ID => Guid.NewGuid().ToString().Split('-').First();
+
+
+
             public string AlarmName { get; set; }
             public string ToastSongPath { get; set; }
             public DateTime Day { get; set; }
@@ -243,6 +250,8 @@ namespace POF.ViewModels
         /// <param name="alarmEvent"></param>
         public void createNextAlarm(AlarmEvent alarmEvent)
         {
+
+
             SelectableDay selected = (SelectableDay)alarmEvent.SelectedDays.DisplayNameNum;
 
             bool isDayTodaySelected;
@@ -295,6 +304,7 @@ namespace POF.ViewModels
         {
             var DayTimeSelected = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, alarmEvent.TimeSet.Hours, alarmEvent.TimeSet.Minutes, alarmEvent.TimeSet.Seconds);
             NewAlarmList.Add(new NextAlarm { AlarmName = alarmEvent.AlarmName, ToastSongPath = alarmEvent.SelectedSound.ToastFilePath, Day = DayTimeSelected, SnoozeTime = alarmEvent.SnoozeTime.SnoozeMin });
+            
         }
 
         /// <summary>
@@ -302,8 +312,13 @@ namespace POF.ViewModels
         /// </summary>
         private void setNextAlarm()
         {
-            NextAlarm nextAlarm = NewAlarmList.OrderBy(x => x.Day).FirstOrDefault();
-            setToast(nextAlarm);
+            //Check previous alarm: is still on(move to next week), off, or remove from list
+
+
+            NextAlarm alarm = NewAlarmList.OrderBy(x => x.Day).FirstOrDefault();
+            
+             setToast(alarm);
+           
         }
         
     }

@@ -5,6 +5,37 @@ using System.Linq;
 
 namespace POF.NextAlarm
 {
+    public class Temp
+    {
+        public static DateTime CalcNextDateTime(DateTime _now, SelectableDay _flags, TimeSpan _selectedTime)
+        {
+            //todo
+            return DateTime.MaxValue;
+        }
+
+        public static DateTime CalcNextDateTime(DateTime _now, AlarmEvent _alarmEvent)
+        {
+            return CalcNextDateTime(_now, _alarmEvent.SelectedDays, _alarmEvent.TimeSet);
+        }
+
+        public static void te1()
+        {
+            var now = DateTime.Now;
+
+            CalcNextDateTime(now, (SelectableDay)5, new TimeSpan(5, 0, 0));
+
+            CalcNextDateTime(now.AddDays(3), (SelectableDay)5, new TimeSpan(5, 0, 0));
+
+
+
+
+
+        }
+    } 
+
+
+
+
     [Flags]
     public enum SelectableDay
     {
