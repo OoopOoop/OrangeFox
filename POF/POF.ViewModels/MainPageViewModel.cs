@@ -205,7 +205,7 @@ namespace POF.ViewModels
                         SnoozeTime=ReceivedAlarm.SnoozeTime
                         
                     });
-                    createNextAlarm(ReceivedAlarm);
+                    createNextAlarm(new DateTime(2016,07,14,13,30,0), ReceivedAlarm);
                 });
         }
 
@@ -232,12 +232,12 @@ namespace POF.ViewModels
         /// <param name="alarmEvent"></param>
         /// <param name="selectedDay"></param>
         /// <returns></returns>
-        private bool isSameDay(AlarmEvent alarmEvent, DayOfWeek selectedDay)
+        private bool isSameDay(AlarmEvent alarmEvent, DayOfWeek selectedDay,DateTime FromDateTime)
         {
             bool isTimeAhead = false;
             var timeSelected = Convert.ToDateTime(alarmEvent.TimeSet.ToString());
           
-            if (selectedDay==DateTime.Today.DayOfWeek)
+            if (selectedDay== FromDateTime.DayOfWeek)
             {
                 isTimeAhead=timeSelected < DateTime.Now;
             } 
@@ -248,33 +248,82 @@ namespace POF.ViewModels
         /// Create new alarm instance of alarm from selected days and time and add it to the NewAlarmList
         /// </summary>
         /// <param name="alarmEvent"></param>
-        public void createNextAlarm(AlarmEvent alarmEvent)
+        //public void createNextAlarm(AlarmEvent alarmEvent)
+        //{
+        //    SelectableDay selected = (SelectableDay)alarmEvent.SelectedDays.DisplayNameNum;
+
+        //    bool isDayTodaySelected;
+
+        //    if (selected != 0)
+        //    {
+        //        foreach (SelectableDay selectedDay in Enum.GetValues(typeof(SelectableDay)))
+        //        {
+        //            dateToday = DateTime.Today;
+
+        //            if (selected.HasFlag(selectedDay))
+        //            {
+        //                DayOfWeek dayHasFlag= (DayOfWeek)Enum.Parse(typeof(DayOfWeek), Enum.GetName(typeof(SelectableDay), selectedDay));
+
+        //                isDayTodaySelected = isSameDay(alarmEvent, dayHasFlag);
+
+        //                while (dateToday.DayOfWeek != dayHasFlag||isDayTodaySelected)
+        //                {
+        //                    dateToday = dateToday.AddDays(1);
+        //                    isDayTodaySelected = false;
+        //                }
+
+        //                addAlarmToList(dateToday, alarmEvent);
+        //            }
+        //        }
+        //    }
+
+        //    //if day repeat selected "only once"
+        //    else
+        //    {
+        //        dateToday = Convert.ToDateTime(alarmEvent.TimeSet.ToString());
+
+        //        if(dateToday.TimeOfDay<DateTime.Now.TimeOfDay)
+        //        {
+        //            dateToday = dateToday.AddDays(1);
+        //        }
+
+        //        addAlarmToList(dateToday, alarmEvent);
+        //    }
+
+        //    setNextAlarm();
+        //}
+
+        private bool isDayTodaySelected;
+
+        public void createNextAlarm(DateTime FromDateTime, AlarmEvent alarmEvent)
         {
-
-
-            SelectableDay selected = (SelectableDay)alarmEvent.SelectedDays.DisplayNameNum;
-
-            bool isDayTodaySelected;
-         
+            SelectableDay selected = (SelectableDay)alarmEvent.SelectedDays.SelectableDayInt;
+            
             if (selected != 0)
             {
                 foreach (SelectableDay selectedDay in Enum.GetValues(typeof(SelectableDay)))
                 {
-                    dateToday = DateTime.Today;
-
                     if (selected.HasFlag(selectedDay))
                     {
-                        DayOfWeek dayHasFlag= (DayOfWeek)Enum.Parse(typeof(DayOfWeek), Enum.GetName(typeof(SelectableDay), selectedDay));
+                        // DayOfWeek dayHasFlag = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), Enum.GetName(typeof(SelectableDay), selectedDay));
 
-                        isDayTodaySelected = isSameDay(alarmEvent, dayHasFlag);
-                        
-                        while (dateToday.DayOfWeek != dayHasFlag||isDayTodaySelected)
+                        DateTime  dayHasFlag = (DateTime)Enum.Parse(typeof(DateTime), Enum.GetName(typeof(SelectableDay), selectedDay));
+
+
+                        //isDayTodaySelected = isSameDay(alarmEvent, dayHasFlag);
+
+                        // while (FromDateTime.DayOfWeek != dayHasFlag || isSameDay(alarmEvent, dayHasFlag)==true)
+
+
+                      //  var test = new DateTime(dayHasFlag.)
+
+                         while (FromDateTime.DayOfWeek != dayHasFlag.DayOfWeek)
                         {
-                            dateToday = dateToday.AddDays(1);
-                            isDayTodaySelected = false;
+                            FromDateTime = FromDateTime.AddDays(1);
+                           // isDayTodaySelected = false;
                         }
 
-                        addAlarmToList(dateToday, alarmEvent);
+                        addAlarmToList(FromDateTime, alarmEvent);
                     }
                 }
             }
@@ -282,18 +331,25 @@ namespace POF.ViewModels
             //if day repeat selected "only once"
             else
             {
-                dateToday = Convert.ToDateTime(alarmEvent.TimeSet.ToString());
-            
-                if(dateToday.TimeOfDay<DateTime.Now.TimeOfDay)
+               var selectedDateTime = Convert.ToDateTime(alarmEvent.TimeSet.ToString());
+
+                if (FromDateTime.TimeOfDay > selectedDateTime.TimeOfDay)
                 {
-                    dateToday = dateToday.AddDays(1);
+                    FromDateTime = FromDateTime.AddDays(1);
                 }
-            
-                addAlarmToList(dateToday, alarmEvent);
+
+                addAlarmToList(FromDateTime, alarmEvent);
             }
 
             setNextAlarm();
         }
+
+
+
+
+
+
+
 
         /// <summary>
         /// Add alarm to the NewAlarmList 

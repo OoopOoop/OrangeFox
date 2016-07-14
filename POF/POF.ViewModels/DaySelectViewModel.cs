@@ -245,7 +245,7 @@ namespace POF.ViewModels
             // add integer selectable day flags 
 
             var Days = new DaysData();
-            Days.DisplayNameNum = (int)(SelectableDay)SelectedDaysFlags;
+            Days.SelectableDayInt = (int)(SelectableDay)SelectedDaysFlags;
             Days.DisplayName = DisplayDescription;
             Messenger.Default.Send(Days);
         }

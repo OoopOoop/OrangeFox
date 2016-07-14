@@ -4,7 +4,7 @@ namespace POF.Models
 {
     public  class DaysData
     {
-        public int DisplayNameNum { get; set; }
+        public int SelectableDayInt { get; set; }
         public string DisplayName { get; set; }
 
 
