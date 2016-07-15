@@ -14,13 +14,7 @@ namespace POF.Models
         public void OnPropertyChanged([CallerMemberName]string propName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
 
-       //  public string AlarmName { get; set;}
-       //  public SoundData SelectedSound { get; set;}
-       //  public DateTime TimeSet { get; set;}
-       //  public bool IsAlarmOn { get; set;}
-       //  public string SnoozeTime { get; set;}
-       //  public DaysData SelectedDays { get; set;}
-
+        public string ID => Guid.NewGuid().ToString().Split('-').First();
 
         private string alarmName;
 
@@ -39,12 +33,12 @@ namespace POF.Models
         }
 
 
-        //private DateTime _timeSet;
-        //public DateTime TimeSet
-        //{
-        //    get { return _timeSet; }
-        //    set { _timeSet = value;OnPropertyChanged(); }
-        //}
+        private DateTime _day;
+        public DateTime Day
+        {
+            get { return _day; }
+            set { _day = value; OnPropertyChanged(); }
+        }
 
         private TimeSpan _timeSet;
         public TimeSpan TimeSet

@@ -193,12 +193,10 @@ namespace POF.ViewModels
             //alarm.TimeSet = Convert.ToDateTime(TimePickerTime.ToString());
 
             alarm.TimeSet = TimePickerTime;
-
-
+            
             alarm.SelectedDays = this._selectedDays;
             alarm.SnoozeTime = SelectedSnoozeTime;
-
-
+            
             Messenger.Default.Send(alarm);
             _navigationService.NavigateTo("MainPage");
         }
