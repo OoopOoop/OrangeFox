@@ -76,8 +76,7 @@ namespace POF.ViewModels
             toastNotifier.AddToSchedule(toast);
         }
 
-
-
+        
         private List<AlarmEvent> _nextAlarmList;
 
         public MainPageViewModel(INavigationService navigationService)
@@ -105,28 +104,34 @@ namespace POF.ViewModels
                 alarm =>
                 {
                     SavedAlarmCollection.Add(alarm);
-                    createNextAlarm(new DateTime(2016, 07, 15, 15, 00, 0), alarm);
+                    createNextAlarm(DateTime.Now, alarm);
                 });
         }
 
 
-
-        private void createNextAlarm(DateTime FromDateTime, AlarmEvent alarmEvent)
+        /// <summary>
+        /// Returning next alarm 
+        /// </summary>
+        /// <param name="FromDateTime"></param>
+        /// <param name="alarmEvent"></param>
+        /// <returns></returns>
+        private AlarmEvent createNextAlarm(DateTime FromDateTime, AlarmEvent alarmEvent)
         {
-            AlarmEvent nextAlarm= new AlarmEvent();
+            DateTime date;
 
             SelectableDay selected = (SelectableDay)alarmEvent.SelectedDays.SelectableDayInt;
 
             if (selected == 0)
             {
-                nextAlarm.Day = new DateTime(FromDateTime.Year, FromDateTime.Month, FromDateTime.Day, alarmEvent.TimeSet.Hours, alarmEvent.TimeSet.Minutes, alarmEvent.TimeSet.Seconds);
+                date = new DateTime(FromDateTime.Year, FromDateTime.Month, FromDateTime.Day, alarmEvent.TimeSet.Hours, alarmEvent.TimeSet.Minutes, alarmEvent.TimeSet.Seconds);
 
                 if (alarmEvent.TimeSet<FromDateTime.TimeOfDay)
                 {
-                   nextAlarm.Day= nextAlarm.Day.AddDays(1);
+                    date = date.AddDays(1);
+                   
                 }
 
-                _nextAlarmList.Add(nextAlarm);
+                  _nextAlarmList.Add(new AlarmEvent{AlarmName=alarmEvent.AlarmName, IsAlarmOn=true, SelectedSound=alarmEvent.SelectedSound, SnoozeTime=alarmEvent.SnoozeTime,Day=date });
             }
 
             else
@@ -138,8 +143,8 @@ namespace POF.ViewModels
                         DayOfWeek dayHasFlag = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), Enum.GetName(typeof(SelectableDay), selectedDay));
                         var selectedDateTime = Convert.ToDateTime(alarmEvent.TimeSet.ToString());
 
-                        var alarmTime = FromDateTime;
-                        alarmTime = new DateTime(FromDateTime.Year, FromDateTime.Month, FromDateTime.Day, selectedDateTime.Hour, selectedDateTime.Minute, selectedDateTime.Second);
+                  
+                        date = new DateTime(FromDateTime.Year, FromDateTime.Month, FromDateTime.Day, selectedDateTime.Hour, selectedDateTime.Minute, selectedDateTime.Second);
 
                         int dayDiff = dayHasFlag - FromDateTime.DayOfWeek;
                         if (dayDiff < 0)
@@ -147,29 +152,28 @@ namespace POF.ViewModels
                             dayDiff += 7;
                         }
 
-                        alarmTime = alarmTime.AddDays(dayDiff);
 
-                        if (alarmTime.DayOfWeek == FromDateTime.DayOfWeek && alarmTime < FromDateTime)
+                        date = date.AddDays(dayDiff);
+
+                        if (date.DayOfWeek == FromDateTime.DayOfWeek && date < FromDateTime)
                         {
-                            alarmTime = alarmTime.AddDays(7);
+                            date = date.AddDays(7);
                         }
 
-                        nextAlarm.Day = alarmTime;
 
-                        _nextAlarmList.Add(nextAlarm);
+                        _nextAlarmList.Add(new AlarmEvent { AlarmName = alarmEvent.AlarmName, IsAlarmOn = true, SelectedSound = alarmEvent.SelectedSound, SnoozeTime = alarmEvent.SnoozeTime, Day = date });
+
                     }
                 }
             }
 
 
-            var test = 1;
+            var nextAlarm= _nextAlarmList.OrderBy(x => x.Day).FirstOrDefault();
+
+            setToast(nextAlarm);
+
+            return nextAlarm;
         }
 
-
-        //private void setNextAlarm()
-        //{
-        //    AlarmEvent alarm = NewAlarmList.OrderBy(x => x.Day).FirstOrDefault();
-        //    setToast(alarm);
-        //}
     }
 }
